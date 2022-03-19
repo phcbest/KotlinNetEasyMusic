@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_discover"
+        android:icon="@drawable/nav_ic_discover_rule"
+        android:title="@string/discover" />
+    <item
+        android:id="@+id/menu_radio_station"
+        android:icon="@drawable/nav_ic_radio_station_rule"
+        android:title="@string/radio_station" />
+    <item
+        android:id="@+id/menu_mine"
+        android:icon="@drawable/nav_ic_mine_rule"
+        android:title="@string/mine" />
+    <item
+        android:id="@+id/menu_follow"
+        android:icon="@drawable/nav_ic_follow_rule"
+        android:title="@string/follow" />
+    <item
+        android:id="@+id/menu_cloud_village"
+        android:icon="@drawable/nav_ic_cloud_village_rule"
+        android:title="@string/cloud_village" />
+
+</menu>
