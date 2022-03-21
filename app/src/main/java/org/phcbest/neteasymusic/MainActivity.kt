@@ -14,58 +14,73 @@ import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.viewbinding.ViewBinding
 import com.google.android.material.navigation.NavigationBarView
+import org.phcbest.neteasymusic.base.BaseActivity
 import org.phcbest.neteasymusic.databinding.ActivityMainBinding
 import org.phcbest.neteasymusic.ui.*
 import kotlin.math.log
 
 private const val TAG = "MainActivity"
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        setStatusBarColor(window, 0xffffff)
-        initView()
+    private var discoverFragment: Fragment? = null
+    private var radioStationFragment: Fragment? = null
+    private var mineFragment: Fragment? = null
+    private var followFragment: Fragment? = null
+    private var cloudVillageFragment: Fragment? = null
+
+    override fun initPresenter() {
     }
 
-    private fun initView() {
+
+    override fun initView() {
+        setStatusBarColor(window, 0xffffff)
         //设置导航栏tint效果为null
         binding.navMain.itemIconTintList = null
-        //init fragment
-        //kotlin回调demo
-        binding.navMain.setOnItemSelectedListener(object :
-            NavigationBarView.OnItemSelectedListener {
-            override fun onNavigationItemSelected(item: MenuItem): Boolean {
-                when (item.itemId) {
-                    R.id.menu_discover -> {
-                        switchFragment(DiscoverFragment.newInstance())
-                    }
-                    R.id.menu_radio_station -> {
-                        switchFragment(RadioStationFragment.newInstance())
-                    }
-                    R.id.menu_mine -> {
-                        switchFragment(MineFragment.newInstance())
-                    }
-                    R.id.menu_follow -> {
-                        switchFragment(FollowFragment.newInstance())
-                    }
-                    R.id.menu_cloud_village -> {
-                        switchFragment(CloudVillageFragment.newInstance())
-                    }
-                }
-                return true
-            }
+        //初始化fragment
+        discoverFragment = DiscoverFragment.newInstance()
+        radioStationFragment = RadioStationFragment.newInstance()
+        mineFragment = MineFragment.newInstance()
+        followFragment = FollowFragment.newInstance()
+        cloudVillageFragment = CloudVillageFragment.newInstance()
+    }
 
-        })
+    override fun initEvent() {
+        super.initEvent()
+        //kotlin回调demo
+        binding.navMain.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.menu_discover -> {
+                    switchFragment(discoverFragment!!)
+                }
+                R.id.menu_radio_station -> {
+                    switchFragment(radioStationFragment!!)
+                }
+                R.id.menu_mine -> {
+                    switchFragment(mineFragment!!)
+                }
+                R.id.menu_follow -> {
+                    switchFragment(followFragment!!)
+                }
+                R.id.menu_cloud_village -> {
+                    switchFragment(cloudVillageFragment!!)
+                }
+            }
+            true
+        }
         //初始化主页位置
         binding.navMain.findViewById<View>(R.id.menu_discover).performClick()
-
     }
+
+    override fun getViewBinding(): ViewBinding {
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        return binding
+    }
+
 
     private fun switchFragment(fragment: Fragment) {
         val beginTransaction = supportFragmentManager.beginTransaction()

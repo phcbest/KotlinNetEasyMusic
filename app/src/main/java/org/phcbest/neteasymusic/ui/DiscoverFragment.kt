@@ -38,7 +38,7 @@ class DiscoverFragment : Fragment() {
         return _binding!!.root
     }
 
-    fun doAdapter() {
+    private fun doAdapter() {
         val newInstance = RetrofitUtils.newInstance()
         newInstance.getDiscoverBanner("2")
             .observeOn(AndroidSchedulers.mainThread())//观察者运行在AndroidUI主线程上
