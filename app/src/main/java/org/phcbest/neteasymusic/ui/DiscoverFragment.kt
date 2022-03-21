@@ -1,42 +1,24 @@
 package org.phcbest.neteasymusic.ui
 
-import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.viewbinding.ViewBinding
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
+import org.phcbest.neteasymusic.base.BaseFragment
 import org.phcbest.neteasymusic.databinding.FragmentDiscoverBinding
 import org.phcbest.neteasymusic.ui.widget.banner.BannerItemBean
 import org.phcbest.neteasymusic.ui.widget.banner.CustomBanner
 import org.phcbest.neteasymusic.utils.RetrofitUtils
-import java.net.Socket
-import kotlin.math.log
 
 private const val TAG = "DiscoverFragment"
 
-class DiscoverFragment : Fragment() {
+class DiscoverFragment : BaseFragment() {
 
     private var _binding: FragmentDiscoverBinding? = null
     var customBanner: CustomBanner? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentDiscoverBinding.inflate(inflater, container, false)
-        //进行ui适配
-        doAdapter()
-
-        return _binding!!.root
-    }
 
     private fun doAdapter() {
         val newInstance = RetrofitUtils.newInstance()
@@ -58,18 +40,27 @@ class DiscoverFragment : Fragment() {
                 customBanner =
                     CustomBanner(bannerData).setView(_binding!!.root).startShowAfterAdapter()
             }, { error ->
-                Log.e(TAG, "onCreateView: 网络请求错误" + error.message)
+                Log.e(TAG, "doAdapter: 网络请求错误" + error.printStackTrace())
             })
     }
 
-    //摧毁fragment的生命周期
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-        //销毁定时器
+    override fun initPresenter() {
+    }
+
+    override fun initView() {
+        //进行ui适配
+        doAdapter()
+    }
+
+    override fun onBaseDestroyView() {
         if (customBanner != null) {
             customBanner!!.countDownTimer.cancel()
         }
+    }
+
+    override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?): ViewBinding {
+        _binding = FragmentDiscoverBinding.inflate(inflater, container, false)
+        return _binding!!
     }
 
     //这写法类似静态方法,可以直接调用该方法中的静态成员和静态方法

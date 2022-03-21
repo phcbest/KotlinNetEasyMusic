@@ -22,7 +22,7 @@ abstract class BaseFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        vb = getViewBinding()
+        vb = getViewBinding(inflater, container)
         initView()
         initEvent()
         initPresenter()
@@ -42,9 +42,14 @@ abstract class BaseFragment : Fragment() {
         if (vb != null) {
             vb = null
         }
+        onBaseDestroyView()
     }
 
-    abstract fun getViewBinding(): ViewBinding
+    open fun onBaseDestroyView() {
+
+    }
+
+    abstract fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?): ViewBinding
 
 
 }

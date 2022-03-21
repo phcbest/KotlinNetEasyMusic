@@ -2,24 +2,14 @@ package org.phcbest.neteasymusic
 
 import android.annotation.TargetApi
 import android.os.Build
-import android.os.Bundle
-import android.util.Log
-import android.view.MenuItem
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import android.widget.AdapterView
-import android.widget.Button
-import android.widget.Switch
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.viewbinding.ViewBinding
-import com.google.android.material.navigation.NavigationBarView
 import org.phcbest.neteasymusic.base.BaseActivity
 import org.phcbest.neteasymusic.databinding.ActivityMainBinding
 import org.phcbest.neteasymusic.ui.*
-import kotlin.math.log
 
 private const val TAG = "MainActivity"
 
@@ -72,8 +62,9 @@ class MainActivity : BaseActivity() {
             }
             true
         }
-        //初始化主页位置
+        //判断网络状态来 初始化主页位置
         binding.navMain.findViewById<View>(R.id.menu_discover).performClick()
+
     }
 
     override fun getViewBinding(): ViewBinding {
