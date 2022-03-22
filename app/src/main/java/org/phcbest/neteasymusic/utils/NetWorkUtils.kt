@@ -4,6 +4,8 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.os.Bundle
+import android.os.Message
 import org.phcbest.neteasymusic.base.BaseApplication
 
 class NetWorkUtils {
@@ -37,6 +39,17 @@ class NetWorkUtils {
 
             }
             return result
+        }
+
+        fun testAndSendNetWorkStateToast() {
+            if (!isNetWorkConnected()) {
+                val message = Message()
+                message.what = ToastUtils.HANDLER_MSG_WHAT
+                val bundle = Bundle()
+                bundle.putString(ToastUtils.HANDLER_MSG_KEY, "网络未连接")
+                message.data = bundle
+                ToastUtils.handler.sendMessage(message)
+            }
         }
     }
 }

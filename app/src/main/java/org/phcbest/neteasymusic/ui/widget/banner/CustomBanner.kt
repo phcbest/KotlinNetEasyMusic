@@ -138,19 +138,16 @@ class CustomBanner(var bannerItemInfo: List<BannerItemBean>?) {
                 itemData.onTap.OnClick()
             }
             //用户触摸时暂停定时器,因为viewpage底层将相关事件拦截了，不能用viewpage的setOnTouchListener
-            holder.bannerImageView.setOnTouchListener(
-                object : View.OnTouchListener {
-                    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-                        Log.i(TAG, "onTouch: ${event!!.action}")
-                        if (event.action == MotionEvent.ACTION_DOWN) {
-                            countDownTimer.cancel()
-                        } else if (event.action == MotionEvent.ACTION_CANCEL) {
-                            countDownTimer.start()
-                        }
-                        //我们希望进行onClick的事件，所以返回false，没消费这个事件
-                        return false
-                    }
-                })
+            holder.bannerImageView.setOnTouchListener { v, event ->
+                Log.i(TAG, "onTouch: ${event!!.action}")
+                if (event.action == MotionEvent.ACTION_DOWN) {
+                    countDownTimer.cancel()
+                } else if (event.action == MotionEvent.ACTION_CANCEL) {
+                    countDownTimer.start()
+                }
+                //我们希望进行onClick的事件，所以返回false，没消费这个事件
+                false
+            }
 
         }
 

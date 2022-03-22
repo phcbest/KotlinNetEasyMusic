@@ -37,6 +37,7 @@ class MainActivity : BaseActivity() {
         mineFragment = MineFragment.newInstance()
         followFragment = FollowFragment.newInstance()
         cloudVillageFragment = CloudVillageFragment.newInstance()
+
     }
 
     override fun initEvent() {
@@ -73,11 +74,18 @@ class MainActivity : BaseActivity() {
     }
 
 
-    private fun switchFragment(fragment: Fragment) {
+    var currentFragment: Fragment? = null
+    private fun switchFragment(targetFragment: Fragment) {
+        currentFragment = currentFragment ?: targetFragment
         val beginTransaction = supportFragmentManager.beginTransaction()
-        beginTransaction.replace(R.id.fragment_home, fragment)
-        beginTransaction.addToBackStack(null)
-        beginTransaction.commit()
+        if (!targetFragment.isAdded) {
+            beginTransaction.hide(currentFragment!!).add(R.id.fragment_home, targetFragment)
+                .show(targetFragment)
+                .commit()
+        } else {
+            beginTransaction.hide(currentFragment!!).show(targetFragment).commit()
+        }
+        currentFragment = targetFragment
     }
 
     //设置状态栏颜色

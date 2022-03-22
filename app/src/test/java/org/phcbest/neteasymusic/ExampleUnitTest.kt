@@ -9,6 +9,7 @@ import org.junit.Assert.*
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
+
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
@@ -17,6 +18,22 @@ class ExampleUnitTest {
             println("高阶函数..it=$it")
             1
         }
+        pay(object : Consumer {
+            override fun accept(way: String) {
+                println("回调函数..it=$way")
+            }
+        })
+    }
+
+    interface Consumer {
+        fun accept(way: String)
+    }
+
+
+    fun pay(block: Consumer) {
+        println("before block")
+        block.accept("支付宝")
+        println("end block")
     }
 
     fun pay(block: (String) -> Int) {

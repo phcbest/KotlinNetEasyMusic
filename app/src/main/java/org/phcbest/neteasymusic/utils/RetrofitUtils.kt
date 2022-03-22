@@ -1,5 +1,8 @@
 package org.phcbest.neteasymusic.utils
 
+import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -40,7 +43,10 @@ class RetrofitUtils {
 class LogIntercepted : Interceptor {
     private val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.CHINA)
 
+
     override fun intercept(chain: Interceptor.Chain): Response {
+        //判断网络状态,如果没网络就toast
+        NetWorkUtils.testAndSendNetWorkStateToast()
         val request = chain.request()
         Log.i(
             TAG,

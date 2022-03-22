@@ -4,52 +4,51 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
 import org.phcbest.neteasymusic.base.BaseFragment
 import org.phcbest.neteasymusic.databinding.FragmentDiscoverBinding
+import org.phcbest.neteasymusic.presenter.PresenterManager
 import org.phcbest.neteasymusic.ui.widget.banner.BannerItemBean
 import org.phcbest.neteasymusic.ui.widget.banner.CustomBanner
-import org.phcbest.neteasymusic.utils.RetrofitUtils
 
 private const val TAG = "DiscoverFragment"
 
 class DiscoverFragment : BaseFragment() {
 
     private var _binding: FragmentDiscoverBinding? = null
-    var customBanner: CustomBanner? = null
+    private var customBanner: CustomBanner? = null
 
 
-    private fun doAdapter() {
-        val newInstance = RetrofitUtils.newInstance()
-        newInstance.getDiscoverBanner("2")
-            .observeOn(AndroidSchedulers.mainThread())//观察者运行在AndroidUI主线程上
-            .subscribeOn(Schedulers.io())//订阅者运行在普通调度器上
-            .subscribe({ result ->
-                //开始适配
-                val bannerData: MutableList<BannerItemBean> = mutableListOf()
-                result.banners.forEach { info ->
-                    bannerData.add(BannerItemBean(info.pic, object : BannerItemBean.OnTap {
-                        override fun OnClick() {
-                            // TODO: 2022/3/11  点击banner的事件
-                            Log.i(TAG, "OnClick: 点击banner")
-                        }
-                    }))
-                }
+    private fun doBannerAdapter() {
+        val discoverPagePresenter = PresenterManager.getInstance().getDiscoverPagePresenter()
+        discoverPagePresenter.getBanner({ result ->
+            //开始适配
+            val bannerData: MutableList<BannerItemBean> = mutableListOf()
+            result.banners.forEach { info ->
+                bannerData.add(BannerItemBean(info.pic, object : BannerItemBean.OnTap {
+                    override fun OnClick() {
+                        // TODO: 2022/3/11  点击banner的事件
+                        Log.i(TAG, "OnClick: 点击banner")
+                    }
+                }))
+            }
+            customBanner =
+                CustomBanner(bannerData).setView(_binding!!.root).startShowAfterAdapter()
+        }, {})
+    }
 
-                customBanner =
-                    CustomBanner(bannerData).setView(_binding!!.root).startShowAfterAdapter()
-            }, { error ->
-                Log.e(TAG, "doAdapter: 网络请求错误" + error.printStackTrace())
-            })
+    private fun doFunAdapter() {
+        
     }
 
     override fun initPresenter() {
+        //进行ui适配
+        doBannerAdapter()
+        //适配功能栏
+        doFunAdapter()
     }
 
     override fun initView() {
-        //进行ui适配
-        doAdapter()
+
     }
 
     override fun onBaseDestroyView() {
