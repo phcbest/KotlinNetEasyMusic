@@ -100,6 +100,6 @@ class MainActivity : BaseActivity() {
         //状态栏白底黑字的实现方法
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         //去掉系统状态栏下的windowContentOverlay
-        findViewById<View>(android.R.id.content).setForeground(null)
+        findViewById<View>(android.R.id.content).foreground = null
     }
 }

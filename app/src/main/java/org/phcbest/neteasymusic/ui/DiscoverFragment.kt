@@ -9,6 +9,7 @@ import org.phcbest.neteasymusic.databinding.FragmentDiscoverBinding
 import org.phcbest.neteasymusic.presenter.PresenterManager
 import org.phcbest.neteasymusic.ui.widget.banner.BannerItemBean
 import org.phcbest.neteasymusic.ui.widget.banner.CustomBanner
+import org.phcbest.neteasymusic.ui.widget.homefun.CustomHomeFun
 
 private const val TAG = "DiscoverFragment"
 
@@ -37,7 +38,7 @@ class DiscoverFragment : BaseFragment() {
     }
 
     private fun doFunAdapter() {
-        
+        CustomHomeFun().setView(_binding!!.root).startAdapter()
     }
 
     override fun initPresenter() {

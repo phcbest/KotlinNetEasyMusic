@@ -1,5 +1,6 @@
 package org.phcbest.neteasymusic.ui.widget.homefun
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,10 +23,13 @@ class CustomHomeFun {
     }
 
     fun startAdapter() {
-        rvHomeFun!!.adapter
+        rvHomeFun!!.adapter = HomeFunAdapter()
     }
 
     inner class HomeFunAdapter : RecyclerView.Adapter<HomeFunAdapter.ViewHolder>() {
+        //item数据
+        val itemData = HomeFunDataBean.newInstance().items
+
         override fun onCreateViewHolder(
             parent: ViewGroup,
             viewType: Int
@@ -38,12 +42,16 @@ class CustomHomeFun {
             return ViewHolder(view)
         }
 
+
         override fun onBindViewHolder(holder: HomeFunAdapter.ViewHolder, position: Int) {
-            TODO("Not yet implemented")
+            val homeFunItemBean = itemData!![position]
+            holder.ivHomeFun.setImageResource(homeFunItemBean.image)
+            holder.tvHomeFun.text = homeFunItemBean.title
+            holder.itemView.setOnClickListener(homeFunItemBean.onTap)
         }
 
         override fun getItemCount(): Int {
-            TODO("Not yet implemented")
+            return itemData!!.size
         }
 
         inner class ViewHolder(view: AdapterHomeFunItemBinding) :
