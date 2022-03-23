@@ -26,9 +26,6 @@ class HomeFunDataBean {
         items?.add(HomeFunItemBean(R.drawable.ic_mic, "游戏专区", {}))
     }
 
-    class HomeFunItemBean(image: Int, title: String, onTap: (viewL: View) -> Unit) {
-        var image: Int = image
-        var title: String = title
-        var onTap = onTap
+    class HomeFunItemBean(var image: Int, var title: String, var onTap: (viewL: View) -> Unit) {
     }
 }

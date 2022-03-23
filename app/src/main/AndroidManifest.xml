@@ -15,11 +15,10 @@
         android:theme="@style/Theme.NetEasyMusic"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".StartActivity"
-            android:exported="false" />
+            android:name=".StartActivity"/>
         <activity
             android:name=".MainActivity"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

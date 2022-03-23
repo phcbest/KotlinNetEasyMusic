@@ -12,6 +12,7 @@
         android:id="@+id/iv_home_fun"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:background="@drawable/shape_home_fun_bg"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toTopOf="@id/tv_home_fun"
         app:layout_constraintEnd_toEndOf="parent"
