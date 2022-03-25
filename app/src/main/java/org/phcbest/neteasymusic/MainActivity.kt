@@ -10,6 +10,7 @@ import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.base.BaseActivity
 import org.phcbest.neteasymusic.databinding.ActivityMainBinding
 import org.phcbest.neteasymusic.ui.*
+import org.phcbest.neteasymusic.ui.widget.playBar.CustomPlayBar
 
 private const val TAG = "MainActivity"
 
@@ -37,7 +38,8 @@ class MainActivity : BaseActivity() {
         mineFragment = MineFragment.newInstance()
         followFragment = FollowFragment.newInstance()
         cloudVillageFragment = CloudVillageFragment.newInstance()
-
+        //执行playbar初始化
+        CustomPlayBar.newInstance().initView(binding.root).setData()
     }
 
     override fun initEvent() {
