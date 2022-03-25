@@ -2,6 +2,7 @@ package org.phcbest.neteasymusic.utils
 
 import io.reactivex.rxjava3.core.Observable
 import org.phcbest.neteasymusic.bean.DiscoverBannerBean
+import org.phcbest.neteasymusic.bean.SongListBean
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -13,4 +14,7 @@ interface RetrofitApi {
 
     @GET("/banner")
     fun getDiscoverBanner(@Query("type") type: String): Observable<DiscoverBannerBean>
+
+    @GET("/search")
+    fun getSongByKeyWords(@Query("keywords") keywords: String): Observable<SongListBean>
 }

@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.base.BaseActivity
 import org.phcbest.neteasymusic.databinding.ActivityMainBinding
+import org.phcbest.neteasymusic.presenter.IMainPresenter
+import org.phcbest.neteasymusic.presenter.PresenterManager
 import org.phcbest.neteasymusic.ui.*
 import org.phcbest.neteasymusic.ui.widget.playBar.CustomPlayBar
 
@@ -23,10 +25,8 @@ class MainActivity : BaseActivity() {
     private var mineFragment: Fragment? = null
     private var followFragment: Fragment? = null
     private var cloudVillageFragment: Fragment? = null
-
-    override fun initPresenter() {
-    }
-
+    private var customPlayBar: CustomPlayBar? = null
+    private var mainPresenter: IMainPresenter? = null
 
     override fun initView() {
         setStatusBarColor(window, 0xffffff)
@@ -39,8 +39,9 @@ class MainActivity : BaseActivity() {
         followFragment = FollowFragment.newInstance()
         cloudVillageFragment = CloudVillageFragment.newInstance()
         //执行playbar初始化
-        CustomPlayBar.newInstance().initView(binding.root).setData()
+        customPlayBar = CustomPlayBar.newInstance().initView(binding.root)
     }
+
 
     override fun initEvent() {
         super.initEvent()
@@ -68,6 +69,13 @@ class MainActivity : BaseActivity() {
         //判断网络状态来 初始化主页位置
         binding.navMain.findViewById<View>(R.id.menu_discover).performClick()
 
+    }
+
+    override fun initPresenter() {
+        mainPresenter = PresenterManager.getInstance().getMainPresenter()
+        mainPresenter!!.getSongByKeywords("29732992", success = { songListBean ->
+            customPlayBar!!.setData(songListBean.result.songs[0])
+        }, error = {})
     }
 
     override fun getViewBinding(): ViewBinding {

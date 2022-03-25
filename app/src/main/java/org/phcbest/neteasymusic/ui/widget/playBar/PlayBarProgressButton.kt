@@ -22,6 +22,7 @@ class PlayBarProgressButton : View {
 
 
     private var mBmRect: Rect = Rect()
+    private var mBmPaint: Paint = Paint()
     private var mBm: Bitmap? = null
     private var mPlayBm: Bitmap? = null
     private var mPauseBm: Bitmap? = null
@@ -94,12 +95,13 @@ class PlayBarProgressButton : View {
         )
         //绘制状态按钮,需要矩形和view的2/3大
         mBmRect.set(
-            (widthHalf / 2).toInt() - 10,
-            (heightHalf / 2).toInt() - 10,
-            (widthHalf + widthHalf / 2).toInt() + 10,
-            (heightHalf + heightHalf / 2).toInt() + 10
+            (widthHalf / 2).toInt() + 5,
+            (heightHalf / 2).toInt(),
+            (widthHalf + widthHalf / 2).toInt(),
+            (heightHalf + heightHalf / 2).toInt()
         )
-        canvas.drawBitmap(mBm!!, null, mBmRect, null)
+        mBmPaint.isAntiAlias = true
+        canvas.drawBitmap(mBm!!, null, mBmRect, mBmPaint)
     }
 
     /**
