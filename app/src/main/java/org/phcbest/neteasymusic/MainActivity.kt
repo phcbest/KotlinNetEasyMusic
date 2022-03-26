@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.base.BaseActivity
 import org.phcbest.neteasymusic.databinding.ActivityMainBinding
-import org.phcbest.neteasymusic.presenter.IMainPresenter
+import org.phcbest.neteasymusic.presenter.IGetSongInfoPresenter
 import org.phcbest.neteasymusic.presenter.PresenterManager
 import org.phcbest.neteasymusic.ui.*
 import org.phcbest.neteasymusic.ui.widget.playBar.CustomPlayBar
@@ -26,7 +26,7 @@ class MainActivity : BaseActivity() {
     private var followFragment: Fragment? = null
     private var cloudVillageFragment: Fragment? = null
     private var customPlayBar: CustomPlayBar? = null
-    private var mainPresenter: IMainPresenter? = null
+    private var getSongInfoPresenter: IGetSongInfoPresenter? = null
 
     override fun initView() {
         setStatusBarColor(window, 0xffffff)
@@ -72,9 +72,10 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initPresenter() {
-        mainPresenter = PresenterManager.getInstance().getMainPresenter()
-        mainPresenter!!.getSongByKeywords("29732992", success = { songListBean ->
+        getSongInfoPresenter = PresenterManager.getInstance().getMainPresenter()
+        getSongInfoPresenter!!.searchSongByKeywords("29732992", success = { songListBean ->
             customPlayBar!!.setData(songListBean.result.songs[0])
+            //获取歌曲url
         }, error = {})
     }
 

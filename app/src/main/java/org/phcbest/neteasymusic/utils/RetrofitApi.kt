@@ -3,6 +3,7 @@ package org.phcbest.neteasymusic.utils
 import io.reactivex.rxjava3.core.Observable
 import org.phcbest.neteasymusic.bean.DiscoverBannerBean
 import org.phcbest.neteasymusic.bean.SongListBean
+import org.phcbest.neteasymusic.bean.SongUrlBean
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -17,4 +18,7 @@ interface RetrofitApi {
 
     @GET("/search")
     fun getSongByKeyWords(@Query("keywords") keywords: String): Observable<SongListBean>
+
+    @GET("/song/url")
+    fun getDownloadUrlById(@Query("id") id: String): Observable<SongUrlBean>
 }
