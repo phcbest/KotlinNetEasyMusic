@@ -1,5 +1,6 @@
 package org.phcbest.neteasymusic.presenter
 
+import org.phcbest.neteasymusic.bean.SongDetailBean
 import org.phcbest.neteasymusic.bean.SongListBean
 import org.phcbest.neteasymusic.bean.SongUrlBean
 
@@ -10,13 +11,11 @@ interface IGetSongInfoPresenter {
         error: (Throwable) -> Unit
     )
 
-    fun getSongInfoByIDs(
+    fun getSongDetailByIDs(
         id: String,
-        success: (SongUrlBean) -> Unit,
+        success: (SongDetailBean) -> Unit,
         error: (Throwable) -> Unit
-    ) {
-
-    }
+    )
 
     fun getSongUrl(
         id: String,

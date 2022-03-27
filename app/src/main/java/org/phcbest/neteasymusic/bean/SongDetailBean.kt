@@ -3,7 +3,7 @@ package org.phcbest.neteasymusic.bean
 
 import com.google.gson.annotations.SerializedName
 
-data class SongInfoBean(
+data class SongDetailBean(
     @SerializedName("code")
     val code: Int, // 200
     @SerializedName("privileges")

@@ -5,7 +5,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import org.phcbest.neteasymusic.R
-import org.phcbest.neteasymusic.bean.Song
+import org.phcbest.neteasymusic.bean.SongDetailBean
 
 class CustomPlayBar {
 
@@ -23,7 +23,7 @@ class CustomPlayBar {
 
     class ViewHolder(var view: View) {
         var mPlayBtn: PlayBarProgressButton? = null
-        var mPlayCover: ImageView? = null
+        var mPlayCover: TurnImageCover? = null
         var mPlayList: ImageView? = null
         var mPlayName: TextView? = null
 
@@ -36,10 +36,9 @@ class CustomPlayBar {
 
     }
 
-    fun setData(song: Song) {
-        viewHolder?.mPlayName?.text = "${song.name}[${song.transNames[0]}]"
-        Glide.with(viewHolder!!.view).load(song.album.artist.img1v1Url)
-            .into(viewHolder!!.mPlayCover!!)
+    fun setData(song: SongDetailBean.Song) {
+        viewHolder?.mPlayName?.text = "${song.name}[${song.tns[0]}]"
+        viewHolder?.mPlayCover!!.setBackAndFrontGround(-1, song.al.picUrl)
     }
 
 }

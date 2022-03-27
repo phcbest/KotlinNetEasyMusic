@@ -1,6 +1,7 @@
 package org.phcbest.neteasymusic
 
 import android.annotation.TargetApi
+import android.content.Intent
 import android.os.Build
 import android.view.View
 import android.view.Window
@@ -11,6 +12,7 @@ import org.phcbest.neteasymusic.base.BaseActivity
 import org.phcbest.neteasymusic.databinding.ActivityMainBinding
 import org.phcbest.neteasymusic.presenter.IGetSongInfoPresenter
 import org.phcbest.neteasymusic.presenter.PresenterManager
+import org.phcbest.neteasymusic.service.MusicPlayService
 import org.phcbest.neteasymusic.ui.*
 import org.phcbest.neteasymusic.ui.widget.playBar.CustomPlayBar
 
@@ -25,7 +27,7 @@ class MainActivity : BaseActivity() {
     private var mineFragment: Fragment? = null
     private var followFragment: Fragment? = null
     private var cloudVillageFragment: Fragment? = null
-    private var customPlayBar: CustomPlayBar? = null
+    private var mCustomPlayBar: CustomPlayBar? = null
     private var getSongInfoPresenter: IGetSongInfoPresenter? = null
 
     override fun initView() {
@@ -39,7 +41,7 @@ class MainActivity : BaseActivity() {
         followFragment = FollowFragment.newInstance()
         cloudVillageFragment = CloudVillageFragment.newInstance()
         //执行playbar初始化
-        customPlayBar = CustomPlayBar.newInstance().initView(binding.root)
+        mCustomPlayBar = CustomPlayBar.newInstance().initView(binding.root)
     }
 
 
@@ -73,10 +75,16 @@ class MainActivity : BaseActivity() {
 
     override fun initPresenter() {
         getSongInfoPresenter = PresenterManager.getInstance().getMainPresenter()
-        getSongInfoPresenter!!.searchSongByKeywords("29732992", success = { songListBean ->
-            customPlayBar!!.setData(songListBean.result.songs[0])
-            //获取歌曲url
-        }, error = {})
+        getSongInfoPresenter!!.getSongDetailByIDs(
+            "29732992",
+            { songDetailBean ->
+                songDetailBean.songs[0].let {
+                    mCustomPlayBar!!.setData(it)
+                    //启动服务
+                    startService(Intent(binding.root.context, MusicPlayService::class.java))
+                }
+            },
+            {})
     }
 
     override fun getViewBinding(): ViewBinding {
@@ -90,7 +98,8 @@ class MainActivity : BaseActivity() {
         currentFragment = currentFragment ?: targetFragment
         val beginTransaction = supportFragmentManager.beginTransaction()
         if (!targetFragment.isAdded) {
-            beginTransaction.hide(currentFragment!!).add(R.id.fragment_home, targetFragment)
+            beginTransaction.hide(currentFragment!!)
+                .add(R.id.fragment_home, targetFragment)
                 .show(targetFragment)
                 .commit()
         } else {
