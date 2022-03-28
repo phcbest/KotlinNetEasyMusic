@@ -7,6 +7,8 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.IBinder
 import android.util.Log
+import org.phcbest.neteasymusic.utils.RetrofitApi
+import org.phcbest.neteasymusic.utils.RetrofitUtils
 
 private const val TAG = "MusicPlayService"
 
@@ -20,6 +22,10 @@ class MusicPlayService : Service() {
 
     override fun onCreate() {
         super.onCreate()
+        //获取歌曲ID
+        
+        //获取歌曲下载路径
+        RetrofitUtils.newInstance().getDownloadUrlById("")
         init()
     }
 

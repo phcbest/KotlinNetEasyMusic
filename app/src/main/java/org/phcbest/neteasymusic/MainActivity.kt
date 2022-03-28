@@ -15,6 +15,7 @@ import org.phcbest.neteasymusic.presenter.PresenterManager
 import org.phcbest.neteasymusic.service.MusicPlayService
 import org.phcbest.neteasymusic.ui.*
 import org.phcbest.neteasymusic.ui.widget.playBar.CustomPlayBar
+import org.phcbest.neteasymusic.utils.Constant
 
 private const val TAG = "MainActivity"
 
@@ -81,7 +82,9 @@ class MainActivity : BaseActivity() {
                 songDetailBean.songs[0].let {
                     mCustomPlayBar!!.setData(it)
                     //启动服务
-                    startService(Intent(binding.root.context, MusicPlayService::class.java))
+                    val intent = Intent(binding.root.context, MusicPlayService::class.java)
+                    intent.putExtra(Constant.IntentParamKey.Intent_SONG_ID, "29732992")
+                    startService(intent)
                 }
             },
             {})

@@ -10,4 +10,10 @@ interface Constant {
         const val HANDLER_TURN_IMAGE_COVER_STOP = 3
     }
 
+    interface IntentParamKey {
+        companion object {
+            const val Intent_SONG_ID = "songId"
+        }
+    }
+
 }
