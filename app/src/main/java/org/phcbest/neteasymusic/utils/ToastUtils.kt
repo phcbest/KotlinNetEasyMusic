@@ -14,7 +14,7 @@ class ToastUtils {
         /**
          * 运行在ui线程的handler
          */
-        const val HANDLER_MSG_WHAT: Int = 19657
+        const val HANDLER_MSG_WHAT: Int = Constant.HANDLER_MSG_WHAT
         const val HANDLER_MSG_KEY: String = "toast_msg"
         val handler = Handler(Looper.getMainLooper()) { msg ->
             if (msg.what == HANDLER_MSG_WHAT) {

@@ -33,12 +33,12 @@ class CustomPlayBar {
             mPlayList = view.findViewById(R.id.iv_play_bar_list)
             mPlayName = view.findViewById(R.id.tv_play_bar_name)
         }
-
     }
 
     fun setData(song: SongDetailBean.Song) {
         viewHolder?.mPlayName?.text = "${song.name}[${song.tns[0]}]"
         viewHolder?.mPlayCover!!.setBackAndFrontGround(-1, song.al.picUrl)
+        viewHolder!!.mPlayCover!!.startTurn()
     }
 
 }

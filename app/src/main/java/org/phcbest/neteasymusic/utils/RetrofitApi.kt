@@ -11,7 +11,7 @@ import retrofit2.http.Query
 
 interface RetrofitApi {
     companion object {
-        val baseUrl = "http://192.168.123.166:3000"
+        val baseUrl = "http://10.0.2.2:3000"
     }
 
     /**
