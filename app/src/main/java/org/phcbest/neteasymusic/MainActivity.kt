@@ -1,9 +1,13 @@
 package org.phcbest.neteasymusic
 
 import android.annotation.TargetApi
+import android.app.Service
+import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Build
+import android.os.IBinder
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -85,6 +89,21 @@ class MainActivity : BaseActivity() {
                 }
             },
             {})
+        var conn = object : ServiceConnection {
+            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                var bind: MusicPlayService.MyBinder = service as MusicPlayService.MyBinder
+                bind.play("29732992")
+            }
+
+            override fun onServiceDisconnected(name: ComponentName?) {
+                Log.i(TAG, "onServiceDisconnected: 服务断开")
+            }
+        }
+        bindService(
+            Intent(baseContext, MusicPlayService::class.java),
+            conn,
+            Service.BIND_AUTO_CREATE
+        )
     }
 
     override fun getViewBinding(): ViewBinding {

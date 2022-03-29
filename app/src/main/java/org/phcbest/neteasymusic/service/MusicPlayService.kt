@@ -37,7 +37,7 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener {
      * @return 如果service被kill,系统会带着最后一次传入的intent参数重新启动
      */
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        return START_REDELIVER_INTENT
+        return START_STICKY
     }
 
     override fun onDestroy() {
@@ -47,7 +47,7 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener {
 
 
     override fun onBind(intent: Intent): IBinder {
-        myBinder = MyBinder(intent)
+        myBinder = MyBinder()
         return myBinder!!
     }
 
@@ -58,7 +58,7 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener {
         mediaPlayer.setOnPreparedListener(this)
     }
 
-    inner class MyBinder(val intent: Intent) : Binder() {
+    inner class MyBinder() : Binder() {
 
         fun play(songID: String) {
             try {

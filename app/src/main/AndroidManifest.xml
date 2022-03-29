@@ -18,7 +18,8 @@
         <service
             android:name=".service.MusicPlayService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false" >
+        </service>
 
         <activity android:name=".StartActivity" />
         <activity
