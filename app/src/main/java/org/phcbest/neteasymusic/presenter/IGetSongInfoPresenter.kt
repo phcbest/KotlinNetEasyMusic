@@ -17,7 +17,7 @@ interface IGetSongInfoPresenter {
         error: (Throwable) -> Unit
     )
 
-    fun getSongUrl(
+    fun getSongDownLoadUrl(
         id: String,
         success: (SongUrlBean) -> Unit,
         error: (Throwable) -> Unit

@@ -2,6 +2,7 @@ package org.phcbest.neteasymusic
 
 import android.annotation.TargetApi
 import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Build
 import android.view.View
 import android.view.Window
@@ -81,10 +82,6 @@ class MainActivity : BaseActivity() {
             { songDetailBean ->
                 songDetailBean.songs[0].let {
                     mCustomPlayBar!!.setData(it)
-                    //启动服务
-                    val intent = Intent(binding.root.context, MusicPlayService::class.java)
-                    intent.putExtra(Constant.IntentParamKey.Intent_SONG_ID, "29732992")
-                    startService(intent)
                 }
             },
             {})

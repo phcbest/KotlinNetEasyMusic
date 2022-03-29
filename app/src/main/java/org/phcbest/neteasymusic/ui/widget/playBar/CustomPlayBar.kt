@@ -39,6 +39,7 @@ class CustomPlayBar {
         viewHolder?.mPlayName?.text = "${song.name}[${song.tns[0]}]"
         viewHolder?.mPlayCover!!.setBackAndFrontGround(-1, song.al.picUrl)
         viewHolder!!.mPlayCover!!.startTurn()
+
     }
 
 }
