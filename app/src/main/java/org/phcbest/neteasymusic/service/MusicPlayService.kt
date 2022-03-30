@@ -8,8 +8,6 @@ import android.os.Binder
 import android.os.IBinder
 import android.util.Log
 import org.phcbest.neteasymusic.presenter.PresenterManager
-import org.phcbest.neteasymusic.utils.Constant
-import kotlin.math.log
 
 private const val TAG = "MusicPlayService"
 
@@ -55,10 +53,16 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener {
         mediaPlayer.setAudioAttributes(
             AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build()
         )
+        //加载完成回调
         mediaPlayer.setOnPreparedListener(this)
     }
 
     inner class MyBinder() : Binder() {
+
+        var duration: Int? = 0
+
+        var mPause: (Unit) -> Unit = { }
+        var mResume: (Unit) -> Unit = {}
 
         fun play(songID: String) {
             try {
@@ -78,12 +82,14 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener {
         fun pause() {
             if (mediaPlayer.isPlaying) {
                 mediaPlayer.pause()
+                mPause
             }
         }
 
-        fun resume() {
+        fun resumeOrStart() {
             if (!mediaPlayer.isPlaying) {
                 mediaPlayer.start()
+                mResume
             }
         }
 
@@ -95,11 +101,29 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener {
             mediaPlayer.release()
         }
 
+        /**
+         * 切换播放的位置
+         */
+        fun setPosition() {
+
+        }
+
+        /**
+         * 设置暂停和继续的事件
+         */
+        fun setPauseAndResumeEvent(pause: (Unit) -> Unit, resume: (Unit) -> Unit) {
+            mPause = pause
+            mResume = resume
+        }
+
     }
 
     override fun onPrepared(mp: MediaPlayer?) {
-        Log.i(TAG, "onPrepared: 开始播放")
-        mp!!.start()
+        //打印歌曲时间长度
+        Log.i(TAG, "歌曲开始播放，时间总共长度: ${mediaPlayer.duration / 60000f}")
+        myBinder!!.resumeOrStart()
+        //传递总长度出去
+        myBinder!!.duration = mediaPlayer.duration
     }
 
 }

@@ -89,10 +89,11 @@ class MainActivity : BaseActivity() {
                 }
             },
             {})
+        var serviceBind: MusicPlayService.MyBinder? = null
         var conn = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-                var bind: MusicPlayService.MyBinder = service as MusicPlayService.MyBinder
-                bind.play("29732992")
+                serviceBind = service as MusicPlayService.MyBinder
+                serviceBind!!.play("29732992")
             }
 
             override fun onServiceDisconnected(name: ComponentName?) {
