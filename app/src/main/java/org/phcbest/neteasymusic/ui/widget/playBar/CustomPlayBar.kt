@@ -1,11 +1,20 @@
 package org.phcbest.neteasymusic.ui.widget.playBar
 
+import android.app.Service
+import android.content.ComponentName
+import android.content.Intent
+import android.content.ServiceConnection
+import android.os.IBinder
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.bumptech.glide.Glide
 import org.phcbest.neteasymusic.R
+import org.phcbest.neteasymusic.base.BaseApplication
 import org.phcbest.neteasymusic.bean.SongDetailBean
+import org.phcbest.neteasymusic.service.MusicPlayService
+
+private const val TAG = "CustomPlayBar"
 
 class CustomPlayBar {
 
@@ -19,6 +28,30 @@ class CustomPlayBar {
     fun initView(view: View): CustomPlayBar {
         viewHolder = ViewHolder(view)
         return this
+    }
+
+    private fun initPlayService() {
+        var serviceBind: MusicPlayService.MyBinder? = null
+        val conn = object : ServiceConnection {
+            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                serviceBind = service as MusicPlayService.MyBinder
+                serviceBind!!.play("29732992")
+                serviceBind?.setPauseAndResumeEvent({
+                    viewHolder?.mPlayCover?.stopTurn()
+                }, {
+                    viewHolder?.mPlayCover?.startTurn()
+                })
+            }
+
+            override fun onServiceDisconnected(name: ComponentName?) {
+                Log.i(TAG, "onServiceDisconnected: 服务断开")
+            }
+        }
+        BaseApplication.appContext?.bindService(
+            Intent(BaseApplication.appContext, MusicPlayService::class.java),
+            conn,
+            Service.BIND_AUTO_CREATE
+        )
     }
 
     class ViewHolder(var view: View) {
@@ -38,8 +71,8 @@ class CustomPlayBar {
     fun setData(song: SongDetailBean.Song) {
         viewHolder?.mPlayName?.text = "${song.name}[${song.tns[0]}]"
         viewHolder?.mPlayCover!!.setBackAndFrontGround(-1, song.al.picUrl)
-        viewHolder!!.mPlayCover!!.startTurn()
-
+        //设置服务
+        initPlayService()
     }
 
 }

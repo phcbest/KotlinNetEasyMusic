@@ -89,23 +89,8 @@ class MainActivity : BaseActivity() {
                 }
             },
             {})
-        var serviceBind: MusicPlayService.MyBinder? = null
-        var conn = object : ServiceConnection {
-            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-                serviceBind = service as MusicPlayService.MyBinder
-                serviceBind!!.play("29732992")
-            }
-
-            override fun onServiceDisconnected(name: ComponentName?) {
-                Log.i(TAG, "onServiceDisconnected: 服务断开")
-            }
-        }
-        bindService(
-            Intent(baseContext, MusicPlayService::class.java),
-            conn,
-            Service.BIND_AUTO_CREATE
-        )
     }
+
 
     override fun getViewBinding(): ViewBinding {
         binding = ActivityMainBinding.inflate(layoutInflater)
