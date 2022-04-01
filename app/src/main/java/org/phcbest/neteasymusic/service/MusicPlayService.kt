@@ -14,7 +14,8 @@ private const val TAG = "MusicPlayService"
 /**
  * 播放音乐的服务
  */
-class MusicPlayService : Service(), MediaPlayer.OnPreparedListener {
+class MusicPlayService : Service(), MediaPlayer.OnPreparedListener,
+    MediaPlayer.OnCompletionListener {
     //音频播放器
     private val mediaPlayer = MediaPlayer()
 
@@ -55,14 +56,22 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener {
         )
         //加载完成回调
         mediaPlayer.setOnPreparedListener(this)
+        //播放完成回调
+        mediaPlayer.setOnCompletionListener(this)
     }
 
     inner class MyBinder() : Binder() {
 
-        var duration: Int? = 0
+        var playState = false
 
-        var mPause: (Unit) -> Unit = { }
-        var mResume: (Unit) -> Unit = {}
+        private var mPause: () -> Unit = {
+            Log.i(TAG, "暂停逻辑空执行")
+        }
+        private var mResume: () -> Unit = {
+            Log.i(TAG, "继续逻辑空执行")
+        }
+        var mLoadSongSuccess: (duration: Int) -> Unit = {}
+
 
         fun play(songID: String) {
             try {
@@ -80,17 +89,15 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener {
         }
 
         fun pause() {
-            if (mediaPlayer.isPlaying) {
-                mediaPlayer.pause()
-                mPause
-            }
+            mediaPlayer.pause()
+            mPause()
+            playState = true
         }
 
         fun resumeOrStart() {
-            if (!mediaPlayer.isPlaying) {
-                mediaPlayer.start()
-                mResume
-            }
+            mediaPlayer.start()
+            mResume()
+            playState = false
         }
 
         fun stop() {
@@ -111,9 +118,14 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener {
         /**
          * 设置暂停和继续的事件
          */
-        fun setPauseAndResumeEvent(pause: (Unit) -> Unit, resume: (Unit) -> Unit) {
+        fun setEvent(
+            pause: () -> Unit,
+            resume: () -> Unit,
+            loadSongSuccess: (duration: Int) -> Unit
+        ) {
             mPause = pause
             mResume = resume
+            mLoadSongSuccess = loadSongSuccess
         }
 
     }
@@ -122,8 +134,12 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener {
         //打印歌曲时间长度
         Log.i(TAG, "歌曲开始播放，时间总共长度: ${mediaPlayer.duration / 60000f}")
         myBinder!!.resumeOrStart()
-        //传递总长度出去
-        myBinder!!.duration = mediaPlayer.duration
+        //加载外部逻辑
+        myBinder!!.mLoadSongSuccess(mediaPlayer.duration)
+    }
+
+    override fun onCompletion(mp: MediaPlayer?) {
+        myBinder!!.pause()
     }
 
 }

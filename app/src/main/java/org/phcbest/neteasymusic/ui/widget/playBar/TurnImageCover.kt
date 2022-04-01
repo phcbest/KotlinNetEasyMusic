@@ -75,10 +75,10 @@ class TurnImageCover : View {
         cdAnimation.interpolator = LinearInterpolator() //设置匀速转动
         //创建handler用于旋转view
         handlerTurn = Handler(Looper.myLooper()!!) { msg ->
-            if (msg.what == Constant.HANDLER_TURN_IMAGE_COVER_START) {
+            if (msg.what == Constant.HandlerParamKey.HANDLER_TURN_IMAGE_COVER_START) {
                 //配置转动动画
                 this.startAnimation(cdAnimation)
-            } else if (msg.what == Constant.HANDLER_TURN_IMAGE_COVER_STOP) {
+            } else if (msg.what == Constant.HandlerParamKey.HANDLER_TURN_IMAGE_COVER_STOP) {
                 //暂停转动动画
                 this.clearAnimation()
             }
@@ -151,7 +151,7 @@ class TurnImageCover : View {
      * 开始旋转
      */
     fun startTurn() {
-        Constant.HANDLER_TURN_IMAGE_COVER_START.let {
+        Constant.HandlerParamKey.HANDLER_TURN_IMAGE_COVER_START.let {
             val message = Message()
             message.what = it
             handlerTurn!!.sendMessage(message)
@@ -162,7 +162,7 @@ class TurnImageCover : View {
      * 停止旋转
      */
     fun stopTurn() {
-        Constant.HANDLER_TURN_IMAGE_COVER_STOP.let {
+        Constant.HandlerParamKey.HANDLER_TURN_IMAGE_COVER_STOP.let {
             val message = Message()
             message.what = it
             handlerTurn!!.sendMessage(message)

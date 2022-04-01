@@ -28,7 +28,7 @@ class HomeFunDataBean {
 
     init {
         //获取当前是几号来设置日推ui
-        val day = "ic_home_fun_calendar${SimpleDateFormat("dd", Locale.CHINA).format(Date())}"
+        val day = "ic_home_fun_calendar${SimpleDateFormat("d", Locale.CHINA).format(Date())}"
         Log.i(TAG, "当前日期：$day ")
         val resID = BaseApplication.appContext!!.resources.getIdentifier(
             day,

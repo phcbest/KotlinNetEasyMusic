@@ -36,10 +36,14 @@ class CustomPlayBar {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 serviceBind = service as MusicPlayService.MyBinder
                 serviceBind!!.play("29732992")
-                serviceBind?.setPauseAndResumeEvent({
+                serviceBind?.setEvent({
                     viewHolder?.mPlayCover?.stopTurn()
+                    viewHolder?.mPlayBtn?.pause()
                 }, {
                     viewHolder?.mPlayCover?.startTurn()
+                    viewHolder?.mPlayBtn?.play()
+                }, {
+                    viewHolder?.mPlayBtn?.setMusicDuration(it)
                 })
             }
 
@@ -52,6 +56,13 @@ class CustomPlayBar {
             conn,
             Service.BIND_AUTO_CREATE
         )
+        viewHolder?.mPlayBtn?.setOnClickListener { v ->
+            if (serviceBind?.playState!!) {
+                serviceBind?.resumeOrStart()
+            } else {
+                serviceBind?.pause()
+            }
+        }
     }
 
     class ViewHolder(var view: View) {
