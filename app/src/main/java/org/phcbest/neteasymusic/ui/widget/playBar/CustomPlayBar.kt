@@ -42,6 +42,7 @@ class CustomPlayBar {
                 }, {
                     viewHolder?.mPlayCover?.startTurn()
                     viewHolder?.mPlayBtn?.play()
+//                    serviceBind?.resumeOrStart()
                 }, {
                     viewHolder?.mPlayBtn?.setMusicDuration(it)
                 })

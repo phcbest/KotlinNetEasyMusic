@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import androidx.annotation.IntRange
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.view.marginRight
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.utils.CountDownTimeWithPause
 
@@ -109,6 +110,7 @@ class PlayBarProgressButton : View {
      */
     fun play() {
         mBm = mPlayBm
+        mProgressCDT?.resume()
         invalidate()
     }
 
@@ -117,11 +119,21 @@ class PlayBarProgressButton : View {
      */
     fun pause() {
         mBm = mPauseBm
+        mProgressCDT?.pause()
         invalidate()
     }
 
+    /**
+     * 复位进度
+     */
+    fun resetProgress() {
+        updateProgress(0)
+        //重新开启定时器
+
+    }
+
     //进度控制
-    var mProgressCDT: CountDownTimer? = null
+    var mProgressCDT: CountDownTimeWithPause? = null
 
     /**
      * 设置音乐时长
@@ -129,18 +141,25 @@ class PlayBarProgressButton : View {
     fun setMusicDuration(duration: Int) {
         val durationOfOneDegree = duration / 100
         Log.i(TAG, "setMusicDuration: $durationOfOneDegree")
-        mProgressCDT =
-            object : CountDownTimeWithPause(duration.toLong(), durationOfOneDegree.toLong()) {
-                var progress: Int = 1
-                override fun onTick(millisUntilFinished: Long) {
-                    updateProgress(progress)
-                    progress++
-                }
 
-                //计时结束调用
-                override fun onFinish() {
-                }
+        mProgressCDT = object : CountDownTimeWithPause(
+            duration.toLong(),
+            durationOfOneDegree.toLong()
+        ) {
+            var progress: Int = 1
+            override fun onFinish() {
+                //复位进度
+                resetProgress()
+                mProgressCDT?.cancel()
+                mProgressCDT?.start()?.pause()
+                progress = 1
             }
+
+            override fun onTick(lastTickStart: Long) {
+                updateProgress(progress)
+                progress++
+            }
+        }
         mProgressCDT?.start()
     }
 

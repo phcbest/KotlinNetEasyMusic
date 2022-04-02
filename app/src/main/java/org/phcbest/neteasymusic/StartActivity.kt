@@ -12,7 +12,7 @@ class StartActivity : BaseActivity() {
     }
 
     override fun initView() {
-        TODO("Not yet implemented")
+
     }
 
     override fun getViewBinding(): ViewBinding {

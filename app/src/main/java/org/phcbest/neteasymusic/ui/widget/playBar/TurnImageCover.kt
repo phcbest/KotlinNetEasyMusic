@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import org.phcbest.neteasymusic.R
-import org.phcbest.neteasymusic.utils.Constant
+import org.phcbest.neteasymusic.utils.Constants
 
 
 private const val TAG = "TurnImageCover"
@@ -75,10 +75,10 @@ class TurnImageCover : View {
         cdAnimation.interpolator = LinearInterpolator() //设置匀速转动
         //创建handler用于旋转view
         handlerTurn = Handler(Looper.myLooper()!!) { msg ->
-            if (msg.what == Constant.HandlerParamKey.HANDLER_TURN_IMAGE_COVER_START) {
+            if (msg.what == Constants.HandlerParamKey.HANDLER_TURN_IMAGE_COVER_START) {
                 //配置转动动画
                 this.startAnimation(cdAnimation)
-            } else if (msg.what == Constant.HandlerParamKey.HANDLER_TURN_IMAGE_COVER_STOP) {
+            } else if (msg.what == Constants.HandlerParamKey.HANDLER_TURN_IMAGE_COVER_STOP) {
                 //暂停转动动画
                 this.clearAnimation()
             }
@@ -151,7 +151,7 @@ class TurnImageCover : View {
      * 开始旋转
      */
     fun startTurn() {
-        Constant.HandlerParamKey.HANDLER_TURN_IMAGE_COVER_START.let {
+        Constants.HandlerParamKey.HANDLER_TURN_IMAGE_COVER_START.let {
             val message = Message()
             message.what = it
             handlerTurn!!.sendMessage(message)
@@ -162,7 +162,7 @@ class TurnImageCover : View {
      * 停止旋转
      */
     fun stopTurn() {
-        Constant.HandlerParamKey.HANDLER_TURN_IMAGE_COVER_STOP.let {
+        Constants.HandlerParamKey.HANDLER_TURN_IMAGE_COVER_STOP.let {
             val message = Message()
             message.what = it
             handlerTurn!!.sendMessage(message)

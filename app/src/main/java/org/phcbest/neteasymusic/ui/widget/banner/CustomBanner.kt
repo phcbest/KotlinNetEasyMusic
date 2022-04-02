@@ -2,8 +2,6 @@ package org.phcbest.neteasymusic.ui.widget.banner
 
 import android.annotation.SuppressLint
 import android.os.CountDownTimer
-import android.os.Handler
-import android.os.Message
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -15,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import org.phcbest.neteasymusic.R
-import kotlin.math.log
 
 private const val TAG = "CustomBanner"
 

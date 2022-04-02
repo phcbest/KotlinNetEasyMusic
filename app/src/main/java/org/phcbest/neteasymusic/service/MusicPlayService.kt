@@ -70,6 +70,7 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener,
         private var mResume: () -> Unit = {
             Log.i(TAG, "继续逻辑空执行")
         }
+
         var mLoadSongSuccess: (duration: Int) -> Unit = {}
 
 
@@ -133,7 +134,7 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener,
     override fun onPrepared(mp: MediaPlayer?) {
         //打印歌曲时间长度
         Log.i(TAG, "歌曲开始播放，时间总共长度: ${mediaPlayer.duration / 60000f}")
-        myBinder!!.resumeOrStart()
+//        myBinder!!.resumeOrStart()
         //加载外部逻辑
         myBinder!!.mLoadSongSuccess(mediaPlayer.duration)
     }
