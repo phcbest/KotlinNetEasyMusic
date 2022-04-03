@@ -128,8 +128,6 @@ class PlayBarProgressButton : View {
      */
     fun resetProgress() {
         updateProgress(0)
-        //重新开启定时器
-
     }
 
     //进度控制
@@ -160,7 +158,7 @@ class PlayBarProgressButton : View {
                 progress++
             }
         }
-        mProgressCDT?.start()
+        mProgressCDT?.start()?.pause()
     }
 
     /**

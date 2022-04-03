@@ -62,7 +62,10 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener,
 
     inner class MyBinder() : Binder() {
 
-        var playState = false
+        /**
+         * 这个参数设置播放初始状态,true 为暂停,false为播放
+         */
+        var playState = true
 
         private var mPause: () -> Unit = {
             Log.i(TAG, "暂停逻辑空执行")
@@ -135,6 +138,7 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener,
         //打印歌曲时间长度
         Log.i(TAG, "歌曲开始播放，时间总共长度: ${mediaPlayer.duration / 60000f}")
 //        myBinder!!.resumeOrStart()
+//        myBinder!!.pause()
         //加载外部逻辑
         myBinder!!.mLoadSongSuccess(mediaPlayer.duration)
     }

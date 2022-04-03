@@ -18,19 +18,26 @@
         <service
             android:name=".service.MusicPlayService"
             android:enabled="true"
-            android:exported="false" >
-        </service>
+            android:exported="false" />
 
-        <activity android:name=".StartActivity" />
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".StartActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/StartActivityTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+        <!--        设置为切换布局不重新加载,并且强制竖屏-->
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

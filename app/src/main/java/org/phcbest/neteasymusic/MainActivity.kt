@@ -13,6 +13,7 @@ import org.phcbest.neteasymusic.presenter.IGetSongInfoPresenter
 import org.phcbest.neteasymusic.presenter.PresenterManager
 import org.phcbest.neteasymusic.ui.*
 import org.phcbest.neteasymusic.ui.widget.playBar.CustomPlayBar
+import org.phcbest.neteasymusic.utils.Constants
 
 private const val TAG = "MainActivity"
 

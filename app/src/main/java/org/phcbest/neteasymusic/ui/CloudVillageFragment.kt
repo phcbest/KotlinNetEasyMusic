@@ -27,15 +27,6 @@ class CloudVillageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_cloud_village, container, false)
-
-        (view.findViewById(R.id.btn_login) as Button).setOnClickListener { v ->
-            val intent = Intent(
-                v.context, StartActivity::class.java
-            )
-            intent.putExtra("user", (view.findViewById(R.id.et_user) as EditText).text)
-            intent.putExtra("pwd", (view.findViewById(R.id.et_pwd) as EditText).text)
-            startActivity(intent)
-        }
         return view
     }
 

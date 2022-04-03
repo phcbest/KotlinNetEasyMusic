@@ -10,8 +10,8 @@ import kotlin.math.log
 private const val TAG = "CountDownTimeWithPause"
 
 abstract class CountDownTimeWithPause(
-    private val millisInFuture: Long,
-    private val countDownInterval: Long
+    millisInFuture: Long,
+    countDownInterval: Long
 ) {
     /**
      *总记时
