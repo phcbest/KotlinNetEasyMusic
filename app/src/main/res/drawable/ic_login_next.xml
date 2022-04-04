@@ -1,0 +1,13 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="32dp"
+    android:viewportWidth="1024"
+    android:viewportHeight="1024">
+    <group>
+        <!--        日期-->
+        <path
+            android:fillColor="#ED7B7B"
+            android:pathData="M106.666667 512A405.333333 405.333333 0 1 0 512 106.666667 405.333333 405.333333 0 0 0 106.666667 512z m358.186666-168.533333l170.666667 149.333333a25.450667 25.450667 0 0 1 0 38.4l-170.666667 149.333333a25.557333 25.557333 0 1 1-33.706666-38.4l148.693333-130.133333-148.693333-130.133333a25.557333 25.557333 0 1 1 33.706666-38.4z" />
+    </group>
+
+</vector>

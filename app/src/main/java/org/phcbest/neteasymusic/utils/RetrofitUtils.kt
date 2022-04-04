@@ -32,9 +32,11 @@ class RetrofitUtils {
             return getService(RetrofitApi.baseUrl, RetrofitApi::class.java)
         }
 
+        val instance = apiService()
+
         @JvmStatic
         fun newInstance(): RetrofitApi {
-            return apiService()
+            return instance
         }
     }
 

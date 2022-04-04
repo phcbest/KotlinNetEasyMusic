@@ -1,4 +1,4 @@
-package org.phcbest.neteasymusic.ui
+package org.phcbest.neteasymusic.ui.fragment
 
 import android.util.Log
 import android.view.LayoutInflater

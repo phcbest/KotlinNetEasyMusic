@@ -21,7 +21,8 @@ class HomeFunDataBean {
     var items: CopyOnWriteArrayList<HomeFunItemBean>? = CopyOnWriteArrayList()
 
     companion object {
-        fun newInstance() = HomeFunDataBean()
+        private val instance = HomeFunDataBean()
+        fun newInstance() = instance
     }
 
     var drawable: String = "drawable"

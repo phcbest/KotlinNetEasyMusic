@@ -14,8 +14,9 @@ class ThreadPoolUtils {
 
 
     companion object {
+        private val instance = ThreadPoolUtils()
         fun newInstance(): ThreadPoolUtils {
-            return ThreadPoolUtils()
+            return instance
         }
     }
 }

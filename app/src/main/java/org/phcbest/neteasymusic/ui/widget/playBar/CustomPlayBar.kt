@@ -19,8 +19,9 @@ private const val TAG = "CustomPlayBar"
 class CustomPlayBar {
 
     companion object {
+        private val instance = CustomPlayBar()
         fun newInstance(): CustomPlayBar {
-            return CustomPlayBar()
+            return instance
         }
     }
 

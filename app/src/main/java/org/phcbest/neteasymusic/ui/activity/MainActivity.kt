@@ -1,4 +1,4 @@
-package org.phcbest.neteasymusic
+package org.phcbest.neteasymusic.ui.activity
 
 import android.annotation.TargetApi
 import android.os.Build
@@ -7,13 +7,13 @@ import android.view.Window
 import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseActivity
 import org.phcbest.neteasymusic.databinding.ActivityMainBinding
 import org.phcbest.neteasymusic.presenter.IGetSongInfoPresenter
 import org.phcbest.neteasymusic.presenter.PresenterManager
-import org.phcbest.neteasymusic.ui.*
+import org.phcbest.neteasymusic.ui.fragment.*
 import org.phcbest.neteasymusic.ui.widget.playBar.CustomPlayBar
-import org.phcbest.neteasymusic.utils.Constants
 
 private const val TAG = "MainActivity"
 

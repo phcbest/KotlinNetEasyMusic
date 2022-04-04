@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="org.phcbest.neteasymusic">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!-- 网络状态 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 网络状态 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
@@ -15,29 +14,30 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NetEasyMusic"
         android:usesCleartextTraffic="true">
+        <activity android:name=".ui.activity.LoginActivity"></activity>
+
         <service
             android:name=".service.MusicPlayService"
             android:enabled="true"
             android:exported="false" />
 
         <activity
-            android:name=".StartActivity"
+            android:name=".ui.activity.StartActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/StartActivityTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-        </activity>
-        <!--        设置为切换布局不重新加载,并且强制竖屏-->
+        </activity> <!-- 设置为切换布局不重新加载,并且强制竖屏 -->
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="false"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
