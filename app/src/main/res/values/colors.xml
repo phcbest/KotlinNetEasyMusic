@@ -11,4 +11,7 @@
 
     <color name="progress_bg_color">#7A7A7A</color>
     <color name="progress_color">#00F1B7</color>
+
+
+    <color name="easy_red">#ED7B7B</color>
 </resources>
