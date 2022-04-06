@@ -4,9 +4,8 @@
     <style name="verify_code_tv">
         <item name="android:layout_height">48dp</item>
         <item name="android:layout_width">41dp</item>
-        <item name="background">@color/easy_red</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/easy_red</item>
         <item name="android:textSize">30sp</item>
         <item name="android:textStyle">bold</item>
     </style>

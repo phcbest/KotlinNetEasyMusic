@@ -1,7 +1,9 @@
 package org.phcbest.neteasymusic.utils
 
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.Message
 import android.view.Gravity
 import android.widget.Toast
 import org.phcbest.neteasymusic.base.BaseApplication
@@ -13,9 +15,19 @@ class ToastUtils {
         /**
          * 运行在ui线程的handler
          */
-        const val HANDLER_MSG_WHAT: Int = Constants.HandlerParamKey.HANDLER_TOAST
-        const val HANDLER_MSG_KEY: String = "toast_msg"
-        val handler = Handler(Looper.getMainLooper()) { msg ->
+        private const val HANDLER_MSG_WHAT: Int = Constants.HandlerParamKey.HANDLER_TOAST
+        private const val HANDLER_MSG_KEY: String = "toast_msg"
+
+        fun SEND_SMG(msg: String) {
+            val message = Message()
+            message.what = HANDLER_MSG_WHAT
+            val bundle = Bundle()
+            bundle.putString(HANDLER_MSG_KEY, msg)
+            message.data = bundle
+            SEND_HANDLER.sendMessage(message)
+        }
+
+        private val SEND_HANDLER = Handler(Looper.getMainLooper()) { msg ->
             if (msg.what == HANDLER_MSG_WHAT) {
                 msg.data.getString(HANDLER_MSG_KEY)?.let { showToast(it) }
             }

@@ -1,10 +1,7 @@
 package org.phcbest.neteasymusic.utils
 
 import io.reactivex.rxjava3.core.Observable
-import org.phcbest.neteasymusic.bean.DiscoverBannerBean
-import org.phcbest.neteasymusic.bean.SongDetailBean
-import org.phcbest.neteasymusic.bean.SongListBean
-import org.phcbest.neteasymusic.bean.SongUrlBean
+import org.phcbest.neteasymusic.bean.*
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -38,5 +35,16 @@ interface RetrofitApi {
     @GET("/song/detail")
     fun getSongDetailByIds(@Query("ids") ids: String): Observable<SongDetailBean>
 
+    /**
+     * 登录
+     */
+    @GET("/login/cellphone")
+    fun login(
+        @Query("phone") phone: String,
+        @Query("captcha") captcha: String
+    ): Observable<LoginBean>
 
+
+    @GET("/captcha/sent")
+    fun getCaptcha(@Query("phone") phone: String): Observable<Map<String, Any>>
 }

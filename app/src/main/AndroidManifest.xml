@@ -22,7 +22,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".ui.activity.StartActivity"
+            android:name=".ui.activity.SplashActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"

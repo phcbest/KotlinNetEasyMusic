@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
-import android.util.Log
 import android.widget.ImageView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.viewbinding.ViewBinding
@@ -15,14 +14,14 @@ import org.phcbest.neteasymusic.utils.SpStorageUtils
 
 private const val TAG = "StartActivity"
 
-class StartActivity : BaseActivity() {
+class SplashActivity : BaseActivity() {
     private var binding: ActivityStartBinding? = null
 
     var mIvStartImg: ImageView? = null
 
     override fun initPresenter() {
         //判断登录状态
-        if (SpStorageUtils.newInstance().getCookie() == SpStorageUtils.SP_NULL) {
+        if (SpStorageUtils.newInstance().getLoginInfo() == null) {
             handlerStartActivity.sendEmptyMessageDelayed(1, 500)
         } else {
             //进入主页
@@ -30,13 +29,13 @@ class StartActivity : BaseActivity() {
         }
     }
 
-    var handlerStartActivity = object : Handler(Looper.myLooper()!!) {
+    private var handlerStartActivity = object : Handler(Looper.myLooper()!!) {
         override fun handleMessage(msg: Message) {
 
             if (msg.what == 1) {
                 //配置元素共享动画
                 val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                    this@StartActivity,
+                    this@SplashActivity,
                     mIvStartImg!!,
                     getString(R.string.startAndHomeImgElement)
                 ).toBundle()

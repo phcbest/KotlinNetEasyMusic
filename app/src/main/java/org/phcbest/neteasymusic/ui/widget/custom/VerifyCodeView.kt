@@ -14,7 +14,7 @@ class VerifyCodeView : RelativeLayout {
 
     private var editText: EditText? = null
     private var textViews: MutableList<TextView>? = arrayListOf()
-    private var MAX: Int = 6
+    private var MAX: Int = 4
     private var inputContent: String? = null
 
     constructor(context: Context?) : this(context, null)
@@ -27,13 +27,13 @@ class VerifyCodeView : RelativeLayout {
         defStyleAttr
     ) {
         View.inflate(context, R.layout.custom_verify_code_view, this)
-        textViews?.set(0, findViewById(R.id.tv_verify_0))
-        textViews?.set(1, findViewById(R.id.tv_verify_1))
-        textViews?.set(2, findViewById(R.id.tv_verify_2))
-        textViews?.set(3, findViewById(R.id.tv_verify_3))
-        textViews?.set(4, findViewById(R.id.tv_verify_4))
-        textViews?.set(5, findViewById(R.id.tv_verify_5))
-        editText = findViewById(R.id.et_verify)
+        textViews?.add(0, findViewById(R.id.tv_verify_0))
+        textViews?.add(1, findViewById(R.id.tv_verify_1))
+        textViews?.add(2, findViewById(R.id.tv_verify_2))
+        textViews?.add(3, findViewById(R.id.tv_verify_3))
+//        textViews?.add(4, findViewById(R.id.tv_verify_4))
+//        textViews?.add(5, findViewById(R.id.tv_verify_5))
+        editText = findViewById(R.id.et_verify_code_input)
 
         setEditTextListener()
     }
@@ -47,8 +47,37 @@ class VerifyCodeView : RelativeLayout {
             }
 
             override fun afterTextChanged(s: Editable?) {
+                inputContent = editText?.text.toString()
+                if (inputCompleteListener != null) {
+                    if (inputContent!!.length >= MAX) {
+                        inputCompleteListener!!.inputComplete()
+                    } else {
+                        inputCompleteListener!!.invalidComplete()
+                    }
+                }
+                for (index in 0 until MAX) {
+                    if (index < inputContent!!.length) {
+                        textViews?.get(index)?.text = inputContent!![index].toString()
+                    } else {
+                        textViews?.get(index)?.text = ""
+                    }
+                }
             }
         })
+    }
+
+    private var inputCompleteListener: InputCompleteListener? = null
+    public fun setInputCompleteListener(inputCompleteListener: InputCompleteListener) {
+        this.inputCompleteListener = inputCompleteListener
+    }
+
+    public interface InputCompleteListener {
+        fun inputComplete()
+        fun invalidComplete()
+    }
+
+    public fun getEditContent(): String {
+        return inputContent!!
     }
 
 }
