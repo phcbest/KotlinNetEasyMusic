@@ -1,14 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:scrollbars="none"
     tools:context=".ui.fragment.MineFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="个人" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp">
+
+            <View
+                android:id="@+id/view_mine_title_bg"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/shape_mine_car_bg"
+                android:elevation="6dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <org.phcbest.neteasymusic.ui.widget.custom.CircularImageView
+                android:id="@+id/iv_mine_avatar"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center|top"
+                android:elevation="7dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_mine_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="7dp"
+                android:letterSpacing="0.05"
+                android:maxLines="1"
+                android:text="听歌就会开心"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/tv_mine_follow_level"
+                app:layout_constraintEnd_toEndOf="@+id/view_mine_title_bg"
+                app:layout_constraintStart_toStartOf="@+id/view_mine_title_bg"
+                app:layout_constraintTop_toBottomOf="@+id/iv_mine_avatar" />
+
+            <TextView
+                android:id="@+id/tv_mine_follow_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="7dp"
+                android:letterSpacing="0.05"
+                android:maxLines="1"
+                android:text="17关注\t12粉丝\tLv.8"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@id/view_mine_title_bg"
+                app:layout_constraintEnd_toEndOf="@+id/view_mine_title_bg"
+                app:layout_constraintStart_toStartOf="@+id/view_mine_title_bg"
+                app:layout_constraintTop_toBottomOf="@+id/tv_mine_username" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</ScrollView>

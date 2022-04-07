@@ -1,8 +1,10 @@
 package org.phcbest.neteasymusic
 
+import android.util.Log
 import org.junit.Test
 
 import org.junit.Assert.*
+import org.phcbest.neteasymusic.utils.SpStorageUtils
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -10,6 +12,7 @@ import org.junit.Assert.*
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 
+private const val TAG = "ExampleUnitTest"
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
@@ -41,4 +44,5 @@ class ExampleUnitTest {
         block("支付宝")
         println("end block")
     }
+
 }

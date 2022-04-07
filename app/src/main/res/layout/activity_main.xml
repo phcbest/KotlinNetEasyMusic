@@ -7,6 +7,9 @@
     android:orientation="vertical"
     tools:context=".ui.activity.MainActivity">
 
+    <include layout="@layout/custom_discover_toolbar" />
+
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_home"
         android:layout_width="match_parent"
