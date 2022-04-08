@@ -1,6 +1,5 @@
 package org.phcbest.neteasymusic
 
-import android.util.Log
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.gson.Gson
@@ -31,6 +30,6 @@ class ExampleInstrumentedTest {
     @Test
     fun TestSp() {
         println("TestSp")
-        println("TestSp: ${Gson().toJson(SpStorageUtils.newInstance().getLoginInfo())}")
+        println("TestSp: ${Gson().toJson(SpStorageUtils.newInstance().getCookie())}")
     }
 }

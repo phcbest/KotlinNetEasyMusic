@@ -49,12 +49,18 @@ class LogIntercepted : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         //判断网络状态,如果没网络就toast
         NetWorkUtils.testAndSendNetWorkStateToast()
+        //请求
         val request = chain.request()
         Log.i(
             TAG,
             format.format(Date()) + " Requeste " + "\nmethod:" + request.method() + "\nurl:"
                     + request.url() + "\nbody:" + request.body()
         )
+        //添加cookie
+        val newBuilder = request.newBuilder()
+        SpStorageUtils.newInstance().getCookie()
+            .let { if (it != SpStorageUtils.SP_NULL) newBuilder.addHeader("Cookie", it) }
+        //响应
         val response = chain.proceed(request)
         Log.i(
             TAG,

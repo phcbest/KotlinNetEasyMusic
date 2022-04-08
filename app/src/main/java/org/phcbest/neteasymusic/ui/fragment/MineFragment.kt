@@ -6,6 +6,8 @@ import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.base.BaseFragment
 import org.phcbest.neteasymusic.databinding.FragmentMineBinding
 
+private const val TAG = "MineFragment"
+
 class MineFragment : BaseFragment() {
     var binding: FragmentMineBinding? = null
 

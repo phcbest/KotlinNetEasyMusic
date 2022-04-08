@@ -21,7 +21,7 @@ class SplashActivity : BaseActivity() {
 
     override fun initPresenter() {
         //判断登录状态
-        if (SpStorageUtils.newInstance().getLoginInfo() == null) {
+        if (SpStorageUtils.newInstance().getCookie() == SpStorageUtils.SP_NULL) {
             handlerStartActivity.sendEmptyMessageDelayed(1, 500)
         } else {
             //进入主页

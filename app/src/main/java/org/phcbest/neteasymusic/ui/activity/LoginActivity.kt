@@ -3,10 +3,8 @@ package org.phcbest.neteasymusic.ui.activity
 import android.content.Intent
 import android.view.View
 import android.view.animation.AlphaAnimation
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.viewbinding.ViewBinding
-import com.google.gson.Gson
 import org.phcbest.neteasymusic.base.BaseActivity
 import org.phcbest.neteasymusic.databinding.ActivityLoginBinding
 import org.phcbest.neteasymusic.presenter.PresenterManager
@@ -47,7 +45,7 @@ class LoginActivity : BaseActivity() {
         PresenterManager.getInstance().getLoginPresenter().login(phone, captcha,
             { result ->
                 if (result.code == 200) {
-                    SpStorageUtils.instance.storageLoginInfo(Gson().toJson(result))
+                    SpStorageUtils.instance.storageCookie(result)
                     ToastUtils.SEND_SMG("登录成功")
                     startActivity(Intent(baseContext, MainActivity::class.java))
                 } else {

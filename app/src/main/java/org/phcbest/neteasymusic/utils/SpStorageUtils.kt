@@ -8,7 +8,7 @@ import org.phcbest.neteasymusic.bean.LoginBean
 class SpStorageUtils {
 
     companion object {
-        private const val SP_NULL = "sp_null"
+        public const val SP_NULL = "sp_null"
 
         var instance = SpStorageUtils()
         fun newInstance(): SpStorageUtils {
@@ -19,17 +19,14 @@ class SpStorageUtils {
     private val loginSp =
         BaseApplication.appContext?.getSharedPreferences("login", MODE_PRIVATE)!!
 
-    fun storageLoginInfo(info: String) {
-        loginSp.edit().putString("loginInfo", info).apply()
+    fun storageCookie(info: LoginBean) {
+        //let是空安全的,不为空才会调用
+        info.cookie.let { loginSp.edit().putString("cookie", it).apply() }
     }
 
-    fun getLoginInfo(): LoginBean? {
-        val info = loginSp.getString("loginInfo", SP_NULL)
-        var loginBean: LoginBean? = null
-        if (info != SP_NULL) {
-            loginBean = Gson().fromJson(info, LoginBean::class.java)
-        }
-        return loginBean
+    fun getCookie(): String {
+        val cookie = loginSp.getString("cookie", SP_NULL)
+        return cookie!!
     }
 
 }
