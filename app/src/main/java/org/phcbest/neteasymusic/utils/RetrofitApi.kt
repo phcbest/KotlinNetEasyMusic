@@ -45,6 +45,16 @@ interface RetrofitApi {
     ): Observable<LoginBean>
 
 
+    /**
+     * 发送验证码
+     */
     @GET("/captcha/sent")
     fun getCaptcha(@Query("phone") phone: String): Observable<Map<String, Any>>
+
+
+    /**
+     * 获取用户信息,需要携带token
+     */
+    @GET("/user/account")
+    fun getUserAccount(): Observable<UserAccountBean>
 }
