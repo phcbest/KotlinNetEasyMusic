@@ -1,40 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:backgroundTint="@color/white"
-    app:elevation="0dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="40dp"
+        android:backgroundTint="@color/white"
+        app:elevation="0dp">
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:padding="7dp"
-            android:src="@drawable/ic_menu" />
-
-        <TextView
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/shape_discover_search"
-            android:gravity="center"
-            android:text="发现"
-            android:textSize="15sp" />
+            android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:padding="7dp"
-            android:src="@drawable/ic_mic" />
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:padding="7dp"
+                android:src="@drawable/ic_menu" />
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/shape_discover_search"
+                android:gravity="center"
+                android:text="发现"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:padding="7dp"
+                android:src="@drawable/ic_mic" />
+
+        </LinearLayout>
 
 
-</com.google.android.material.appbar.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+</layout>

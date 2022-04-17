@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="150dp">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/vp_banner"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="150dp">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_banner_index"
-        android:layout_width="wrap_content"
-        android:layout_height="10dp"
-        android:layout_gravity="bottom|center"
-        android:layout_marginBottom="8dp" />
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_banner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-</FrameLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_banner_index"
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="8dp" />
+
+    </FrameLayout>
+</layout>

@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -8,7 +10,7 @@ android {
     buildToolsVersion "30.0.3"
 
     buildFeatures {
-        viewBinding = true
+        dataBinding = true
     }
 
     defaultConfig {

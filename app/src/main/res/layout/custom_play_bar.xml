@@ -1,91 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    android:orientation="horizontal"
-    android:padding="5dp">
-
-    <!--    <ImageView-->
-    <!--        android:id="@+id/iv_play_bar_cover"-->
-    <!--        android:layout_width="55dp"-->
-    <!--        android:layout_height="55dp"-->
-    <!--        android:layout_marginStart="10dp"-->
-    <!--        android:background="@drawable/cd_bg"-->
-    <!--        android:elevation="11dp"-->
-    <!--        android:scaleType="center"-->
-    <!--        app:layout_constraintBottom_toBottomOf="@+id/bg_play_bar"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="@id/bg_play_bar" />-->
-
-    <org.phcbest.neteasymusic.ui.widget.playBar.TurnImageCover
-        android:id="@+id/iv_play_bar_cover"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="10dp"
-        android:elevation="11dp"
-        app:layout_constraintBottom_toBottomOf="@+id/bg_play_bar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/bg_play_bar" />
-
-
-    <View
-        android:id="@+id/bg_play_bar"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginStart="3dp"
-        android:layout_marginEnd="3dp"
-        android:background="@drawable/shape_play_bar_bg"
-        android:elevation="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </View>
-
-    <TextView
-        android:id="@+id/tv_play_bar_name"
-        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:elevation="2dp"
-        android:maxLines="1"
-        android:text="光るなら(若能绽放光芒)"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@id/bg_play_bar"
-        app:layout_constraintEnd_toStartOf="@id/btn_play_bar_play"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/iv_play_bar_cover"
-        app:layout_constraintTop_toTopOf="@id/bg_play_bar" />
+        android:orientation="horizontal"
+        android:padding="5dp">
 
-    <org.phcbest.neteasymusic.ui.widget.playBar.PlayBarProgressButton
-        android:id="@+id/btn_play_bar_play"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="10dp"
-        android:elevation="2dp"
-        app:layout_constraintBottom_toBottomOf="@id/bg_play_bar"
-        app:layout_constraintEnd_toStartOf="@id/iv_play_bar_list"
-        app:layout_constraintStart_toEndOf="@id/tv_play_bar_name"
-        app:layout_constraintTop_toTopOf="@id/bg_play_bar" />
+        <!--    <ImageView-->
+        <!--        android:id="@+id/iv_play_bar_cover"-->
+        <!--        android:layout_width="55dp"-->
+        <!--        android:layout_height="55dp"-->
+        <!--        android:layout_marginStart="10dp"-->
+        <!--        android:background="@drawable/cd_bg"-->
+        <!--        android:elevation="11dp"-->
+        <!--        android:scaleType="center"-->
+        <!--        app:layout_constraintBottom_toBottomOf="@+id/bg_play_bar"-->
+        <!--        app:layout_constraintStart_toStartOf="parent"-->
+        <!--        app:layout_constraintTop_toTopOf="@id/bg_play_bar" />-->
 
-    <ImageView
-        android:id="@+id/iv_play_bar_list"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:elevation="2dp"
-        android:padding="5dp"
-        android:src="@drawable/ic_play_bar_list"
-        app:layout_constraintBottom_toBottomOf="@+id/bg_play_bar"
-        app:layout_constraintEnd_toEndOf="@+id/bg_play_bar"
-        app:layout_constraintStart_toEndOf="@id/btn_play_bar_play"
-        app:layout_constraintTop_toTopOf="@+id/bg_play_bar" />
+        <org.phcbest.neteasymusic.ui.widget.playBar.TurnImageCover
+            android:id="@+id/iv_play_bar_cover"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="10dp"
+            android:elevation="11dp"
+            app:layout_constraintBottom_toBottomOf="@+id/bg_play_bar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/bg_play_bar" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/bg_play_bar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginEnd="3dp"
+            android:background="@drawable/shape_play_bar_bg"
+            android:elevation="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </View>
+
+        <TextView
+            android:id="@+id/tv_play_bar_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:elevation="2dp"
+            android:maxLines="1"
+            android:text="光るなら(若能绽放光芒)"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@id/bg_play_bar"
+            app:layout_constraintEnd_toStartOf="@id/btn_play_bar_play"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/iv_play_bar_cover"
+            app:layout_constraintTop_toTopOf="@id/bg_play_bar" />
+
+        <org.phcbest.neteasymusic.ui.widget.playBar.PlayBarProgressButton
+            android:id="@+id/btn_play_bar_play"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:elevation="2dp"
+            app:layout_constraintBottom_toBottomOf="@id/bg_play_bar"
+            app:layout_constraintEnd_toStartOf="@id/iv_play_bar_list"
+            app:layout_constraintStart_toEndOf="@id/tv_play_bar_name"
+            app:layout_constraintTop_toTopOf="@id/bg_play_bar" />
+
+        <ImageView
+            android:id="@+id/iv_play_bar_list"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:elevation="2dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_play_bar_list"
+            app:layout_constraintBottom_toBottomOf="@+id/bg_play_bar"
+            app:layout_constraintEnd_toEndOf="@+id/bg_play_bar"
+            app:layout_constraintStart_toEndOf="@id/btn_play_bar_play"
+            app:layout_constraintTop_toTopOf="@+id/bg_play_bar" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
