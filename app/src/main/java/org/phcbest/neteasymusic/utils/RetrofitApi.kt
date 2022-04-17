@@ -2,6 +2,7 @@ package org.phcbest.neteasymusic.utils
 
 import io.reactivex.rxjava3.core.Observable
 import org.phcbest.neteasymusic.bean.*
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -42,7 +43,7 @@ interface RetrofitApi {
     fun login(
         @Query("phone") phone: String,
         @Query("captcha") captcha: String
-    ): Observable<LoginBean>
+    ): Observable<Response<LoginBean>>
 
 
     /**
@@ -57,4 +58,11 @@ interface RetrofitApi {
      */
     @GET("/user/account")
     fun getUserAccount(): Observable<UserAccountBean>
+
+
+    /**
+     * 刷新登录
+     */
+    @GET("/login/refresh")
+    fun refreshLogin(): Observable<Map<String, Any>>
 }

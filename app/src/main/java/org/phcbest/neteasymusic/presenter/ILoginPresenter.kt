@@ -2,6 +2,7 @@ package org.phcbest.neteasymusic.presenter
 
 import org.phcbest.neteasymusic.bean.LoginBean
 import org.phcbest.neteasymusic.bean.SongListBean
+import retrofit2.Response
 
 interface ILoginPresenter {
     fun getCaptcha(
@@ -12,7 +13,7 @@ interface ILoginPresenter {
     fun login(
         phone: String,
         captcha: String,
-        success: (LoginBean) -> Unit,
+        success: (Response<LoginBean>) -> Unit,
         error: (Throwable) -> Unit
     )
 }

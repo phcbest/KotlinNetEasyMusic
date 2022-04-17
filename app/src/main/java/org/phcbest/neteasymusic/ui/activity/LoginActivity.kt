@@ -1,6 +1,7 @@
 package org.phcbest.neteasymusic.ui.activity
 
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import android.view.animation.AlphaAnimation
 import androidx.core.view.isVisible
@@ -44,8 +45,10 @@ class LoginActivity : BaseActivity() {
         val phone = binding?.etPhone?.text.toString()
         PresenterManager.getInstance().getLoginPresenter().login(phone, captcha,
             { result ->
-                if (result.code == 200) {
-                    SpStorageUtils.instance.storageCookie(result)
+                val body = result.body()!!
+                if (body.code == 200) {
+//                    Log.i(TAG, "doLogin: ${result.headers()}")
+                    SpStorageUtils.instance.storageCookie(body)
                     ToastUtils.SEND_SMG("登录成功")
                     startActivity(Intent(baseContext, MainActivity::class.java))
                 } else {

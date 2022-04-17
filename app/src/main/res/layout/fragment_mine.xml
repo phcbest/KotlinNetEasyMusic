@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="mineFragmentViewModel"
+            type="org.phcbest.neteasymusic.ui.fragment.viewmodel.MineFragmentViewModel" />
+    </data>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -53,7 +60,7 @@
                     android:elevation="7dp"
                     android:letterSpacing="0.05"
                     android:maxLines="1"
-                    android:text="听歌就会开心"
+                    android:text="@{mineFragmentViewModel.userAccount.profile.nickname}"
                     android:textColor="@color/black"
                     android:textSize="17sp"
                     android:textStyle="bold"

@@ -1,9 +1,9 @@
 package org.phcbest.neteasymusic.utils
 
 import android.content.Context.MODE_PRIVATE
-import com.google.gson.Gson
 import org.phcbest.neteasymusic.base.BaseApplication
 import org.phcbest.neteasymusic.bean.LoginBean
+import retrofit2.Response
 
 class SpStorageUtils {
 
@@ -21,7 +21,10 @@ class SpStorageUtils {
 
     fun storageCookie(info: LoginBean) {
         //let是空安全的,不为空才会调用
-        info.cookie.let { loginSp.edit().putString("cookie", it).apply() }
+        info.cookie.let {
+            //需要格式化为标准cookie
+            loginSp.edit().putString("cookie", it.replace(";;", ";\u0020")).apply()
+        }
     }
 
     fun getCookie(): String {

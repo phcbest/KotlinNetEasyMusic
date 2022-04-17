@@ -71,4 +71,9 @@ dependencies {
     //异步框架rxjava
     implementation "io.reactivex.rxjava3:rxjava:3.0.0"
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0' // 必要rxandrroid依赖，切线程时需要用到
+
+    //观测生命周期
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.0.0"
+    implementation "androidx.lifecycle:lifecycle-runtime:2.0.0"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
 }

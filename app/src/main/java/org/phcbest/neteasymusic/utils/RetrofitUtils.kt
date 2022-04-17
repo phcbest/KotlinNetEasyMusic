@@ -59,12 +59,17 @@ class LogIntercepted : Interceptor {
         //添加cookie
         val newBuilder = request.newBuilder()
         SpStorageUtils.newInstance().getCookie()
-            .let { if (it != SpStorageUtils.SP_NULL) newBuilder.addHeader("Cookie", it) }
+            .let {
+                if (it != SpStorageUtils.SP_NULL) {
+                    newBuilder.addHeader("Cookie", it)
+                    Log.i(TAG, "intercept: cookie:$it")
+                }
+            }
         //响应
         val response = chain.proceed(request)
         Log.i(
             TAG,
-            format.format(Date()) + " Response " + "\nsuccessful:" + response.isSuccessful + "\nbody:" + response.peekBody(
+            format.format(Date()) + " Response " + "\nsucc essful:" + response.isSuccessful + "\nbody:" + response.peekBody(
                 1024
             ).string()
         )

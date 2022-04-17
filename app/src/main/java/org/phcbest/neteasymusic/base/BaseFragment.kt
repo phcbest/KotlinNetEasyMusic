@@ -29,6 +29,7 @@ abstract class BaseFragment : Fragment() {
         return vb!!.root
     }
 
+
     abstract fun initPresenter()
 
     open fun initEvent() {
