@@ -1,7 +1,6 @@
 package org.phcbest.neteasymusic.ui.activity
 
 import android.content.Intent
-import android.util.Log
 import android.view.View
 import android.view.animation.AlphaAnimation
 import androidx.core.view.isVisible
@@ -49,6 +48,7 @@ class LoginActivity : BaseActivity() {
                 if (body.code == 200) {
 //                    Log.i(TAG, "doLogin: ${result.headers()}")
                     SpStorageUtils.instance.storageCookie(body)
+                    SpStorageUtils.instance.storageLoginBean(body)
                     ToastUtils.SEND_SMG("登录成功")
                     startActivity(Intent(baseContext, MainActivity::class.java))
                 } else {

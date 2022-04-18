@@ -65,4 +65,11 @@ interface RetrofitApi {
      */
     @GET("/login/refresh")
     fun refreshLogin(): Observable<Map<String, Any>>
+
+
+    /**
+     * 获取用户详情
+     */
+    @GET("/user/detail")
+    fun getUserDetail(@Query("uid") uid: String): Observable<UserDetailBean>
 }

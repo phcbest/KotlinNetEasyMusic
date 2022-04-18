@@ -4,36 +4,36 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.functions.Consumer
 import io.reactivex.rxjava3.schedulers.Schedulers
-import org.phcbest.neteasymusic.bean.UserAccountBean
+import org.phcbest.neteasymusic.bean.UserDetailBean
 import org.phcbest.neteasymusic.utils.RetrofitUtils
+import org.phcbest.neteasymusic.utils.SpStorageUtils
 
 class MineFragmentViewModel : ViewModel {
 
-    private var userAccountBean: LiveData<UserAccountBean>? = null
+    private var userDetailBean: MutableLiveData<UserDetailBean> = MutableLiveData()
 
     constructor() {
-        setUserAccount()
+//        setUserDetail()
     }
 
     /**
      * 联网访问用户信息
      */
-    fun setUserAccount() {
-        RetrofitUtils.newInstance().getUserAccount()
+    fun setUserDetail() {
+        val loginBean = SpStorageUtils.newInstance().getLoginBean()
+        RetrofitUtils.newInstance().getUserDetail(loginBean?.account?.id.toString())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io()).subscribe({ userAccountBean ->
-                val data = MutableLiveData<UserAccountBean>()
-                data.value = userAccountBean
-                this.userAccountBean = data
+            .subscribeOn(Schedulers.io()).subscribe({ userDetailBean ->
+//                ObservableField
+                this.userDetailBean.postValue(userDetailBean)
             }, {
-                this.userAccountBean = null
+                this.userDetailBean.postValue(null)
             })
     }
 
-    fun getUserAccount(): LiveData<UserAccountBean>? {
-        return this.userAccountBean
+    fun getUserDetail(): LiveData<UserDetailBean> {
+        return this.userDetailBean
     }
 
 }

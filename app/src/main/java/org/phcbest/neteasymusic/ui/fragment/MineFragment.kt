@@ -1,16 +1,16 @@
 package org.phcbest.neteasymusic.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseFragment
-import org.phcbest.neteasymusic.bean.UserAccountBean
+import org.phcbest.neteasymusic.bean.UserDetailBean
 import org.phcbest.neteasymusic.databinding.FragmentMineBinding
 import org.phcbest.neteasymusic.ui.fragment.viewmodel.MineFragmentViewModel
 
@@ -36,17 +36,23 @@ class MineFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         //初始化viewmodel
         val viewModel = ViewModelProviders.of(
-            this,
-            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+            this
+//            , ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
         )[MineFragmentViewModel::class.java]
+
         observeViewModel(viewModel)
+        viewModel.setUserDetail()
     }
 
     private fun observeViewModel(viewModel: MineFragmentViewModel) {
-        viewModel.getUserAccount()?.observe(this.viewLifecycleOwner,
-            object : Observer<UserAccountBean> {
-                override fun onChanged(t: UserAccountBean?) {
-                    binding?.tvMineUsername?.text = t?.profile?.nickname
+        //数据变化触发
+        viewModel.getUserDetail().observe(this.viewLifecycleOwner,
+            object : Observer<UserDetailBean> {
+                override fun onChanged(t: UserDetailBean?) {
+                    Log.i(TAG, "onChanged: 数据变化触发")
+                    //设置viewmodel数据
+                    binding?.userDetailBean = t
+//                    binding?.executePendingBindings()
                 }
             })
     }

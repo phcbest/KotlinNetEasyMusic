@@ -1,6 +1,7 @@
 package org.phcbest.neteasymusic.utils
 
 import android.content.Context.MODE_PRIVATE
+import com.google.gson.Gson
 import org.phcbest.neteasymusic.base.BaseApplication
 import org.phcbest.neteasymusic.bean.LoginBean
 import retrofit2.Response
@@ -32,4 +33,22 @@ class SpStorageUtils {
         return cookie!!
     }
 
+    fun storageLoginBean(info: LoginBean) {
+        //let是空安全的,不为空才会调用
+        info.let {
+            //需要格式化为标准cookie
+            loginSp.edit().putString("login_bean", Gson().toJson(it)).apply()
+        }
+    }
+
+    fun getLoginBean(): LoginBean? {
+        val cookie = loginSp.getString("login_bean", SP_NULL)
+        var loginBean: LoginBean? = null
+        cookie.let {
+            if (it != SP_NULL) {
+                loginBean = Gson().fromJson(it, LoginBean::class.java)
+            }
+        }
+        return loginBean
+    }
 }

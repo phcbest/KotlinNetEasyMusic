@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="mineFragmentViewModel"
-            type="org.phcbest.neteasymusic.ui.fragment.viewmodel.MineFragmentViewModel" />
+            name="userDetailBean"
+            type="org.phcbest.neteasymusic.bean.UserDetailBean" />
     </data>
 
     <ScrollView
@@ -38,7 +38,7 @@
                     android:elevation="6dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.4" />
@@ -49,6 +49,7 @@
                     android:layout_height="70dp"
                     android:layout_gravity="center|top"
                     android:elevation="7dp"
+                    app:imageSrc="@{``+userDetailBean.profile.avatarUrl}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -60,7 +61,7 @@
                     android:elevation="7dp"
                     android:letterSpacing="0.05"
                     android:maxLines="1"
-                    android:text="@{mineFragmentViewModel.userAccount.profile.nickname}"
+                    android:text="@{userDetailBean.profile.nickname}"
                     android:textColor="@color/black"
                     android:textSize="17sp"
                     android:textStyle="bold"
@@ -76,7 +77,7 @@
                     android:elevation="7dp"
                     android:letterSpacing="0.05"
                     android:maxLines="1"
-                    android:text="17关注\t12粉丝\tLv.8"
+                    android:text="@{String.format(@string/str_user_follow_level, userDetailBean.profile.follows,userDetailBean.profile.followeds,userDetailBean.level)}"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/view_mine_title_bg"
                     app:layout_constraintEnd_toEndOf="@+id/view_mine_title_bg"

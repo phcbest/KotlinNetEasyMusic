@@ -1,4 +1,5 @@
 package org.phcbest.neteasymusic.bean
+
 import com.google.gson.annotations.SerializedName
 
 
