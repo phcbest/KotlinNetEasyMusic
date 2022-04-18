@@ -1,4 +1,4 @@
-package org.phcbest.neteasymusic.ui.mvvmAdapter
+package org.phcbest.neteasymusic.ui.mvvm_adapter
 
 import android.view.View
 import androidx.databinding.BindingAdapter

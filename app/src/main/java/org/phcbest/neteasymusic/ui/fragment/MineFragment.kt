@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseFragment
 import org.phcbest.neteasymusic.bean.UserDetailBean
 import org.phcbest.neteasymusic.databinding.FragmentMineBinding
 import org.phcbest.neteasymusic.ui.fragment.viewmodel.MineFragmentViewModel
+import org.phcbest.neteasymusic.ui.widget.adapter.MineFunAdapter
 
 private const val TAG = "MineFragment"
 
@@ -30,6 +32,8 @@ class MineFragment : BaseFragment() {
     }
 
     override fun initView() {
+        binding?.rvMineFun?.layoutManager = GridLayoutManager(this.context, 4)
+        binding?.rvMineFun?.adapter = MineFunAdapter()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

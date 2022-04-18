@@ -27,7 +27,6 @@ class DiscoverFragment : BaseFragment() {
             result.banners.forEach { info ->
                 bannerData.add(BannerItemBean(info.pic, object : BannerItemBean.OnTap {
                     override fun OnClick() {
-                        // TODO: 2022/3/11  点击banner的事件
                         Log.i(TAG, "OnClick: 点击banner")
                     }
                 }))
