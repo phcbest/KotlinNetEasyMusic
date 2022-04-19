@@ -1,7 +1,6 @@
 package org.phcbest.neteasymusic.ui.widget.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -10,7 +9,8 @@ import org.phcbest.neteasymusic.databinding.AdapterMineFunBinding
 import org.phcbest.neteasymusic.ui.widget.adapter.adapter_data.MineFunAdapterBean
 import java.util.concurrent.CopyOnWriteArrayList
 
-class MineFunAdapter : RecyclerView.Adapter<MineFunAdapter.ViewHolder>() {
+class MineFunAdapter(var onItemClick: (MineFunAdapterBean.MineFunItemEnum) -> Unit) :
+    RecyclerView.Adapter<MineFunAdapter.ViewHolder>() {
 
     var mineFunItemBeans: CopyOnWriteArrayList<MineFunAdapterBean.MineFunItemBean> =
         MineFunAdapterBean.getInstance().mineFunItemBeans
@@ -31,6 +31,9 @@ class MineFunAdapter : RecyclerView.Adapter<MineFunAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.ivHomeFunItem.setImageResource(mineFunItemBeans[position].image)
         holder.binding.tvHomeFunItem.text = mineFunItemBeans[position].tag
+        holder.itemView.setOnClickListener { _ ->
+            onItemClick(mineFunItemBeans[position].designation)
+        }
     }
 
     override fun getItemCount(): Int {

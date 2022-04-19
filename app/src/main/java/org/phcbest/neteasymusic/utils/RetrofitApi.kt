@@ -72,4 +72,10 @@ interface RetrofitApi {
      */
     @GET("/user/detail")
     fun getUserDetail(@Query("uid") uid: String): Observable<UserDetailBean>
+
+    /**
+     * 获得用户歌单
+     */
+    @GET("user/playlist")
+    fun getUserPlaylist(@Query("uid") uid: String): Observable<UserPlaylistBean>
 }

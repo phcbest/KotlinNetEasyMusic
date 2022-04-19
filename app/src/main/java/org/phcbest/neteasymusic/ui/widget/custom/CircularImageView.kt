@@ -65,15 +65,21 @@ class CircularImageView : View {
     }
 
     fun setImage(imageUrl: String) {
-        Glide.with(mContext!!).asBitmap().load(imageUrl).into(object : CustomTarget<Bitmap>() {
-            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                mBitmap = getCircleBitmap(resource)
-                invalidate()
-            }
+        if (imageUrl.contains("http")) {
+            Glide.with(mContext!!).asBitmap().load(imageUrl).error(R.drawable.sample_avatar)
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+                        mBitmap = getCircleBitmap(resource)
+                        invalidate()
+                    }
 
-            override fun onLoadCleared(placeholder: Drawable?) {
-            }
-        })
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                    }
+                })
+        }
     }
 
 }

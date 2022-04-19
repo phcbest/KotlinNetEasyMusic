@@ -8,6 +8,10 @@
         <variable
             name="userDetailBean"
             type="org.phcbest.neteasymusic.bean.UserDetailBean" />
+
+        <variable
+            name="playlist"
+            type="org.phcbest.neteasymusic.bean.UserPlaylistBean.Playlist" />
     </data>
 
     <ScrollView
@@ -35,7 +39,7 @@
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/shape_mine_car_bg"
-                    android:elevation="6dp"
+                    android:elevation="2dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -48,8 +52,8 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_gravity="center|top"
-                    android:elevation="7dp"
-                    app:imageSrc="@{``+userDetailBean.profile.avatarUrl}"
+                    android:elevation="3dp"
+                    app:circularImageSrc="@{userDetailBean.profile.avatarUrl+``}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -58,7 +62,7 @@
                     android:id="@+id/tv_mine_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:elevation="7dp"
+                    android:elevation="3dp"
                     android:letterSpacing="0.05"
                     android:maxLines="1"
                     android:text="@{userDetailBean.profile.nickname}"
@@ -74,7 +78,7 @@
                     android:id="@+id/tv_mine_follow_level"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:elevation="7dp"
+                    android:elevation="3dp"
                     android:letterSpacing="0.05"
                     android:maxLines="1"
                     android:text="@{String.format(@string/str_user_follow_level, userDetailBean.profile.follows,userDetailBean.profile.followeds,userDetailBean.level)}"
@@ -97,9 +101,66 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/shape_mine_car_bg"
-                android:elevation="6dp"
+                android:elevation="2dp"
                 android:padding="5dp" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/shape_mine_car_bg"
+                android:elevation="2dp"
+                android:orientation="horizontal">
+
+                <androidx.constraintlayout.utils.widget.ImageFilterView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    app:round="10dp"
+                    app:roundedCornersImageSrc="@{playlist.coverImgUrl+``}" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:text="我喜欢的音乐"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.format(@string/src_mine_x_songs,(playlist.trackCount+playlist.cloudTrackCount))}"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/shape_mine_doki_mode_btn"
+                    android:elevation="2dp"
+                    android:padding="5dp"
+                    android:text="\u2764心动模式"
+                    android:textSize="12sp" />
+
+
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

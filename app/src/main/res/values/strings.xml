@@ -8,4 +8,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="startAndHomeImgElement">startAndHomeImgElement</string>
     <string name="str_user_follow_level">%d关注\t|\t%d粉丝\t|\tLv.%d</string>
+    <string name="src_mine_x_songs">%d首</string>
 </resources>
