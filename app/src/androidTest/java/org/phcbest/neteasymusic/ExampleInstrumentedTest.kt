@@ -3,11 +3,15 @@ package org.phcbest.neteasymusic
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.gson.Gson
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.junit.Assert.*
+import org.phcbest.neteasymusic.utils.RetrofitApi
+import org.phcbest.neteasymusic.utils.RetrofitUtils
 import org.phcbest.neteasymusic.utils.SpStorageUtils
 
 /**
@@ -31,5 +35,16 @@ class ExampleInstrumentedTest {
     fun TestSp() {
         println("TestSp")
         println("TestSp: ${Gson().toJson(SpStorageUtils.newInstance().getCookie())}")
+    }
+
+    @Test
+    fun testLogin() {
+        RetrofitUtils.newInstance().getUserAccount().observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe({ userAccount ->
+                print(userAccount)
+            }, {
+                it.printStackTrace()
+            })
     }
 }

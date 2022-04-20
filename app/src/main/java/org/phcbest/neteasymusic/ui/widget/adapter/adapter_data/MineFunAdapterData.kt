@@ -3,12 +3,12 @@ package org.phcbest.neteasymusic.ui.widget.adapter.adapter_data
 import org.phcbest.neteasymusic.R
 import java.util.concurrent.CopyOnWriteArrayList
 
-class MineFunAdapterBean {
+class MineFunAdapterData {
 
     var mineFunItemBeans: CopyOnWriteArrayList<MineFunItemBean> = CopyOnWriteArrayList()
 
     companion object {
-        private val singleton = MineFunAdapterBean()
+        private val singleton = MineFunAdapterData()
         fun getInstance() = singleton
     }
 

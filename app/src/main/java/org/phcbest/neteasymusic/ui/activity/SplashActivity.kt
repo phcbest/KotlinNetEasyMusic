@@ -1,16 +1,20 @@
 package org.phcbest.neteasymusic.ui.activity
 
 import android.content.Intent
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import android.util.Log
 import android.widget.ImageView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseActivity
 import org.phcbest.neteasymusic.databinding.ActivityStartBinding
+import org.phcbest.neteasymusic.utils.RetrofitApi
 import org.phcbest.neteasymusic.utils.SpStorageUtils
+import retrofit2.Retrofit
 
 private const val TAG = "StartActivity"
 
@@ -28,8 +32,18 @@ class SplashActivity : BaseActivity() {
         ) {
             handlerStartActivity.sendEmptyMessageDelayed(1, 500)
         } else {
-            //进入主页
+            //todo 更新用户Cookie后进入主页
             handlerStartActivity.sendEmptyMessageDelayed(0, 500)
+        }
+        isEmulator()
+    }
+
+    private fun isEmulator() {
+        Log.i(TAG, "isEmulator: ${Build.HARDWARE}")
+        if (Build.HARDWARE == "ranchu") {
+            RetrofitApi.baseUrl = "http://10.0.2.2:3000"
+        } else {
+            RetrofitApi.baseUrl = "http://192.168.123.166:3000"
         }
     }
 

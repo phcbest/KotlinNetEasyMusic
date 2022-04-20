@@ -11,7 +11,7 @@ class SpStorageUtils {
     companion object {
         public const val SP_NULL = "sp_null"
 
-        var instance = SpStorageUtils()
+        private var instance = SpStorageUtils()
         fun newInstance(): SpStorageUtils {
             return instance
         }

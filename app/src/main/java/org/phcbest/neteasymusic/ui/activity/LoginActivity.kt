@@ -47,8 +47,8 @@ class LoginActivity : BaseActivity() {
                 val body = result.body()!!
                 if (body.code == 200) {
 //                    Log.i(TAG, "doLogin: ${result.headers()}")
-                    SpStorageUtils.instance.storageCookie(body)
-                    SpStorageUtils.instance.storageLoginBean(body)
+                    SpStorageUtils.newInstance().storageCookie(body)
+                    SpStorageUtils.newInstance().storageLoginBean(body)
                     ToastUtils.SEND_SMG("登录成功")
                     startActivity(Intent(baseContext, MainActivity::class.java))
                 } else {

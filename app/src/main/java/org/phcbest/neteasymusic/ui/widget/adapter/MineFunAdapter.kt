@@ -6,14 +6,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.databinding.AdapterMineFunBinding
-import org.phcbest.neteasymusic.ui.widget.adapter.adapter_data.MineFunAdapterBean
+import org.phcbest.neteasymusic.ui.widget.adapter.adapter_data.MineFunAdapterData
 import java.util.concurrent.CopyOnWriteArrayList
 
-class MineFunAdapter(var onItemClick: (MineFunAdapterBean.MineFunItemEnum) -> Unit) :
+class MineFunAdapter(var onItemClick: (MineFunAdapterData.MineFunItemEnum) -> Unit) :
     RecyclerView.Adapter<MineFunAdapter.ViewHolder>() {
 
-    var mineFunItemBeans: CopyOnWriteArrayList<MineFunAdapterBean.MineFunItemBean> =
-        MineFunAdapterBean.getInstance().mineFunItemBeans
+    var mineFunItemBeans: CopyOnWriteArrayList<MineFunAdapterData.MineFunItemBean> =
+        MineFunAdapterData.getInstance().mineFunItemBeans
 
     class ViewHolder(var binding: AdapterMineFunBinding) : RecyclerView.ViewHolder(binding.root)
 

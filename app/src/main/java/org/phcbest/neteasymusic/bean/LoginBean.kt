@@ -137,7 +137,7 @@ data class LoginBean(
         @SerializedName("signature")
         val signature: String,
         @SerializedName("userId")
-        val userId: Int, // 298385261
+        val userId: Long, // 298385261
         @SerializedName("userType")
         val userType: Int, // 0
         @SerializedName("vipType")

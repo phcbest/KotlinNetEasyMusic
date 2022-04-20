@@ -14,4 +14,5 @@
 
 
     <color name="easy_red">#ED7B7B</color>
+    <color name="transparent_color">#00000000</color>
 </resources>

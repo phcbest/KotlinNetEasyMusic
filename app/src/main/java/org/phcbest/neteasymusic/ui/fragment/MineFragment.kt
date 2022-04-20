@@ -16,13 +16,19 @@ import org.phcbest.neteasymusic.bean.UserPlaylistBean
 import org.phcbest.neteasymusic.databinding.FragmentMineBinding
 import org.phcbest.neteasymusic.ui.fragment.viewmodel.MineFragmentViewModel
 import org.phcbest.neteasymusic.ui.widget.adapter.MineFunAdapter
-import org.phcbest.neteasymusic.ui.widget.adapter.adapter_data.MineFunAdapterBean
+import org.phcbest.neteasymusic.ui.widget.adapter.MinePlayListAdapter
+import org.phcbest.neteasymusic.ui.widget.adapter.adapter_data.MineFunAdapterData
+import org.phcbest.neteasymusic.utils.SpStorageUtils
 
 private const val TAG = "MineFragment"
 
 class MineFragment : BaseFragment() {
     var binding: FragmentMineBinding? = null
 
+    var minePlayListStarAdapter: MinePlayListAdapter? = null
+    var minePlayListCreateAdapter: MinePlayListAdapter? = null
+
+    var uid = SpStorageUtils.newInstance().getLoginBean()?.profile?.userId
 
     companion object {
         @JvmStatic
@@ -33,15 +39,20 @@ class MineFragment : BaseFragment() {
     override fun initPresenter() {
     }
 
-    private var onItemClick: (MineFunAdapterBean.MineFunItemEnum) -> Unit =
+    private var onItemClick: (MineFunAdapterData.MineFunItemEnum) -> Unit =
         { minefunItemEnum ->
             Log.i(TAG, "onItemClick:${minefunItemEnum} ")
         }
 
     override fun initView() {
+//        binding?.lifecycleOwner = this
         binding?.rvMineFun?.layoutManager = GridLayoutManager(this.context, 4)
         binding?.rvMineFun?.adapter = MineFunAdapter(onItemClick)
-//        binding?.lifecycleOwner = this
+        //适配两个RecyclerView
+        minePlayListCreateAdapter = MinePlayListAdapter()
+        minePlayListStarAdapter = MinePlayListAdapter()
+        binding?.rvMineCreateList?.adapter = minePlayListCreateAdapter
+        binding?.rvMineStarList?.adapter = minePlayListStarAdapter
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -74,6 +85,24 @@ class MineFragment : BaseFragment() {
                     override fun onChanged(t: UserPlaylistBean?) {
                         Log.i(TAG, "onChanged:UserPlaylistBean 数据变化触发")
                         binding?.playlist = t?.playlist?.get(0)
+
+                        //过滤数据
+                        val userPlaylist = t!!.playlist.toMutableList()
+                        userPlaylist.let {
+                            //去除默认歌单我喜欢的
+                            it.removeAt(0)
+                            val create = it.filter { playlist ->
+                                playlist.creator.userId == uid
+                            }
+                            val star = it.filterNot { playlist ->
+                                Log.i(TAG, "onChanged: ${playlist.subscribed}")
+                                playlist.creator.userId == uid
+                            }
+                            binding?.createPlaylistNum = create.size
+                            binding?.starPlaylistNum = star.size
+                            minePlayListCreateAdapter?.setItemData(create)
+                            minePlayListStarAdapter?.setItemData(star)
+                        }
                     }
                 })
     }

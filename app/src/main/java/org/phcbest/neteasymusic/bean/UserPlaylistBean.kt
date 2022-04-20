@@ -14,6 +14,7 @@ data class UserPlaylistBean(
     val version: String // 1649561708357
 ) {
     data class Playlist(
+
         @SerializedName("adType")
         val adType: Int, // 0
         @SerializedName("anonimous")
@@ -96,6 +97,7 @@ data class UserPlaylistBean(
         val updateTime: Long, // 1649938400062
         @SerializedName("userId")
         val userId: Long // 298385261
+
     ) {
         data class Creator(
             @SerializedName("accountStatus")
@@ -162,4 +164,5 @@ data class UserPlaylistBean(
             val vipType: Int // 11
         )
     }
+
 }
