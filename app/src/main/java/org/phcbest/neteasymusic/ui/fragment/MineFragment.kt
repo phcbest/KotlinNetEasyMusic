@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseFragment
@@ -53,6 +54,8 @@ class MineFragment : BaseFragment() {
         minePlayListStarAdapter = MinePlayListAdapter()
         binding?.rvMineCreateList?.adapter = minePlayListCreateAdapter
         binding?.rvMineStarList?.adapter = minePlayListStarAdapter
+        //recyclerView lazy load
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

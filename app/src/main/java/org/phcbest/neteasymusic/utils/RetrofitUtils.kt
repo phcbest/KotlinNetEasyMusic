@@ -62,7 +62,7 @@ class LogIntercepted : Interceptor {
             .let {
                 if (it != SpStorageUtils.SP_NULL) {
                     newBuilder.addHeader("Cookie", it)
-//                    Log.i(TAG, "intercept: cookie:$it")
+                    Log.i(TAG, "intercept: cookie:$it")
                 }
             }
         //响应

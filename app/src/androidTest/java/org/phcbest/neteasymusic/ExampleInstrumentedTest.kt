@@ -38,7 +38,7 @@ class ExampleInstrumentedTest {
     }
 
     @Test
-    fun testLogin() {
+    fun testUserAccount() {
         RetrofitUtils.newInstance().getUserAccount().observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({ userAccount ->

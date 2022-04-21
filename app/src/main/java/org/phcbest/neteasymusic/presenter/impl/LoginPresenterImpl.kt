@@ -3,6 +3,7 @@ package org.phcbest.neteasymusic.presenter.impl
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import org.phcbest.neteasymusic.bean.LoginBean
+import org.phcbest.neteasymusic.bean.UserAccountBean
 import org.phcbest.neteasymusic.presenter.ILoginPresenter
 import org.phcbest.neteasymusic.utils.RetrofitUtils
 import org.phcbest.neteasymusic.utils.SpStorageUtils
@@ -36,5 +37,23 @@ class LoginPresenterImpl : ILoginPresenter {
                 throwable.printStackTrace()
                 error(throwable)
             })
+    }
+
+    override fun refreshLogin(success: (Map<String, Int>) -> Unit, error: (Throwable) -> Unit) {
+        RetrofitUtils.newInstance().refreshLogin().subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { success(it) },
+                { it.printStackTrace() }
+            )
+    }
+
+    override fun getUserAccount(success: (UserAccountBean?) -> Unit, error: (Throwable) -> Unit) {
+        RetrofitUtils.newInstance().getUserAccount().subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { success(it) },
+                { it.printStackTrace() }
+            )
     }
 }

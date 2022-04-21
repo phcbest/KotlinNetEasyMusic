@@ -64,7 +64,7 @@ interface RetrofitApi {
      * 刷新登录
      */
     @GET("/login/refresh")
-    fun refreshLogin(): Observable<Map<String, Any>>
+    fun refreshLogin(): Observable<Map<String, Int>>
 
 
     /**

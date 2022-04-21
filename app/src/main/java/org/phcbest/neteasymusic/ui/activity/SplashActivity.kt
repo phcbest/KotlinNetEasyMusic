@@ -8,22 +8,27 @@ import android.os.Message
 import android.util.Log
 import android.widget.ImageView
 import androidx.core.app.ActivityOptionsCompat
+import androidx.lifecycle.ViewModelProviders
 import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseActivity
 import org.phcbest.neteasymusic.databinding.ActivityStartBinding
+import org.phcbest.neteasymusic.ui.activity.viewmodel.SplashActivityViewModel
 import org.phcbest.neteasymusic.utils.RetrofitApi
 import org.phcbest.neteasymusic.utils.SpStorageUtils
-import retrofit2.Retrofit
 
 private const val TAG = "StartActivity"
 
 class SplashActivity : BaseActivity() {
     private var binding: ActivityStartBinding? = null
 
+    private var splashActivityViewModel: SplashActivityViewModel? = null
+
     var mIvStartImg: ImageView? = null
 
+
     override fun initPresenter() {
+
         //判断登录状态
         if (SpStorageUtils.newInstance()
                 .getCookie() == SpStorageUtils.SP_NULL ||
@@ -32,10 +37,19 @@ class SplashActivity : BaseActivity() {
         ) {
             handlerStartActivity.sendEmptyMessageDelayed(1, 500)
         } else {
-            //todo 更新用户Cookie后进入主页
-            handlerStartActivity.sendEmptyMessageDelayed(0, 500)
+            //检测用户登录是否过期
+            splashActivityViewModel?.checkCookieState()
         }
         isEmulator()
+    }
+
+    override fun observeViewModel() {
+        super.observeViewModel()
+        splashActivityViewModel?.loginStatus?.observe(this, {
+            if (it) {
+                handlerStartActivity.sendEmptyMessageDelayed(0, 500)
+            }
+        })
     }
 
     private fun isEmulator() {
@@ -69,6 +83,7 @@ class SplashActivity : BaseActivity() {
     }
 
     override fun initView() {
+        splashActivityViewModel = ViewModelProviders.of(this)[SplashActivityViewModel::class.java]
         mIvStartImg = binding?.ivStartImg
     }
 

@@ -1,10 +1,12 @@
 package org.phcbest.neteasymusic.utils
 
 import android.content.Context.MODE_PRIVATE
+import android.util.Log
 import com.google.gson.Gson
 import org.phcbest.neteasymusic.base.BaseApplication
 import org.phcbest.neteasymusic.bean.LoginBean
 import retrofit2.Response
+import java.util.*
 
 class SpStorageUtils {
 
@@ -20,12 +22,22 @@ class SpStorageUtils {
     private val loginSp =
         BaseApplication.appContext?.getSharedPreferences("login", MODE_PRIVATE)!!
 
-    fun storageCookie(info: LoginBean) {
-        //let是空安全的,不为空才会调用
-        info.cookie.let {
-            //需要格式化为标准cookie
-            loginSp.edit().putString("cookie", it.replace(";;", ";\u0020")).apply()
-        }
+    fun storageCookie(info: Response<LoginBean>) {
+        val s = info.headers()["set-cookie"]
+        Log.i("TAG", "storageCookie: $s")
+//        info.cookie.let {
+//            var cookies = it.split(";;")
+//            cookies = cookies.filter { cookie ->
+//                cookie.contains("__remember_me") || cookie.contains("__csrf")
+//                        || cookie.contains("MUSIC_U") || cookie.contains("NMTID")
+//            }
+//            val stringBuffer = StringBuffer()
+//            cookies.forEach { text ->
+//                stringBuffer.append(text).append(";\u0020");
+//            }
+//            //需要格式化为标准cookie
+//            loginSp.edit().putString("cookie", stringBuffer.toString()).apply()
+//        }
     }
 
     fun getCookie(): String {

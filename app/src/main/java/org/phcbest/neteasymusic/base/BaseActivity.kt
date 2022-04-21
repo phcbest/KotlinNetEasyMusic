@@ -17,6 +17,11 @@ abstract class BaseActivity : AppCompatActivity() {
         initView()
         initEvent()
         initPresenter()
+        observeViewModel()
+    }
+
+    open fun observeViewModel() {
+
     }
 
     //使用open 表示该方法是开放的可以重写也可以不重写

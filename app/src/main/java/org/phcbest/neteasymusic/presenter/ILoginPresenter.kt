@@ -2,6 +2,7 @@ package org.phcbest.neteasymusic.presenter
 
 import org.phcbest.neteasymusic.bean.LoginBean
 import org.phcbest.neteasymusic.bean.SongListBean
+import org.phcbest.neteasymusic.bean.UserAccountBean
 import retrofit2.Response
 
 interface ILoginPresenter {
@@ -16,4 +17,14 @@ interface ILoginPresenter {
         success: (Response<LoginBean>) -> Unit,
         error: (Throwable) -> Unit
     )
+
+    /**
+     * 刷新登录
+     */
+    fun refreshLogin(success: (Map<String, Int>) -> Unit, error: (Throwable) -> Unit)
+
+    /**
+     * 获得用户账号信息
+     */
+    fun getUserAccount(success: (UserAccountBean?) -> Unit, error: (Throwable) -> Unit)
 }

@@ -17,7 +17,7 @@ class MinePlayListAdapter : RecyclerView.Adapter<MinePlayListAdapter.ViewHolder>
 
     fun setItemData(playlist: List<UserPlaylistBean.Playlist>) {
         this.playlist = playlist
-        notifyItemRangeChanged(0, playlist.size)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(
