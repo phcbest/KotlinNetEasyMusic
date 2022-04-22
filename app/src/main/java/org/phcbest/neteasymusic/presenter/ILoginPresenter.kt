@@ -21,7 +21,7 @@ interface ILoginPresenter {
     /**
      * 刷新登录
      */
-    fun refreshLogin(success: (Map<String, Int>) -> Unit, error: (Throwable) -> Unit)
+    fun refreshLogin(success: (Response<Map<String, Int>>) -> Unit, error: (Throwable) -> Unit)
 
     /**
      * 获得用户账号信息

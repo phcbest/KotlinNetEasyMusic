@@ -20,320 +20,337 @@
         <variable
             name="starPlaylistNum"
             type="Integer" />
+
+        <variable
+            name="isLoading"
+            type="Boolean" />
     </data>
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:nestedScrollingEnabled="false"
-        android:scrollbars="none"
-        tools:context=".ui.fragment.MineFragment">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <include
+            layout="@layout/view_isload"
+            app:setVisible="@{isLoading}" />
+
+        <ScrollView
+            android:id="@+id/scroll_mime"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:nestedScrollingEnabled="false"
+            android:scrollbars="none"
+            app:setVisible="@{!isLoading}">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="10dp">
+                android:orientation="vertical">
 
-                <View
-                    android:id="@+id/view_mine_title_bg"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="110dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp">
+
+                    <View
+                        android:id="@+id/view_mine_title_bg"
+                        android:layout_width="match_parent"
+                        android:layout_height="110dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="35dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/shape_mine_car_bg"
+                        android:elevation="2dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.4" />
+
+                    <org.phcbest.neteasymusic.ui.widget.custom.CircularImageView
+                        android:id="@+id/iv_mine_avatar"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_gravity="center|top"
+                        android:elevation="3dp"
+                        app:circularImageSrc="@{userDetailBean.profile.avatarUrl+``}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_mine_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="3dp"
+                        android:letterSpacing="0.05"
+                        android:maxLines="1"
+                        android:text="@{userDetailBean.profile.nickname}"
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/tv_mine_follow_level"
+                        app:layout_constraintEnd_toEndOf="@+id/view_mine_title_bg"
+                        app:layout_constraintStart_toStartOf="@+id/view_mine_title_bg"
+                        app:layout_constraintTop_toBottomOf="@+id/iv_mine_avatar" />
+
+                    <TextView
+                        android:id="@+id/tv_mine_follow_level"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="3dp"
+                        android:letterSpacing="0.05"
+                        android:maxLines="1"
+                        android:text="@{String.format(@string/str_user_follow_level, userDetailBean.profile.follows,userDetailBean.profile.followeds,userDetailBean.level)}"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="@id/view_mine_title_bg"
+                        app:layout_constraintEnd_toEndOf="@+id/view_mine_title_bg"
+                        app:layout_constraintStart_toStartOf="@+id/view_mine_title_bg"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_mine_username" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_mine_fun"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="35dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/shape_mine_car_bg"
                     android:elevation="2dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.4" />
-
-                <org.phcbest.neteasymusic.ui.widget.custom.CircularImageView
-                    android:id="@+id/iv_mine_avatar"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_gravity="center|top"
-                    android:elevation="3dp"
-                    app:circularImageSrc="@{userDetailBean.profile.avatarUrl+``}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_mine_username"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:elevation="3dp"
-                    android:letterSpacing="0.05"
-                    android:maxLines="1"
-                    android:text="@{userDetailBean.profile.nickname}"
-                    android:textColor="@color/black"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/tv_mine_follow_level"
-                    app:layout_constraintEnd_toEndOf="@+id/view_mine_title_bg"
-                    app:layout_constraintStart_toStartOf="@+id/view_mine_title_bg"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_mine_avatar" />
-
-                <TextView
-                    android:id="@+id/tv_mine_follow_level"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:elevation="3dp"
-                    android:letterSpacing="0.05"
-                    android:maxLines="1"
-                    android:text="@{String.format(@string/str_user_follow_level, userDetailBean.profile.follows,userDetailBean.profile.followeds,userDetailBean.level)}"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="@id/view_mine_title_bg"
-                    app:layout_constraintEnd_toEndOf="@+id/view_mine_title_bg"
-                    app:layout_constraintStart_toStartOf="@+id/view_mine_title_bg"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_mine_username" />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_mine_fun"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/shape_mine_car_bg"
-                android:elevation="2dp"
-                android:padding="5dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/shape_mine_car_bg"
-                android:elevation="2dp"
-                android:orientation="horizontal">
-
-                <androidx.constraintlayout.utils.widget.ImageFilterView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="10dp"
-                    app:round="10dp"
-                    app:roundedCornersImageSrc="@{playlist.coverImgUrl+``}" />
+                    android:padding="5dp" />
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:text="我喜欢的音乐"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{String.format(@string/src_mine_x_songs,(playlist.trackCount+playlist.cloudTrackCount))}"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/shape_mine_doki_mode_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/shape_mine_car_bg"
                     android:elevation="2dp"
-                    android:padding="5dp"
-                    android:text="\u2764心动模式"
-                    android:textSize="12sp" />
-
-            </LinearLayout>
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabl_mine_playlist"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                app:tabBackground="@color/transparent_color"
-                app:tabIndicator="@drawable/layer_mine_tabl"
-                app:tabIndicatorColor="@color/easy_red"
-                app:tabRippleColor="@android:color/transparent"
-                app:tabSelectedTextColor="@color/black">
-
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="创建歌单" />
-
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="收藏歌单" />
-            </com.google.android.material.tabs.TabLayout>
-
-            <!--            创建歌单-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/shape_mine_car_bg"
-                android:elevation="2dp"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:id="@+id/tv_mine_create_list"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@{String.format(@string/str_create_playlist,createPlaylistNum)}"
-                        android:textSize="12sp" />
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginStart="5dp"
-                        android:padding="5dp"
-                        android:src="@drawable/ic_plus" />
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginStart="5dp"
-                        android:padding="5dp"
-                        android:src="@drawable/ic_more" />
-
-                </LinearLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:descendantFocusability="blocksDescendants">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_mine_create_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:nestedScrollingEnabled="false"
-                        android:orientation="vertical"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:id="@+id/linl_mine_import"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:orientation="horizontal">
 
                     <androidx.constraintlayout.utils.widget.ImageFilterView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_gravity="center_vertical"
-                        android:background="#E4E2E2"
-                        android:src="@drawable/ic_import"
-                        app:imageZoom="0.4"
-                        app:round="10dp" />
+                        android:layout_marginStart="10dp"
+                        app:round="10dp"
+                        app:roundedCornersImageSrc="@{playlist.coverImgUrl+``}" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:text="我喜欢的音乐"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{String.format(@string/src_mine_x_songs,(playlist.trackCount+playlist.cloudTrackCount))}"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text="一键导入外部音乐"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/shape_mine_doki_mode_btn"
+                        android:elevation="2dp"
+                        android:padding="5dp"
+                        android:text="\u2764心动模式"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
-            </LinearLayout>
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabl_mine_playlist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    app:tabBackground="@color/transparent_color"
+                    app:tabIndicator="@drawable/layer_mine_tabl"
+                    app:tabIndicatorColor="@color/easy_red"
+                    app:tabRippleColor="@android:color/transparent"
+                    app:tabSelectedTextColor="@color/black">
 
-            <!--            收藏歌单-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="30dp"
-                android:background="@drawable/shape_mine_car_bg"
-                android:elevation="2dp"
-                android:orientation="vertical">
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="创建歌单" />
 
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="收藏歌单" />
+                </com.google.android.material.tabs.TabLayout>
+
+                <!--            创建歌单-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/shape_mine_car_bg"
+                    android:elevation="2dp"
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tv_mine_star"
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@{String.format(@string/str_star_playlist,starPlaylistNum)}"
-                        android:textSize="12sp" />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/tv_mine_create_list"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@{String.format(@string/str_create_playlist,createPlaylistNum)}"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="5dp"
+                            android:padding="5dp"
+                            android:src="@drawable/ic_plus" />
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="5dp"
+                            android:padding="5dp"
+                            android:src="@drawable/ic_more" />
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:descendantFocusability="blocksDescendants">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_mine_create_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="false"
+                            android:orientation="vertical"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linl_mine_import"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <androidx.constraintlayout.utils.widget.ImageFilterView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center_vertical"
+                            android:background="#E4E2E2"
+                            android:src="@drawable/ic_import"
+                            app:imageZoom="0.4"
+                            app:round="10dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="一键导入外部音乐"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--            收藏歌单-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/shape_mine_car_bg"
+                    android:elevation="2dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/tv_mine_star"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@{String.format(@string/str_star_playlist,starPlaylistNum)}"
+                            android:textSize="12sp" />
 
 
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginStart="5dp"
-                        android:padding="5dp"
-                        android:src="@drawable/ic_more" />
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="5dp"
+                            android:padding="5dp"
+                            android:src="@drawable/ic_more" />
+
+                    </LinearLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:descendantFocusability="blocksDescendants">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_mine_star_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="false"
+                            android:orientation="vertical"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                    </RelativeLayout>
 
                 </LinearLayout>
 
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:descendantFocusability="blocksDescendants">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_mine_star_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:nestedScrollingEnabled="false"
-                        android:orientation="vertical"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-                </RelativeLayout>
-
             </LinearLayout>
+        </ScrollView>
 
+    </FrameLayout>
 
-        </LinearLayout>
-    </ScrollView>
 </layout>

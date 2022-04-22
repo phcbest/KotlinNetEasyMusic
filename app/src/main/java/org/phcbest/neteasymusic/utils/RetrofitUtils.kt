@@ -60,7 +60,7 @@ class LogIntercepted : Interceptor {
         val newBuilder = request.newBuilder()
         SpStorageUtils.newInstance().getCookie()
             .let {
-                if (it != SpStorageUtils.SP_NULL) {
+                if (!it.contains(SpStorageUtils.SP_NULL)) {
                     newBuilder.addHeader("Cookie", it)
                     Log.i(TAG, "intercept: cookie:$it")
                 }

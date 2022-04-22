@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.phcbest.neteasymusic.presenter.ILoginPresenter
 import org.phcbest.neteasymusic.presenter.PresenterManager
+import org.phcbest.neteasymusic.utils.SpStorageUtils
 
 class SplashActivityViewModel : ViewModel() {
     companion object {
@@ -30,8 +31,10 @@ class SplashActivityViewModel : ViewModel() {
 
     fun refreshLogin() {
         loginPresenter.refreshLogin({
-
-            if (it["code"] == 200) {
+            if (it.body() == null || it.body()!!["code"] != 200) {
+                this.loginStatus.postValue(false)
+            } else if (it.body()!!["code"] != 200) {
+                SpStorageUtils.newInstance().updateCookieNMTID(it)
                 this.loginStatus.postValue(true)
             }
         }, {})

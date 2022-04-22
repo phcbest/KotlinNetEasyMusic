@@ -16,6 +16,7 @@ import org.phcbest.neteasymusic.databinding.ActivityStartBinding
 import org.phcbest.neteasymusic.ui.activity.viewmodel.SplashActivityViewModel
 import org.phcbest.neteasymusic.utils.RetrofitApi
 import org.phcbest.neteasymusic.utils.SpStorageUtils
+import org.phcbest.neteasymusic.utils.ToastUtils
 
 private const val TAG = "StartActivity"
 
@@ -31,7 +32,7 @@ class SplashActivity : BaseActivity() {
 
         //判断登录状态
         if (SpStorageUtils.newInstance()
-                .getCookie() == SpStorageUtils.SP_NULL ||
+                .getCookie().contains(SpStorageUtils.SP_NULL) ||
             SpStorageUtils.newInstance()
                 .getLoginBean() == null
         ) {
@@ -47,6 +48,9 @@ class SplashActivity : BaseActivity() {
         super.observeViewModel()
         splashActivityViewModel?.loginStatus?.observe(this, {
             if (it) {
+                handlerStartActivity.sendEmptyMessageDelayed(0, 500)
+            } else {
+                ToastUtils.SEND_SMG("登录过期需要登录")
                 handlerStartActivity.sendEmptyMessageDelayed(0, 500)
             }
         })

@@ -1,12 +1,10 @@
 package org.phcbest.neteasymusic.utils
 
 import android.content.Context.MODE_PRIVATE
-import android.util.Log
 import com.google.gson.Gson
 import org.phcbest.neteasymusic.base.BaseApplication
 import org.phcbest.neteasymusic.bean.LoginBean
 import retrofit2.Response
-import java.util.*
 
 class SpStorageUtils {
 
@@ -23,26 +21,53 @@ class SpStorageUtils {
         BaseApplication.appContext?.getSharedPreferences("login", MODE_PRIVATE)!!
 
     fun storageCookie(info: Response<LoginBean>) {
-        val s = info.headers()["set-cookie"]
-        Log.i("TAG", "storageCookie: $s")
-//        info.cookie.let {
-//            var cookies = it.split(";;")
-//            cookies = cookies.filter { cookie ->
-//                cookie.contains("__remember_me") || cookie.contains("__csrf")
-//                        || cookie.contains("MUSIC_U") || cookie.contains("NMTID")
-//            }
-//            val stringBuffer = StringBuffer()
-//            cookies.forEach { text ->
-//                stringBuffer.append(text).append(";\u0020");
-//            }
-//            //需要格式化为标准cookie
-//            loginSp.edit().putString("cookie", stringBuffer.toString()).apply()
-//        }
+        info.body()!!.cookie.let {
+            val cookies = it.split(";;")
+            for (cookie in cookies) {
+                if (cookie.contains("__remember_me")) {
+                    loginSp.edit().putString("cookie-__remember_me", "$cookie;\u0020").apply()
+                }
+                if (cookie.contains("__csrf")) {
+                    loginSp.edit().putString("cookie-__csrf", "$cookie;\u0020").apply()
+                }
+                if (cookie.contains("MUSIC_U")) {
+                    loginSp.edit().putString("cookie-MUSIC_U", "$cookie;\u0020").apply()
+                }
+                if (cookie.contains("NMTID")) {
+                    loginSp.edit().putString("cookie-NMTID", "$cookie;\u0020").apply()
+                }
+            }
+
+        }
+    }
+
+    fun updateCookieNMTID(refresh: Response<Map<String, Int>>) {
+        val s = refresh.raw().headers("Set-Cookie").filter { it.contains("NMTID") }[0]
+        loginSp.edit().putString("cookie-NMTID", "$s\u0020").apply()
     }
 
     fun getCookie(): String {
-        val cookie = loginSp.getString("cookie", SP_NULL)
-        return cookie!!
+        return "${
+            loginSp.getString(
+                "cookie-__remember_me",
+                SP_NULL
+            )
+        }${
+            loginSp.getString(
+                "cookie-__csrf",
+                SP_NULL
+            )
+        }${
+            loginSp.getString(
+                "cookie-MUSIC_U",
+                SP_NULL
+            )
+        }${
+            loginSp.getString(
+                "cookie-NMTID",
+                SP_NULL
+            )
+        }"
     }
 
     fun storageLoginBean(info: LoginBean) {

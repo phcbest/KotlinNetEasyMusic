@@ -3,12 +3,12 @@ package org.phcbest.neteasymusic.ui.fragment
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseFragment
@@ -45,6 +45,19 @@ class MineFragment : BaseFragment() {
             Log.i(TAG, "onItemClick:${minefunItemEnum} ")
         }
 
+    private var onScrollChange =
+        object : View.OnScrollChangeListener {
+            override fun onScrollChange(
+                v: View?,
+                scrollX: Int,
+                scrollY: Int,
+                oldScrollX: Int,
+                oldScrollY: Int
+            ) {
+
+            }
+        }
+
     override fun initView() {
 //        binding?.lifecycleOwner = this
         binding?.rvMineFun?.layoutManager = GridLayoutManager(this.context, 4)
@@ -54,7 +67,10 @@ class MineFragment : BaseFragment() {
         minePlayListStarAdapter = MinePlayListAdapter()
         binding?.rvMineCreateList?.adapter = minePlayListCreateAdapter
         binding?.rvMineStarList?.adapter = minePlayListStarAdapter
-        //recyclerView lazy load
+        binding?.isLoading = true
+
+        //设置吸顶效果
+        binding?.scrollMime?.setOnScrollChangeListener(onScrollChange)
 
     }
 
@@ -65,7 +81,6 @@ class MineFragment : BaseFragment() {
             this
 //            , ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
         )[MineFragmentViewModel::class.java]
-
         observeViewModel(viewModel)
 //        viewModel.setUserDetail()
     }
@@ -105,6 +120,8 @@ class MineFragment : BaseFragment() {
                             binding?.starPlaylistNum = star.size
                             minePlayListCreateAdapter?.setItemData(create)
                             minePlayListStarAdapter?.setItemData(star)
+
+                            binding?.isLoading = false
                         }
                     }
                 })

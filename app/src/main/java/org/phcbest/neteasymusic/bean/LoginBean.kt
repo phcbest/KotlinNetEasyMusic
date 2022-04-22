@@ -31,7 +31,7 @@ data class LoginBean(
         @SerializedName("donateVersion")
         val donateVersion: Int, // 0
         @SerializedName("id")
-        val id: Int, // 298385261
+        val id: Long, // 298385261
         @SerializedName("salt")
         val salt: String, // [B@615951b3
         @SerializedName("status")
@@ -70,7 +70,7 @@ data class LoginBean(
         @SerializedName("url")
         val url: String,
         @SerializedName("userId")
-        val userId: Int // 298385261
+        val userId: Long // 298385261
     )
 
     data class Profile(

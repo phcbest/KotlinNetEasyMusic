@@ -56,5 +56,16 @@ class CustomBindingAdapter {
                         .append(playlist.creator.nickname).toString()
             }
         }
+
+
+        /**
+         * 设置控件的隐藏和显示
+         * @param status true是显示 false是隐藏
+         */
+        @JvmStatic
+        @BindingAdapter("setVisible")
+        fun setVisible(view: View, status: Boolean) {
+            view.visibility = if (status) View.VISIBLE else View.GONE
+        }
     }
 }

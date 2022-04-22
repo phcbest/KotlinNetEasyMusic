@@ -6,7 +6,6 @@ import org.phcbest.neteasymusic.bean.LoginBean
 import org.phcbest.neteasymusic.bean.UserAccountBean
 import org.phcbest.neteasymusic.presenter.ILoginPresenter
 import org.phcbest.neteasymusic.utils.RetrofitUtils
-import org.phcbest.neteasymusic.utils.SpStorageUtils
 import retrofit2.Response
 
 class LoginPresenterImpl : ILoginPresenter {
@@ -39,7 +38,10 @@ class LoginPresenterImpl : ILoginPresenter {
             })
     }
 
-    override fun refreshLogin(success: (Map<String, Int>) -> Unit, error: (Throwable) -> Unit) {
+    override fun refreshLogin(
+        success: (Response<Map<String, Int>>) -> Unit,
+        error: (Throwable) -> Unit
+    ) {
         RetrofitUtils.newInstance().refreshLogin().subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
