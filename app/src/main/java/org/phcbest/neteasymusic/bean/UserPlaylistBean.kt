@@ -2,6 +2,7 @@ package org.phcbest.neteasymusic.bean
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class UserPlaylistBean(
     @SerializedName("code")
@@ -12,9 +13,8 @@ data class UserPlaylistBean(
     val playlist: List<Playlist>,
     @SerializedName("version")
     val version: String // 1649561708357
-) {
+) : Serializable {
     data class Playlist(
-
         @SerializedName("adType")
         val adType: Int, // 0
         @SerializedName("anonimous")
@@ -98,7 +98,11 @@ data class UserPlaylistBean(
         @SerializedName("userId")
         val userId: Long // 298385261
 
-    ) {
+    ) : Serializable {
+        companion object {
+            private const val serialVersionUID = 1L
+        }
+
         data class Creator(
             @SerializedName("accountStatus")
             val accountStatus: Int, // 0
@@ -162,7 +166,7 @@ data class UserPlaylistBean(
             val userType: Int, // 0
             @SerializedName("vipType")
             val vipType: Int // 11
-        )
+        ) : Serializable
     }
 
 }

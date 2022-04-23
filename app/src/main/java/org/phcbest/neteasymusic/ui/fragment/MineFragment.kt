@@ -1,5 +1,6 @@
 package org.phcbest.neteasymusic.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import org.phcbest.neteasymusic.base.BaseFragment
 import org.phcbest.neteasymusic.bean.UserDetailBean
 import org.phcbest.neteasymusic.bean.UserPlaylistBean
 import org.phcbest.neteasymusic.databinding.FragmentMineBinding
+import org.phcbest.neteasymusic.ui.activity.PlayListDetailActivity
 import org.phcbest.neteasymusic.ui.fragment.viewmodel.MineFragmentViewModel
 import org.phcbest.neteasymusic.ui.widget.adapter.MineFunAdapter
 import org.phcbest.neteasymusic.ui.widget.adapter.MinePlayListAdapter
@@ -57,20 +59,29 @@ class MineFragment : BaseFragment() {
 
             }
         }
+    private var onClick: (View, UserPlaylistBean.Playlist) -> Unit =
+        { view: View, playlist: UserPlaylistBean.Playlist ->
+            //跳转到歌单详情页面
+            val intent = Intent(this.context, PlayListDetailActivity::class.java)
+            intent.putExtra(PlayListDetailActivity.TAG, playlist)
+            startActivity(intent)
+
+        }
 
     override fun initView() {
 //        binding?.lifecycleOwner = this
         binding?.rvMineFun?.layoutManager = GridLayoutManager(this.context, 4)
         binding?.rvMineFun?.adapter = MineFunAdapter(onItemClick)
         //适配两个RecyclerView
-        minePlayListCreateAdapter = MinePlayListAdapter()
-        minePlayListStarAdapter = MinePlayListAdapter()
+        minePlayListCreateAdapter = MinePlayListAdapter(onClick)
+        minePlayListStarAdapter = MinePlayListAdapter(onClick)
         binding?.rvMineCreateList?.adapter = minePlayListCreateAdapter
         binding?.rvMineStarList?.adapter = minePlayListStarAdapter
         binding?.isLoading = true
 
-        //设置吸顶效果
+        //todo 设置吸顶效果
         binding?.scrollMime?.setOnScrollChangeListener(onScrollChange)
+
 
     }
 
@@ -103,6 +114,10 @@ class MineFragment : BaseFragment() {
                     override fun onChanged(t: UserPlaylistBean?) {
                         Log.i(TAG, "onChanged:UserPlaylistBean 数据变化触发")
                         binding?.playlist = t?.playlist?.get(0)
+                        //设置我喜欢的点击事件
+                        binding?.llMineMyLike?.setOnClickListener {
+                            onClick(it, t?.playlist?.get(0)!!)
+                        }
 
                         //过滤数据
                         val userPlaylist = t!!.playlist.toMutableList()

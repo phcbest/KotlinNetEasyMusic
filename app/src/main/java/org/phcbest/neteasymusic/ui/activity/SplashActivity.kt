@@ -81,8 +81,6 @@ class SplashActivity : BaseActivity() {
             }
             //结束启动页
             finish()
-            //切换动画
-            overridePendingTransition(R.anim.anim_activity_fade_out, R.anim.anim_activity_fade_in)
         }
     }
 

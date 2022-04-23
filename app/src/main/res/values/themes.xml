@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.NetEasyMusic" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#fafafa</item>
-        <item name="colorPrimaryVariant">#DDDDDD</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/white</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">#ffffff</item>
