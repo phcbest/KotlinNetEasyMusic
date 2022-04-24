@@ -1,5 +1,6 @@
 package org.phcbest.neteasymusic
 
+import android.util.Log
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.gson.Gson
@@ -10,7 +11,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.junit.Assert.*
-import org.phcbest.neteasymusic.utils.RetrofitApi
+import org.phcbest.neteasymusic.utils.ndk_link.GaussianBlurUtils
 import org.phcbest.neteasymusic.utils.RetrofitUtils
 import org.phcbest.neteasymusic.utils.SpStorageUtils
 
@@ -46,5 +47,10 @@ class ExampleInstrumentedTest {
             }, {
                 it.printStackTrace()
             })
+    }
+
+    @Test
+    fun testNdk() {
+        Log.i(TAG, "testNdk: ${GaussianBlurUtils.newInstance().stringFromJNI()}")
     }
 }

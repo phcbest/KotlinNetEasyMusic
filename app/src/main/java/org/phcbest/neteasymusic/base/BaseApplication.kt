@@ -9,6 +9,10 @@ class BaseApplication : Application() {
         fun getBaseContext(): Context {
             return appContext!!
         }
+
+        init {
+            System.loadLibrary("native-lib")
+        }
     }
 
     override fun onCreate() {
