@@ -1,27 +1,17 @@
-/*************************************************
-Copyright:  Copyright QIUJUER 2016.
-Author:		QiuJuer
-CreateDate:		2015-04-28
-ChangeDate: 	2016-05-29
-Description:Realize image blurred images blurred
-**************************************************/
 #include <malloc.h>
 
 #define ABS(a) ((a)<(0)?(-a):(a))
 #define MAX(a, b) ((a)>(b)?(a):(b))
 #define MIN(a, b) ((a)<(b)?(a):(b))
 
-/*************************************************
-Function:		StackBlur
-Description:    Using stack way blurred image pixels
-Calls:          malloc
-Table Accessed: NULL
-Table Updated:	NULL
-Input:          Collection of pixels, wide image, image is high, the blur radius
-Output:         After return to fuzzy collection of pixels
-Return:         After return to fuzzy collection of pixels
-Others:         NULL
-*************************************************/
+/**
+ *
+ * @param pix 像素的集合
+ * @param w 图片宽度
+ * @param h 图片高度
+ * @param radius 模糊半径
+ * @return 对像素进行模糊的集合
+ */
 int *blur_ARGB_8888(int *pix, int w, int h, int radius) {
     int wm = w - 1;
     int hm = h - 1;
@@ -70,8 +60,7 @@ int *blur_ARGB_8888(int *pix, int w, int h, int radius) {
                 rinsum += sir[0];
                 ginsum += sir[1];
                 binsum += sir[2];
-            }
-            else {
+            } else {
                 routsum += sir[0];
                 goutsum += sir[1];
                 boutsum += sir[2];
@@ -150,8 +139,7 @@ int *blur_ARGB_8888(int *pix, int w, int h, int radius) {
                 rinsum += sir[0];
                 ginsum += sir[1];
                 binsum += sir[2];
-            }
-            else {
+            } else {
                 routsum += sir[0];
                 goutsum += sir[1];
                 boutsum += sir[2];
@@ -271,8 +259,7 @@ short *blur_RGB_565(short *pix, int w, int h, int radius) {
                 rinsum += sir[0];
                 ginsum += sir[1];
                 binsum += sir[2];
-            }
-            else {
+            } else {
                 routsum += sir[0];
                 goutsum += sir[1];
                 boutsum += sir[2];
@@ -351,8 +338,7 @@ short *blur_RGB_565(short *pix, int w, int h, int radius) {
                 rinsum += sir[0];
                 ginsum += sir[1];
                 binsum += sir[2];
-            }
-            else {
+            } else {
                 routsum += sir[0];
                 goutsum += sir[1];
                 boutsum += sir[2];

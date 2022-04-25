@@ -34,7 +34,6 @@
                         android:layout_centerInParent="true"
                         android:layout_marginStart="30dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/sample_avatar"
                         app:round="10dp" />
 
                     <LinearLayout
