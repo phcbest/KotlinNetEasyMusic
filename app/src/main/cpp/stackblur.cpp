@@ -1,8 +1,13 @@
 #include <malloc.h>
+#include <android/log.h>
+#include <string>
 
 #define ABS(a) ((a)<(0)?(-a):(a))
 #define MAX(a, b) ((a)>(b)?(a):(b))
 #define MIN(a, b) ((a)<(b)?(a):(b))
+#define TAG "blur"
+//打印log的宏定义
+#define LOG_D(...) __android_log_print(ANDROID_LOG_DEBUG,TAG ,__VA_ARGS__)
 
 /**
  *
@@ -13,21 +18,30 @@
  * @return 对像素进行模糊的集合
  */
 int *blur_ARGB_8888(int *pix, int w, int h, int radius) {
-    int wm = w - 1;
-    int hm = h - 1;
-    int wh = w * h;
-    int div = radius + radius + 1;
+    int wm = w - 1; //宽度减去边缘
+    int hm = h - 1; //高度减去边缘
+    int wh = w * h; //图片面积
+    int div = radius + radius + 1; //模糊区域的长度 = 两边的模糊半径+中间像素点
 
+    //分配内存指针，内存大小为图片面积乘short大小，三个指针指向图片的rgb三种颜色的权重
     short *r = (short *) malloc(wh * sizeof(short));
     short *g = (short *) malloc(wh * sizeof(short));
     short *b = (short *) malloc(wh * sizeof(short));
     int rsum, gsum, bsum, x, y, i, p, yp, yi, yw;
 
+    //按照宽高最大值创造一个矩形
     int *vmin = (int *) malloc(MAX(w, h) * sizeof(int));
 
-    int divsum = (div + 1) >> 1;
+    LOG_D("div大小%d", div);
+    int divsum = (div + 1) >> 1; //+1后右移一位，目的在于/2
+    LOG_D("div+1后右移一位%d", divsum);
+
+    //自我乘等，算出模糊div采样区域的面积
     divsum *= divsum;
+    //分配div模糊采样区域的面积,带256位色彩
     short *dv = (short *) malloc(256 * divsum * sizeof(short));
+
+    //遍历设置模糊区域的色彩数值
     for (i = 0; i < 256 * divsum; i++) {
         dv[i] = (short) (i / divsum);
     }

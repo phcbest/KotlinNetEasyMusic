@@ -19,12 +19,18 @@
                 android:layout_height="match_parent"
                 app:contentScrim="@color/white"
                 app:layout_scrollFlags="scroll|enterAlwaysCollapsed|exitUntilCollapsed"
-                app:titleEnabled="true">
+                app:titleEnabled="false">
                 <!--                可伸缩背景-->
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:layout_collapseMode="parallax">
+
+                    <ImageView
+                        android:id="@+id/iv_playlist_detail_bg"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop" />
 
                     <androidx.constraintlayout.utils.widget.ImageFilterView
                         android:id="@+id/iv_playlist_detail_cover"
@@ -34,6 +40,7 @@
                         android:layout_centerInParent="true"
                         android:layout_marginStart="30dp"
                         android:scaleType="centerCrop"
+                        android:src="@drawable/sample_avatar"
                         app:round="10dp" />
 
                     <LinearLayout

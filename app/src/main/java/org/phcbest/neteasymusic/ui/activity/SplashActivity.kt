@@ -14,6 +14,7 @@ import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseActivity
 import org.phcbest.neteasymusic.databinding.ActivityStartBinding
 import org.phcbest.neteasymusic.ui.activity.viewmodel.SplashActivityViewModel
+import org.phcbest.neteasymusic.utils.Constants
 import org.phcbest.neteasymusic.utils.RetrofitApi
 import org.phcbest.neteasymusic.utils.SpStorageUtils
 import org.phcbest.neteasymusic.utils.ToastUtils
