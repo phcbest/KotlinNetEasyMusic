@@ -69,7 +69,7 @@ class LogIntercepted : Interceptor {
         val response = chain.proceed(request)
         Log.i(
             TAG,
-            format.format(Date()) + " Response " + "\nsucc essful:" + response.isSuccessful + "\nbody:" + response.peekBody(
+            format.format(Date()) + " Response " + "\nsuccessful:" + response.isSuccessful + "\nbody:" + response.peekBody(
                 1024
             ).string()
         )

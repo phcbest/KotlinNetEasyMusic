@@ -7,7 +7,7 @@ data class SongUrlBean(
     @SerializedName("code")
     val code: Int, // 200
     @SerializedName("data")
-    val `data`: List<Data>
+    val `data`: List<Data>,
 ) {
     data class Data(
         @SerializedName("br")
@@ -31,7 +31,7 @@ data class SongUrlBean(
         @SerializedName("freeTrialPrivilege")
         val freeTrialPrivilege: FreeTrialPrivilege,
         @SerializedName("gain")
-        val gain: Int, // 0
+        val gain: Double, // 0
         @SerializedName("id")
         val id: Int, // 29732992
         @SerializedName("level")
@@ -49,7 +49,7 @@ data class SongUrlBean(
         @SerializedName("url")
         val url: String, // http://m801.music.126.net/20220325204752/dc3acec9539cf02ddca0f88408a98f05/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/8955009583/a44c/8b30/9bfe/cd16800967e08d8d048f07333223e0bd.mp3
         @SerializedName("urlSource")
-        val urlSource: Int // 0
+        val urlSource: Int, // 0
     ) {
         data class FreeTimeTrialPrivilege(
             @SerializedName("remainTime")
@@ -59,7 +59,7 @@ data class SongUrlBean(
             @SerializedName("type")
             val type: Int, // 0
             @SerializedName("userConsumable")
-            val userConsumable: Boolean // false
+            val userConsumable: Boolean, // false
         )
 
         data class FreeTrialPrivilege(
@@ -68,7 +68,7 @@ data class SongUrlBean(
             @SerializedName("resConsumable")
             val resConsumable: Boolean, // false
             @SerializedName("userConsumable")
-            val userConsumable: Boolean // false
+            val userConsumable: Boolean, // false
         )
     }
 }

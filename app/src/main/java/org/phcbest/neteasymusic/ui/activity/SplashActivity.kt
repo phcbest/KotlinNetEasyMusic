@@ -18,6 +18,7 @@ import org.phcbest.neteasymusic.utils.Constants
 import org.phcbest.neteasymusic.utils.RetrofitApi
 import org.phcbest.neteasymusic.utils.SpStorageUtils
 import org.phcbest.neteasymusic.utils.ToastUtils
+import org.phcbest.neteasymusic.utils.ui.StatusBarUtil
 
 private const val TAG = "StartActivity"
 
@@ -57,6 +58,7 @@ class SplashActivity : BaseActivity() {
         })
     }
 
+
     private fun isEmulator() {
         Log.i(TAG, "isEmulator: ${Build.HARDWARE}")
         if (Build.HARDWARE == "ranchu") {
@@ -90,6 +92,7 @@ class SplashActivity : BaseActivity() {
         mIvStartImg = binding?.ivStartImg
     }
 
+
     override fun initEvent() {
         super.initEvent()
     }
@@ -98,4 +101,5 @@ class SplashActivity : BaseActivity() {
         binding = ActivityStartBinding.inflate(layoutInflater)
         return binding!!
     }
+
 }

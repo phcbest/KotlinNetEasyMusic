@@ -1,10 +1,6 @@
 package org.phcbest.neteasymusic.ui.activity
 
-import android.annotation.TargetApi
-import android.os.Build
 import android.view.View
-import android.view.Window
-import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.R
@@ -72,7 +68,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initPresenter() {
-        getSongInfoPresenter = PresenterManager.getInstance().getMainPresenter()
+        getSongInfoPresenter = PresenterManager.getInstance().getSongInfoPresenter()
         getSongInfoPresenter!!.getSongDetailByIDs(
             "29732992",
             { songDetailBean ->

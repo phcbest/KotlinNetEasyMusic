@@ -5,18 +5,17 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
+import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.R
-import org.phcbest.neteasymusic.utils.ui.StatusBarUtil
 
 
 abstract class BaseActivity : AppCompatActivity() {
 
+    protected var isTransparentStatusBar: Boolean = false
     private var vb: ViewBinding? = null
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +25,7 @@ abstract class BaseActivity : AppCompatActivity() {
         //绑定view
         setContentView(vb!!.root)
         initView()
-        setStatusBar()
+        setStatusBar(0xffffff)
         initEvent()
         initPresenter()
         observeViewModel()
@@ -70,26 +69,24 @@ abstract class BaseActivity : AppCompatActivity() {
 
     //设置状态栏颜色
     @TargetApi(Build.VERSION_CODES.KITKAT)
-    open fun setStatusBar() {
-//        if (isTransparentStatusBar) {
-//            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-//            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
-//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-//            window.statusBarColor = Color.TRANSPARENT
-//        } else {
-//            //取消设置透明状态栏,使 ContentView 内容不再覆盖状态栏
-//            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-//            //需要设置这个 flag 才能调用 setStatusBarColor 来设置状态栏颜色
-//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-//            //设置状态栏颜色
-//            window.statusBarColor = color
-//            //状态栏白底黑字的实现方法
-//            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-//            //去掉系统状态栏下的windowContentOverlay
-//            findViewById<View>(android.R.id.content).foreground = null
-//        }
-        StatusBarUtil.setTransparent(this)
-
+    open fun setStatusBar(color: Int) {
+        if (isTransparentStatusBar) {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.statusBarColor = Color.TRANSPARENT
+        } else {
+            //取消设置透明状态栏,使 ContentView 内容不再覆盖状态栏
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            //需要设置这个 flag 才能调用 setStatusBarColor 来设置状态栏颜色
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            //设置状态栏颜色
+            window.statusBarColor = color
+            //状态栏白底黑字的实现方法
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            //去掉系统状态栏下的windowContentOverlay
+            findViewById<View>(android.R.id.content).foreground = null
+        }
     }
 }

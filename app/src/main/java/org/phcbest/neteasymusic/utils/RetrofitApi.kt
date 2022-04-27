@@ -1,6 +1,7 @@
 package org.phcbest.neteasymusic.utils
 
 import io.reactivex.rxjava3.core.Observable
+import org.phcbest.neteasymusic.bean.PlayListDetailBean
 import org.phcbest.neteasymusic.bean.*
 import retrofit2.Response
 import retrofit2.http.GET
@@ -42,7 +43,7 @@ interface RetrofitApi {
     @GET("/login/cellphone")
     fun login(
         @Query("phone") phone: String,
-        @Query("captcha") captcha: String
+        @Query("captcha") captcha: String,
     ): Observable<Response<LoginBean>>
 
 
@@ -76,6 +77,13 @@ interface RetrofitApi {
     /**
      * 获得用户歌单
      */
-    @GET("user/playlist?limit=99999")
+    @GET("/user/playlist?limit=99999")
     fun getUserPlaylist(@Query("uid") uid: String): Observable<UserPlaylistBean>
+
+
+    /**
+     * 获得歌单详情
+     */
+    @GET("/playlist/detail")
+    fun getPlayListDetail(@Query("id") id: String): Observable<PlayListDetailBean>
 }

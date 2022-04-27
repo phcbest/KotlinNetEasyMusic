@@ -1,18 +1,14 @@
 package org.phcbest.neteasymusic.ui.mvvm_adapter
 
-import android.view.RoundedCorner
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.bean.UserPlaylistBean
 import org.phcbest.neteasymusic.ui.widget.custom.CircularImageView
 import org.phcbest.neteasymusic.utils.SpStorageUtils
-import java.util.*
 
 class CustomBindingAdapter {
 
@@ -66,6 +62,18 @@ class CustomBindingAdapter {
         @BindingAdapter("setVisible")
         fun setVisible(view: View, status: Boolean) {
             view.visibility = if (status) View.VISIBLE else View.GONE
+        }
+
+
+        /**
+         * 设置 模糊背景
+         */
+        @JvmStatic
+        @BindingAdapter("setBlurBackground")
+        fun setBlurBackground(view: View, url: String) {
+            url.let {
+                Glide.with(view)
+            }
         }
     }
 }

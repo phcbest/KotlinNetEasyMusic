@@ -41,7 +41,7 @@ class PresenterManager() {
         return mDiscoverPagePresenter!!
     }
 
-    fun getMainPresenter(): IGetSongInfoPresenter {
+    fun getSongInfoPresenter(): IGetSongInfoPresenter {
         return mIGetSongInfoPresenter!!
     }
 

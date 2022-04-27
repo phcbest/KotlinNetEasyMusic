@@ -1,5 +1,7 @@
 package org.phcbest.neteasymusic.utils
 
+import androidx.annotation.IdRes
+
 interface Constants {
 
     interface HandlerParamKey {
@@ -22,5 +24,12 @@ interface Constants {
             const val Intent_SONG_ID = "songId"
         }
     }
+
+    interface ViewIDs {
+        companion object {
+            const val FAKE_TRANSLUCENT_VIEW_ID: Int = 1000
+        }
+    }
+
 
 }

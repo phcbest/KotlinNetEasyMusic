@@ -79,7 +79,7 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener,
 
         fun play(songID: String) {
             try {
-                PresenterManager.getInstance().getMainPresenter()
+                PresenterManager.getInstance().getSongInfoPresenter()
                     .getSongDownLoadUrl(songID, success = { songUrlBean ->
                         Log.i(TAG, "play: 加载音乐")
                         mediaPlayer.setDataSource(songUrlBean.data[0].url)
