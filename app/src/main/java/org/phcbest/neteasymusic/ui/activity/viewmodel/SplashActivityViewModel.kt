@@ -33,7 +33,7 @@ class SplashActivityViewModel : ViewModel() {
         loginPresenter.refreshLogin({
             if (it.body() == null || it.body()!!["code"] != 200) {
                 this.loginStatus.postValue(false)
-            } else if (it.body()!!["code"] != 200) {
+            } else if (it.body()!!["code"] == 200) {
                 SpStorageUtils.newInstance().updateCookieNMTID(it)
                 this.loginStatus.postValue(true)
             }

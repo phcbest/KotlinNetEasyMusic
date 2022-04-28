@@ -61,11 +61,6 @@ class SplashActivity : BaseActivity() {
 
     private fun isEmulator() {
         Log.i(TAG, "isEmulator: ${Build.HARDWARE}")
-        if (Build.HARDWARE == "ranchu") {
-            RetrofitApi.baseUrl = "http://10.0.2.2:3000"
-        } else {
-            RetrofitApi.baseUrl = "http://192.168.123.166:3000"
-        }
     }
 
     private var handlerStartActivity = object : Handler(Looper.myLooper()!!) {

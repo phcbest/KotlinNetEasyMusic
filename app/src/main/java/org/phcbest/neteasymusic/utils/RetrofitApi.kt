@@ -10,7 +10,7 @@ import retrofit2.http.Query
 
 interface RetrofitApi {
     companion object {
-        var baseUrl = "http://10.0.2.2:3000"
+        var baseUrl = "http://192.168.123.166:3000"
     }
 
     /**
@@ -77,7 +77,7 @@ interface RetrofitApi {
     /**
      * 获得用户歌单
      */
-    @GET("/user/playlist?limit=99999")
+    @GET("/user/playlist")
     fun getUserPlaylist(@Query("uid") uid: String): Observable<UserPlaylistBean>
 
 

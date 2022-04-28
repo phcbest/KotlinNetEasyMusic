@@ -50,7 +50,7 @@ class LogIntercepted : Interceptor {
         //判断网络状态,如果没网络就toast
         NetWorkUtils.testAndSendNetWorkStateToast()
         //请求
-        val request = chain.request()
+        var request = chain.request()
         Log.i(
             TAG,
             format.format(Date()) + " Requeste " + "\nmethod:" + request.method() + "\nurl:"
@@ -61,8 +61,9 @@ class LogIntercepted : Interceptor {
         SpStorageUtils.newInstance().getCookie()
             .let {
                 if (!it.contains(SpStorageUtils.SP_NULL)) {
-                    newBuilder.addHeader("Cookie", it)
                     Log.i(TAG, "intercept: cookie:$it")
+                    //ntmd添加hander后需要nm build,怪不得一直请求没有带上token,就离谱
+                    request = newBuilder.addHeader("Cookie", it).build()
                 }
             }
         //响应

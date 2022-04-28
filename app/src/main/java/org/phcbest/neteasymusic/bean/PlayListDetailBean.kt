@@ -325,7 +325,7 @@ data class PlayListDetailBean(
                 @SerializedName("sr")
                 val sr: Int, // 44100
                 @SerializedName("vd")
-                val vd: Int, // -38902
+                val vd: Float, // -38902
             )
 
             data class L(
@@ -338,7 +338,7 @@ data class PlayListDetailBean(
                 @SerializedName("sr")
                 val sr: Int, // 44100
                 @SerializedName("vd")
-                val vd: Int, // -34668
+                val vd: Float, // -34668
             )
 
             data class M(
@@ -351,7 +351,7 @@ data class PlayListDetailBean(
                 @SerializedName("sr")
                 val sr: Int, // 44100
                 @SerializedName("vd")
-                val vd: Int, // -36305
+                val vd: Float, // -36305
             )
 
             data class Pc(
