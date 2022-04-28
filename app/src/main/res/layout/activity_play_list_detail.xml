@@ -10,8 +10,8 @@
             type="Boolean" />
 
         <variable
-            name="playListDetailBean"
-            type="org.phcbest.neteasymusic.bean.PlayListDetailBean" />
+            name="playlist"
+            type="org.phcbest.neteasymusic.bean.PlayListDetailBean.Playlist" />
 
     </data>
 
@@ -32,13 +32,13 @@
 
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/app_bar_playlist_detail"
-                setBlurBackground="@{playListDetailBean.playlist.coverImgUrl??``}"
+                setBlurBackground="@{playlist.coverImgUrl??``}"
                 android:layout_width="match_parent"
                 android:layout_height="220dp"
                 app:elevation="0dp">
 
                 <com.google.android.material.appbar.CollapsingToolbarLayout
-                    android:id="@+id/cool_tb_playlist_detail"
+                    android:id="@+id/coll_tb_playlist_detail"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:contentScrim="@color/white"
@@ -54,13 +54,14 @@
 
                         <androidx.constraintlayout.utils.widget.ImageFilterView
                             android:id="@+id/iv_playlist_detail_cover"
-                            roundedCornersImageSrc="@{playListDetailBean.playlist.coverImgUrl??``}"
+                            roundedCornersImageSrc="@{playlist.coverImgUrl??``}"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
                             android:layout_alignParentStart="true"
-                            android:layout_centerInParent="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
                             android:layout_marginStart="30dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="30dp"
                             android:scaleType="centerCrop"
                             app:round="10dp" />
 
@@ -70,8 +71,12 @@
                             android:layout_alignTop="@+id/iv_playlist_detail_cover"
                             android:layout_marginStart="10dp"
                             android:layout_toEndOf="@+id/iv_playlist_detail_cover"
-                            android:text="@{playListDetailBean.playlist.name??``}"
-                            android:textSize="16sp" />
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="@{playlist.name??``}"
+                            android:textColor="@color/white"
+                            android:textSize="17sp" />
 
                         <LinearLayout
                             android:id="@+id/ll_playlist_detail_creator"
@@ -86,7 +91,7 @@
 
                             <org.phcbest.neteasymusic.ui.widget.custom.CircularImageView
                                 android:id="@+id/iv_playlist_detail_user_avatar"
-                                circularImageSrc="@{playListDetailBean.playlist.creator.avatarUrl??``}"
+                                circularImageSrc="@{playlist.creator.avatarUrl??``}"
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 android:layout_marginStart="10dp" />
@@ -95,7 +100,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
-                                android:text="@{playListDetailBean.playlist.creator.nickname??``}"
+                                android:text="@{playlist.creator.nickname??``}"
+                                android:textColor="@color/white"
                                 android:textSize="14sp" />
 
                             <ImageView
@@ -117,10 +123,14 @@
                             android:padding="3dp">
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
-                                android:text="@{playListDetailBean.playlist.description??``}"
+                                android:layout_weight="1"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:text="@{playlist.description.equals(``)||playlist.description==null?`编辑信息`:playlist.description}"
+                                android:textColor="@color/white"
                                 android:textSize="12sp" />
 
                             <ImageView
@@ -137,6 +147,7 @@
                     <!--                toolbar layout_collapseMode为视图固定模式-->
 
                     <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbar_playlist_detail"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
                         app:layout_collapseMode="pin"

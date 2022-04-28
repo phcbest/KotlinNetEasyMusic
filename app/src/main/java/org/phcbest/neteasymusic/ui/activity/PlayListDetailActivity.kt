@@ -1,16 +1,20 @@
 package org.phcbest.neteasymusic.ui.activity
 
+import android.graphics.Color
+import android.provider.CalendarContract
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewbinding.ViewBinding
+import com.google.android.material.appbar.AppBarLayout
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseActivity
 import org.phcbest.neteasymusic.bean.UserPlaylistBean
 import org.phcbest.neteasymusic.databinding.ActivityPlayListDetailBinding
 import org.phcbest.neteasymusic.ui.activity.viewmodel.PlayListDetailViewModel
 import org.phcbest.neteasymusic.utils.ui.StatusBarUtil
+import kotlin.math.abs
 
 class PlayListDetailActivity : BaseActivity() {
 
@@ -43,6 +47,29 @@ class PlayListDetailActivity : BaseActivity() {
     override fun initEvent() {
         super.initEvent()
         //设置不同状态下的title显示
+        binding.appBarPlaylistDetail.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+            //检查是否折叠
+            when {
+                abs(verticalOffset) == appBarLayout?.totalScrollRange -> {
+                    // 折叠
+                    binding.toolbarPlaylistDetail.title = playlist?.name
+                    binding.toolbarPlaylistDetail.setTitleTextColor(Color.BLACK)
+                    binding.toolbarPlaylistDetail.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
+                }
+                verticalOffset == 0 -> {
+                    // 展开
+                    binding.toolbarPlaylistDetail.title = "歌单"
+                    binding.toolbarPlaylistDetail.setTitleTextColor(Color.WHITE)
+                    binding.toolbarPlaylistDetail.setNavigationIcon(R.drawable.ic_baseline_arrow_back_white_24)
+                }
+                else -> {
+                    // 中间某个地方
+                }
+            }
+        })
+        binding.toolbarPlaylistDetail.setNavigationOnClickListener {
+            finish()
+        }
     }
 
     override fun observeViewModel() {
@@ -53,7 +80,7 @@ class PlayListDetailActivity : BaseActivity() {
                 if (t == null) {
                     finish()
                 } else {
-                    binding.playListDetailBean = t
+                    binding.playlist = t.playlist
                     binding.isLoad = false
                 }
             })

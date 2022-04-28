@@ -1,18 +1,25 @@
 package org.phcbest.neteasymusic.ui.mvvm_adapter
 
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.bean.UserPlaylistBean
 import org.phcbest.neteasymusic.ui.widget.custom.CircularImageView
 import org.phcbest.neteasymusic.utils.SpStorageUtils
+import org.phcbest.neteasymusic.utils.ndk_link.GaussianBlurUtils
 
 class CustomBindingAdapter {
 
     companion object {
+        private const val TAG = "CustomBindingAdapter"
         var uid = SpStorageUtils.newInstance().getLoginBean()?.profile?.userId
 
         @JvmStatic
@@ -72,7 +79,22 @@ class CustomBindingAdapter {
         @BindingAdapter("setBlurBackground")
         fun setBlurBackground(view: View, url: String) {
             url.let {
-                Glide.with(view)
+                Glide.with(view).asBitmap().load(it).error(R.drawable.sample_avatar)
+//                    .override(view.width, view.height)
+//                    .centerCrop()
+                    .into(object : CustomTarget<Bitmap>() {
+                        override fun onResourceReady(
+                            resource: Bitmap,
+                            transition: Transition<in Bitmap>?,
+                        ) {
+                            val gaussBlurBmp = GaussianBlurUtils.newInstance()
+                                .getGaussBlurZoomBmp(resource, 200, view.width, view.height)
+                            view.background = BitmapDrawable(view.resources, gaussBlurBmp)
+                        }
+
+                        override fun onLoadCleared(placeholder: Drawable?) {
+                        }
+                    })
             }
         }
     }

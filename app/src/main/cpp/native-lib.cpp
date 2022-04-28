@@ -20,10 +20,10 @@ Java_org_phcbest_neteasymusic_utils_ndk_1link_GaussianBlurUtils_stringFromJNI(JN
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_org_phcbest_neteasymusic_utils_ndk_1link_GaussianBlurUtils_getGaussBlurBmp(JNIEnv *env,
-                                                                                jobject thiz,
-                                                                                jobject bitmapIn,
-                                                                                jint r) {
+Java_org_phcbest_neteasymusic_utils_ndk_1link_GaussianBlurUtils_getGaussBlurBmpJNI(JNIEnv *env,
+                                                                                   jobject thiz,
+                                                                                   jobject bitmapIn,
+                                                                                   jint r) {
     AndroidBitmapInfo infoIn;
     void *pixels;
     //获得图片信息

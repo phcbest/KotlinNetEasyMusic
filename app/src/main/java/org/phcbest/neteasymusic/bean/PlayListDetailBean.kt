@@ -23,7 +23,7 @@ data class PlayListDetailBean(
         @SerializedName("adType")
         val adType: Int, // 0
         @SerializedName("backgroundCoverId")
-        val backgroundCoverId: Int, // 0
+        val backgroundCoverId: Long, // 0
         @SerializedName("backgroundCoverUrl")
         val backgroundCoverUrl: Any, // null
         @SerializedName("cloudTrackCount")
@@ -63,7 +63,7 @@ data class PlayListDetailBean(
         @SerializedName("ordered")
         val ordered: Boolean, // true
         @SerializedName("playCount")
-        val playCount: Int, // 3220
+        val playCount: Long, // 3220
         @SerializedName("privacy")
         val privacy: Int, // 0
         @SerializedName("remixVideo")
@@ -85,7 +85,7 @@ data class PlayListDetailBean(
         @SerializedName("tags")
         val tags: List<Any>,
         @SerializedName("titleImage")
-        val titleImage: Int, // 0
+        val titleImage: Long, // 0
         @SerializedName("titleImageUrl")
         val titleImageUrl: Any, // null
         @SerializedName("trackCount")
@@ -103,7 +103,7 @@ data class PlayListDetailBean(
         @SerializedName("updateTime")
         val updateTime: Long, // 1650542828133
         @SerializedName("userId")
-        val userId: Int, // 298385261
+        val userId: Long, // 298385261
         @SerializedName("videoIds")
         val videoIds: Any, // null
         @SerializedName("videos")
@@ -167,7 +167,7 @@ data class PlayListDetailBean(
             @SerializedName("signature")
             val signature: String,
             @SerializedName("userId")
-            val userId: Int, // 298385261
+            val userId: Long, // 298385261
             @SerializedName("userType")
             val userType: Int, // 0
             @SerializedName("vipType")
@@ -188,7 +188,7 @@ data class PlayListDetailBean(
             @SerializedName("t")
             val t: Int, // 0
             @SerializedName("uid")
-            val uid: Int, // 298385261
+            val uid: Long, // 298385261
             @SerializedName("v")
             val v: Int, // 9
         )
@@ -370,7 +370,7 @@ data class PlayListDetailBean(
                 @SerializedName("sn")
                 val sn: String, // 爱丫爱丫
                 @SerializedName("uid")
-                val uid: Int, // 298385261
+                val uid: Long, // 298385261
                 @SerializedName("version")
                 val version: Int, // 1
             )
