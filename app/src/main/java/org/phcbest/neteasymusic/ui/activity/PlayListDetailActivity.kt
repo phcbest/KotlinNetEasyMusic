@@ -13,6 +13,7 @@ import org.phcbest.neteasymusic.base.BaseActivity
 import org.phcbest.neteasymusic.bean.UserPlaylistBean
 import org.phcbest.neteasymusic.databinding.ActivityPlayListDetailBinding
 import org.phcbest.neteasymusic.ui.activity.viewmodel.PlayListDetailViewModel
+import org.phcbest.neteasymusic.ui.widget.adapter.PlayListDetailAdapter
 import org.phcbest.neteasymusic.utils.ui.StatusBarUtil
 import kotlin.math.abs
 
@@ -21,6 +22,7 @@ class PlayListDetailActivity : BaseActivity() {
     private var playlist: UserPlaylistBean.Playlist? = null
     lateinit var binding: ActivityPlayListDetailBinding
     private lateinit var playListDetailViewModel: PlayListDetailViewModel
+    private lateinit var playListDetailAdapter: PlayListDetailAdapter
 
     companion object {
         const val TAG = "PlayListDetailActivity"
@@ -41,6 +43,8 @@ class PlayListDetailActivity : BaseActivity() {
         val statusBarHeight = StatusBarUtil.getStatusBarHeight(this)
         binding.appBarPlaylistDetail.setPadding(0,
             statusBarHeight, 0, 0)
+        playListDetailAdapter = PlayListDetailAdapter()
+        binding.rvPlaylistDetail.adapter = playListDetailAdapter
 
     }
 
@@ -81,6 +85,7 @@ class PlayListDetailActivity : BaseActivity() {
                     finish()
                 } else {
                     binding.playlist = t.playlist
+                    playListDetailAdapter.setSongTracks(t.playlist.tracks)
                     binding.isLoad = false
                 }
             })
