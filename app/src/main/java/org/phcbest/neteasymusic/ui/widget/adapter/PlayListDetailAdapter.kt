@@ -33,13 +33,24 @@ class PlayListDetailAdapter : RecyclerView.Adapter<PlayListDetailAdapter.ViewHol
         val track = songTracks[position]
         holder.binding.tvSongIndex.text = (position + 1).toString()
         //设置名字
-        val name = StringJoiner("/", "(", ")")
-        track.alia.forEach { name.add(it) }
-        holder.binding.tvSongName.text = track.name + name.toString()
+        if (track.alia.isEmpty()) {
+            holder.binding.tvSongName.text = track.name
+        } else {
+            val name = StringJoiner("/", "(", ")")
+            track.alia.forEach { name.add(it) }
+            holder.binding.tvSongName.text = track.name + name.toString()
+        }
+
+
         //设置创建者
         val creator = StringJoiner("/")
-        track.ar.forEach { creator.add(it.name) }
-        holder.binding.tvSongCreator.text = "${creator.toString()}-${track.al.name}"
+        track.ar?.forEach { creator.add(it.name) }
+        if (creator.length() == 0 || track.al.name == null) {
+            holder.binding.tvSongCreator.text = "未知歌手"
+        } else {
+            holder.binding.tvSongCreator.text = "${creator.toString()}-${track.al.name}"
+        }
+
     }
 
     override fun getItemCount(): Int {

@@ -14,18 +14,20 @@
 
         <TextView
             android:id="@+id/tv_song_index"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="10dp"
-            android:text="1"
-            android:textSize="20sp" />
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:layout_weight="1"
+            android:layout_weight="9"
             android:orientation="vertical">
 
             <TextView
@@ -37,7 +39,7 @@
                 android:maxLines="1"
                 android:text="测试文字"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/tv_song_creator"
@@ -46,7 +48,8 @@
                 android:layout_margin="3dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="测试文字" />
+                android:text="测试文字"
+                android:textSize="10sp" />
         </LinearLayout>
 
         <ImageView

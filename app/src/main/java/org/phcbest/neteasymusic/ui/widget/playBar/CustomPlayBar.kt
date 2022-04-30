@@ -4,15 +4,18 @@ import android.app.Service
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
+import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseApplication
 import org.phcbest.neteasymusic.bean.SongDetailBean
 import org.phcbest.neteasymusic.service.MusicPlayService
+import java.util.*
 
 private const val TAG = "CustomPlayBar"
 
@@ -36,7 +39,7 @@ class CustomPlayBar {
         val conn = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 serviceBind = service as MusicPlayService.MyBinder
-                serviceBind!!.play("29732992")
+                serviceBind!!.play("1930171356")
                 serviceBind?.setEvent({
                     viewHolder?.mPlayCover?.stopTurn()
                     viewHolder?.mPlayBtn?.pause()
@@ -81,8 +84,17 @@ class CustomPlayBar {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     fun setData(song: SongDetailBean.Song) {
-        viewHolder?.mPlayName?.text = "${song.name}[${song.tns[0]}]"
+        if (song.tns.isEmpty()) {
+            viewHolder?.mPlayName?.text = song.name
+        } else {
+            val nts = StringJoiner("/", "(", ")")
+            for (tn in song.tns) {
+                nts.add(tn)
+            }
+            viewHolder?.mPlayName?.text = "${song.name + nts.toString()}"
+        }
         viewHolder?.mPlayCover!!.setBackAndFrontGround(-1, song.al.picUrl)
         //设置服务
         initPlayService()

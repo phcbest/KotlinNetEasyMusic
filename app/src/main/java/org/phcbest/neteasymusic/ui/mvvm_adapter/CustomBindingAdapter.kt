@@ -3,6 +3,10 @@ package org.phcbest.neteasymusic.ui.mvvm_adapter
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.RelativeSizeSpan
+import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -15,6 +19,7 @@ import org.phcbest.neteasymusic.bean.UserPlaylistBean
 import org.phcbest.neteasymusic.ui.widget.custom.CircularImageView
 import org.phcbest.neteasymusic.utils.SpStorageUtils
 import org.phcbest.neteasymusic.utils.ndk_link.GaussianBlurUtils
+
 
 class CustomBindingAdapter {
 
@@ -97,5 +102,6 @@ class CustomBindingAdapter {
                     })
             }
         }
+
     }
 }

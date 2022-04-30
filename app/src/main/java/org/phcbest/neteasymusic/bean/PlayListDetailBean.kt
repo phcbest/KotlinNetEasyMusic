@@ -201,7 +201,7 @@ data class PlayListDetailBean(
             @SerializedName("alia")
             val alia: List<String>,
             @SerializedName("ar")
-            val ar: List<Ar>,
+            val ar: List<Ar>?,
             @SerializedName("cd")
             val cd: String, // 01
             @SerializedName("cf")
@@ -293,7 +293,7 @@ data class PlayListDetailBean(
                 @SerializedName("id")
                 val id: Int, // 136498952
                 @SerializedName("name")
-                val name: String, // 劲浪漫 超温馨
+                val name: String?, // 劲浪漫 超温馨
                 @SerializedName("pic")
                 val pic: Long, // 109951167058323500
                 @SerializedName("pic_str")

@@ -7,7 +7,10 @@ import android.media.MediaPlayer
 import android.os.Binder
 import android.os.IBinder
 import android.util.Log
+import androidx.annotation.IntRange
+import androidx.lifecycle.MutableLiveData
 import org.phcbest.neteasymusic.presenter.PresenterManager
+import kotlin.math.max
 
 private const val TAG = "MusicPlayService"
 
@@ -16,6 +19,10 @@ private const val TAG = "MusicPlayService"
  */
 class MusicPlayService : Service(), MediaPlayer.OnPreparedListener,
     MediaPlayer.OnCompletionListener {
+
+    //livedata更新进度
+    var progressLiveData: MutableLiveData<Int> = MutableLiveData()
+
     //音频播放器
     private val mediaPlayer = MediaPlayer()
 
@@ -125,7 +132,7 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener,
         fun setEvent(
             pause: () -> Unit,
             resume: () -> Unit,
-            loadSongSuccess: (duration: Int) -> Unit
+            loadSongSuccess: (duration: Int) -> Unit,
         ) {
             mPause = pause
             mResume = resume
