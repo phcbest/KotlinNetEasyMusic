@@ -17,11 +17,12 @@ import org.phcbest.neteasymusic.bean.SongDetailBean
 import org.phcbest.neteasymusic.service.MusicPlayService
 import java.util.*
 
-private const val TAG = "CustomPlayBar"
 
 class CustomPlayBar {
 
     companion object {
+        private const val TAG = "CustomPlayBar"
+
         private val instance = CustomPlayBar()
         fun newInstance(): CustomPlayBar {
             return instance
@@ -39,7 +40,7 @@ class CustomPlayBar {
         val conn = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 serviceBind = service as MusicPlayService.MyBinder
-                serviceBind!!.play("1930171356")
+                serviceBind!!.play("1879944789")
                 serviceBind?.setEvent({
                     viewHolder?.mPlayCover?.stopTurn()
                     viewHolder?.mPlayBtn?.pause()

@@ -7,12 +7,18 @@ import android.os.SystemClock
 import android.util.Log
 import kotlin.math.log
 
-private const val TAG = "CountDownTimeWithPause"
 
+/**
+ * 一个可以暂停的countdowntime
+ */
 abstract class CountDownTimeWithPause(
     millisInFuture: Long,
-    countDownInterval: Long
+    countDownInterval: Long,
 ) {
+    companion object {
+        private const val TAG = "CountDownTimeWithPause"
+    }
+
     /**
      *总记时
      */
@@ -116,7 +122,7 @@ abstract class CountDownTimeWithPause(
                         //时间刚刚好,执行一次
                         val lastTickStart = SystemClock.elapsedRealtime()
                         //将当前时间传出去
-                        onTick(lastTickStart)
+                        onTick(millisLeft)
                         //去除上一次系统时间和当前系统时间的误差,计算出的数值为下一onTick间隔时间
                         var delay =
                             lastTickStart + mCountdownInterval - SystemClock.elapsedRealtime()

@@ -11,6 +11,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.marginRight
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.utils.CountDownTimeWithPause
+import kotlin.math.log
 
 
 private const val TAG = "PlayBarProgressButton"

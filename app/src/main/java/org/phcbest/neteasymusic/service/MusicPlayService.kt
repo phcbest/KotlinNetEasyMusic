@@ -10,6 +10,7 @@ import android.util.Log
 import androidx.annotation.IntRange
 import androidx.lifecycle.MutableLiveData
 import org.phcbest.neteasymusic.presenter.PresenterManager
+import org.phcbest.neteasymusic.utils.CountDownTimeWithPause
 import kotlin.math.max
 
 private const val TAG = "MusicPlayService"
@@ -67,6 +68,49 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener,
         mediaPlayer.setOnCompletionListener(this)
     }
 
+    private lateinit var mProgressCDT: CountDownTimeWithPause
+
+    /**
+     * 初始化倒计时
+     * @param duration 歌曲时间
+     */
+    fun initCountdownTime(duration: Int) {
+        //歌曲时间均分100份
+        val durationOfOneDegree = duration / 100
+        mProgressCDT = object : CountDownTimeWithPause(
+            duration.toLong(), durationOfOneDegree.toLong()
+        ) {
+            override fun onFinish() {
+                //结束发送-1
+                progressLiveData.postValue(-1)
+            }
+
+            override fun onTick(lastTickStart: Long) {
+                //百分比进度推出(全部时间减去剩余时间)
+                val x = (((duration - lastTickStart.toFloat()) / duration) * 100).toInt()
+                Log.i(TAG, "onTick: $x")
+                progressLiveData.postValue(x)
+            }
+        }
+        mProgressCDT.start().pause()
+    }
+
+    /**
+     * MediaPlayer将资源准备好的时候进行回调
+     */
+    override fun onPrepared(mp: MediaPlayer?) {
+        //打印歌曲时间长度
+        Log.i(TAG, "歌曲开始播放，时间总共长度: ${mediaPlayer.duration / 60000f}")
+//        myBinder!!.resumeOrStart()
+//        myBinder!!.pause()
+        //加载外部逻辑
+        myBinder!!.mLoadSongSuccess(mediaPlayer.duration)
+    }
+
+    override fun onCompletion(mp: MediaPlayer?) {
+        myBinder!!.pause()
+    }
+
     inner class MyBinder() : Binder() {
 
         /**
@@ -84,6 +128,9 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener,
         var mLoadSongSuccess: (duration: Int) -> Unit = {}
 
 
+        /**
+         * 加载音乐
+         */
         fun play(songID: String) {
             try {
                 PresenterManager.getInstance().getSongInfoPresenter()
@@ -140,18 +187,4 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener,
         }
 
     }
-
-    override fun onPrepared(mp: MediaPlayer?) {
-        //打印歌曲时间长度
-        Log.i(TAG, "歌曲开始播放，时间总共长度: ${mediaPlayer.duration / 60000f}")
-//        myBinder!!.resumeOrStart()
-//        myBinder!!.pause()
-        //加载外部逻辑
-        myBinder!!.mLoadSongSuccess(mediaPlayer.duration)
-    }
-
-    override fun onCompletion(mp: MediaPlayer?) {
-        myBinder!!.pause()
-    }
-
 }
