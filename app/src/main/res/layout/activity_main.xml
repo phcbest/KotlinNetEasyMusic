@@ -19,7 +19,9 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <include layout="@layout/custom_play_bar" />
+        <include
+            android:id="@+id/main_play_bar"
+            layout="@layout/custom_play_bar" />
 
         <!--    elevation这个参数用来设置阴影高度
                 itemRippleColor设置成null可以去除点击的涟漪效果-->

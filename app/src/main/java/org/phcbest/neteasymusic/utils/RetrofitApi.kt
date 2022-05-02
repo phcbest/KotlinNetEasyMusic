@@ -1,5 +1,7 @@
 package org.phcbest.neteasymusic.utils
 
+import android.os.Build
+import android.util.Log
 import io.reactivex.rxjava3.core.Observable
 import org.phcbest.neteasymusic.bean.PlayListDetailBean
 import org.phcbest.neteasymusic.bean.*
@@ -10,8 +12,15 @@ import retrofit2.http.Query
 
 interface RetrofitApi {
     companion object {
-        var baseUrl = "http://192.168.123.166:3000"
+        private const val TAG = "RetrofitApi"
+
+        var baseUrl = if (Build.HARDWARE == "ranchu") {
+            "http://10.0.2.2:3000"
+        } else {
+            "http://192.168.123.166:3000"
+        }
     }
+
 
     /**
      * 获取banner

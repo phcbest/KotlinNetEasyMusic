@@ -156,7 +156,7 @@ data class SongDetailBean(
         @SerializedName("tagPicList")
         val tagPicList: Any, // null
         @SerializedName("tns")
-        val tns: List<String>,
+        val tns: List<String>?,
         @SerializedName("v")
         val v: Int, // 33
         @SerializedName("version")

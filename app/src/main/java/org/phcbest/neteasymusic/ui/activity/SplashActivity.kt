@@ -43,7 +43,6 @@ class SplashActivity : BaseActivity() {
             //检测用户登录是否过期
             splashActivityViewModel?.checkCookieState()
         }
-        isEmulator()
     }
 
     override fun observeViewModel() {
@@ -58,10 +57,6 @@ class SplashActivity : BaseActivity() {
         })
     }
 
-
-    private fun isEmulator() {
-        Log.i(TAG, "isEmulator: ${Build.HARDWARE}")
-    }
 
     private var handlerStartActivity = object : Handler(Looper.myLooper()!!) {
         override fun handleMessage(msg: Message) {

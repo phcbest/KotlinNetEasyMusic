@@ -21,8 +21,6 @@ private const val TAG = "MusicPlayService"
 class MusicPlayService : Service(), MediaPlayer.OnPreparedListener,
     MediaPlayer.OnCompletionListener {
 
-    //livedata更新进度
-    var progressLiveData: MutableLiveData<Int> = MutableLiveData()
 
     //音频播放器
     private val mediaPlayer = MediaPlayer()
@@ -70,30 +68,6 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener,
 
     private lateinit var mProgressCDT: CountDownTimeWithPause
 
-    /**
-     * 初始化倒计时
-     * @param duration 歌曲时间
-     */
-    fun initCountdownTime(duration: Int) {
-        //歌曲时间均分100份
-        val durationOfOneDegree = duration / 100
-        mProgressCDT = object : CountDownTimeWithPause(
-            duration.toLong(), durationOfOneDegree.toLong()
-        ) {
-            override fun onFinish() {
-                //结束发送-1
-                progressLiveData.postValue(-1)
-            }
-
-            override fun onTick(lastTickStart: Long) {
-                //百分比进度推出(全部时间减去剩余时间)
-                val x = (((duration - lastTickStart.toFloat()) / duration) * 100).toInt()
-                Log.i(TAG, "onTick: $x")
-                progressLiveData.postValue(x)
-            }
-        }
-        mProgressCDT.start().pause()
-    }
 
     /**
      * MediaPlayer将资源准备好的时候进行回调
@@ -103,6 +77,8 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener,
         Log.i(TAG, "歌曲开始播放，时间总共长度: ${mediaPlayer.duration / 60000f}")
 //        myBinder!!.resumeOrStart()
 //        myBinder!!.pause()
+        //初始化定时器
+        myBinder!!.initCountdownTime(mediaPlayer.duration)
         //加载外部逻辑
         myBinder!!.mLoadSongSuccess(mediaPlayer.duration)
     }
@@ -126,6 +102,35 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener,
         }
 
         var mLoadSongSuccess: (duration: Int) -> Unit = {}
+
+
+        //livedata更新进度
+        var progressLiveData: MutableLiveData<Int> = MutableLiveData()
+
+        /**
+         * 初始化倒计时
+         * @param duration 歌曲时间
+         */
+        fun initCountdownTime(duration: Int) {
+            //歌曲时间均分100份
+            val durationOfOneDegree = duration / 100
+            mProgressCDT = object : CountDownTimeWithPause(
+                duration.toLong(), durationOfOneDegree.toLong()
+            ) {
+                override fun onFinish() {
+                    //结束发送-1
+                    progressLiveData.postValue(-1)
+                }
+
+                override fun onTick(lastTickStart: Long) {
+                    //百分比进度推出(全部时间减去剩余时间)
+                    val x = (((duration - lastTickStart.toFloat()) / duration) * 100).toInt()
+                    Log.i(TAG, "onTick: $x")
+                    progressLiveData.postValue(x)
+                }
+            }
+            mProgressCDT.start().pause()
+        }
 
 
         /**

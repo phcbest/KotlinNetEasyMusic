@@ -111,7 +111,7 @@ class PlayBarProgressButton : View {
      */
     fun play() {
         mBm = mPlayBm
-        mProgressCDT?.resume()
+//        mProgressCDT?.resume()
         invalidate()
     }
 
@@ -120,7 +120,7 @@ class PlayBarProgressButton : View {
      */
     fun pause() {
         mBm = mPauseBm
-        mProgressCDT?.pause()
+//        mProgressCDT?.pause()
         invalidate()
     }
 
@@ -128,64 +128,49 @@ class PlayBarProgressButton : View {
      * 复位进度
      */
     fun resetProgress() {
+//        mProgressCDT?.cancel()
+//        mProgressCDT?.start()?.pause()
         updateProgress(0)
     }
 
     //进度控制
-    var mProgressCDT: CountDownTimeWithPause? = null
+//    var mProgressCDT: CountDownTimeWithPause? = null
 
-    /**
-     * 设置音乐时长
-     */
-    fun setMusicDuration(duration: Int) {
-        val durationOfOneDegree = duration / 100
-        Log.i(TAG, "setMusicDuration: $durationOfOneDegree")
-
-        mProgressCDT = object : CountDownTimeWithPause(
-            duration.toLong(),
-            durationOfOneDegree.toLong()
-        ) {
-            var progress: Int = 1
-            override fun onFinish() {
-                //复位进度
-                resetProgress()
-                mProgressCDT?.cancel()
-                mProgressCDT?.start()?.pause()
-                progress = 1
-            }
-
-            override fun onTick(lastTickStart: Long) {
-                updateProgress(progress)
-                progress++
-            }
-        }
-        mProgressCDT?.start()?.pause()
-    }
+//    /**
+//     * 设置音乐时长
+//     */
+//    fun setMusicDuration(duration: Int) {
+//        val durationOfOneDegree = duration / 100
+//        Log.i(TAG, "setMusicDuration: $durationOfOneDegree")
+//
+//        mProgressCDT = object : CountDownTimeWithPause(
+//            duration.toLong(),
+//            durationOfOneDegree.toLong()
+//        ) {
+//            var progress: Int = 1
+//            override fun onFinish() {
+//                //复位进度
+//                resetProgress()
+//                mProgressCDT?.cancel()
+//                mProgressCDT?.start()?.pause()
+//                progress = 1
+//            }
+//
+//            override fun onTick(lastTickStart: Long) {
+//                updateProgress(progress)
+//                progress++
+//            }
+//        }
+//        mProgressCDT?.start()?.pause()
+//    }
 
     /**
      * 进度更新
      */
-    private fun updateProgress(@IntRange(from = 0, to = 100) progress: Int) {
+    fun updateProgress(@IntRange(from = 0, to = 100) progress: Int) {
         this.mSweepAngle = (3.6 * progress).toFloat()
         Log.i(TAG, "更新进度为: ${(3.6 * progress).toFloat()}")
         invalidate()
     }
-
-    /**
-     * dp转换为px
-     */
-    private fun dp2px(dp: Float): Int {
-        val density = mContext!!.resources.displayMetrics.density
-        return (dp * density + 0.5f).toInt()
-    }
-
-    /**
-     * px转换为dp
-     */
-    private fun px2dp(px: Float): Int {
-        val scaledDensity = mContext!!.resources.displayMetrics.scaledDensity
-        return (px / scaledDensity + 0.5f).toInt()
-    }
-
 
 }
