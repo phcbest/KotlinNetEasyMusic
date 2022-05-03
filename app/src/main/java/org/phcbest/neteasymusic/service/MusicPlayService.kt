@@ -79,10 +79,13 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener,
 //        myBinder!!.pause()
         //初始化定时器
         myBinder!!.initCountdownTime(mediaPlayer.duration)
-        //加载外部逻辑
-        myBinder!!.mLoadSongSuccess(mediaPlayer.duration)
+        //live data 推送-2
+        myBinder!!.progressLiveData.postValue(-2)
     }
 
+    /**
+     * 歌曲播放完成
+     */
     override fun onCompletion(mp: MediaPlayer?) {
         myBinder!!.pause()
     }
@@ -94,17 +97,8 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener,
          */
         var playState = true
 
-        private var mPause: () -> Unit = {
-            Log.i(TAG, "暂停逻辑空执行")
-        }
-        private var mResume: () -> Unit = {
-            Log.i(TAG, "继续逻辑空执行")
-        }
 
-        var mLoadSongSuccess: (duration: Int) -> Unit = {}
-
-
-        //livedata更新进度
+        //livedata更新进度  -1为播放结束 0-100为进度 -2为加载完成
         var progressLiveData: MutableLiveData<Int> = MutableLiveData()
 
         /**
@@ -119,7 +113,10 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener,
             ) {
                 override fun onFinish() {
                     //结束发送-1
+                    mProgressCDT.cancel()
+                    mProgressCDT.start().pause()
                     progressLiveData.postValue(-1)
+                    //释放资源
                 }
 
                 override fun onTick(lastTickStart: Long) {
@@ -151,15 +148,21 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener,
             }
         }
 
+        /**
+         * 控制媒体播放器和CDT的暂停
+         */
         fun pause() {
+            mProgressCDT.pause()
             mediaPlayer.pause()
-            mPause()
             playState = true
         }
 
+        /**
+         * 控制媒体播放器和CDT的恢复
+         */
         fun resumeOrStart() {
+            mProgressCDT.resume()
             mediaPlayer.start()
-            mResume()
             playState = false
         }
 
@@ -169,26 +172,6 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener,
 
         fun release() {
             mediaPlayer.release()
-        }
-
-        /**
-         * 切换播放的位置
-         */
-        fun setPosition() {
-
-        }
-
-        /**
-         * 设置暂停和继续的事件
-         */
-        fun setEvent(
-            pause: () -> Unit,
-            resume: () -> Unit,
-            loadSongSuccess: (duration: Int) -> Unit,
-        ) {
-            mPause = pause
-            mResume = resume
-            mLoadSongSuccess = loadSongSuccess
         }
 
     }

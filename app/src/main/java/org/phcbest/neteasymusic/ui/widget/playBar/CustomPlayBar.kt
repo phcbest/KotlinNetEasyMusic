@@ -39,10 +39,6 @@ class CustomPlayBar {
 //                    serviceBind?.resumeOrStart()
     }
 
-    fun loadSongSuccess(duration: Int) {
-//        viewHolder?.mPlayBtn?.setMusicDuration(duration)
-    }
-
 
     class ViewHolder(var view: View) {
         var mPlayBtn: PlayBarProgressButton? = null

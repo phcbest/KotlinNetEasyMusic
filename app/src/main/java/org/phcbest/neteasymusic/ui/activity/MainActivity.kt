@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseActivity
@@ -18,6 +19,7 @@ import org.phcbest.neteasymusic.databinding.ActivityMainBinding
 import org.phcbest.neteasymusic.presenter.IGetSongInfoPresenter
 import org.phcbest.neteasymusic.presenter.PresenterManager
 import org.phcbest.neteasymusic.service.MusicPlayService
+import org.phcbest.neteasymusic.ui.activity.viewmodel.MainActivityViewModel
 import org.phcbest.neteasymusic.ui.fragment.*
 import org.phcbest.neteasymusic.ui.widget.playBar.CustomPlayBar
 
@@ -37,8 +39,10 @@ class MainActivity : BaseActivity() {
     private var cloudVillageFragment: Fragment? = null
     private var mCustomPlayBar: CustomPlayBar? = null
     private var getSongInfoPresenter: IGetSongInfoPresenter? = null
+    private lateinit var mainActivityViewModel: MainActivityViewModel
 
     override fun initView() {
+        mainActivityViewModel = ViewModelProviders.of(this)[MainActivityViewModel::class.java]
         //设置导航栏tint效果为null
         binding.navMain.itemIconTintList = null
         //初始化fragment
@@ -49,10 +53,6 @@ class MainActivity : BaseActivity() {
         cloudVillageFragment = CloudVillageFragment.newInstance()
         //执行playbar初始化
         mCustomPlayBar = CustomPlayBar.newInstance().initView(binding.root)
-        //暂停按钮点击事件
-        binding.mainPlayBar.btnPlayBarPlay.setOnClickListener {
-
-        }
     }
 
 
@@ -100,6 +100,12 @@ class MainActivity : BaseActivity() {
 
     }
 
+    override fun observeViewModel() {
+        super.observeViewModel()
+        mainActivityViewModel.liveDataPlaylist.observe(this, {
+            
+        })
+    }
 
     /**
      * Bind播放服务
@@ -112,19 +118,19 @@ class MainActivity : BaseActivity() {
                 serviceBind = service as MusicPlayService.MyBinder
                 //播放音乐的url
                 serviceBind!!.play("222799")
-                serviceBind?.setEvent({
-                    mCustomPlayBar?.setUIPause()
-                }, {
-                    mCustomPlayBar?.setUIResume()
-                }, {
-                    mCustomPlayBar?.loadSongSuccess(it)
-                })
 
                 serviceBind?.progressLiveData?.observe(this@MainActivity, {
-                    if (it == -1) {
-                        binding.mainPlayBar.btnPlayBarPlay.resetProgress()
-                    } else {
-                        binding.mainPlayBar.btnPlayBarPlay.updateProgress(it)
+                    when (it) {
+                        -1 -> {
+                            // TODO: 2022/5/2 设置结束后的ui表现
+                            binding.mainPlayBar.btnPlayBarPlay.resetProgress()
+                        }
+                        -2 -> {
+//                            binding.mainPlayBar.btnPlayBarPlay
+                        }
+                        else -> {
+                            binding.mainPlayBar.btnPlayBarPlay.updateProgress(it)
+                        }
                     }
                 })
             }
@@ -138,10 +144,13 @@ class MainActivity : BaseActivity() {
             conn,
             Service.BIND_AUTO_CREATE
         )
-        mCustomPlayBar?.viewHolder?.mPlayBtn?.setOnClickListener { v ->
+        mCustomPlayBar?.viewHolder?.mPlayBtn?.setOnClickListener {
+            //设置ui表现和service表现
             if (serviceBind?.playState!!) {
+                mCustomPlayBar!!.setUIResume()
                 serviceBind?.resumeOrStart()
             } else {
+                mCustomPlayBar!!.setUIPause()
                 serviceBind?.pause()
             }
         }
