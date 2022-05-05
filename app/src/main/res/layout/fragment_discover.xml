@@ -3,23 +3,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <data>
+
+        <variable
+            name="isLoad"
+            type="Boolean" />
+
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".ui.fragment.DiscoverFragment">
+        android:layout_height="match_parent">
 
-        <include layout="@layout/custom_banner" />
+        <include
+            layout="@layout/view_isload"
+            setVisible="@{isLoad}" />
 
-        <!--主页的按钮适配器-->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_home_function"
+        <LinearLayout
+            setVisible="@{isLoad}"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="70dp"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".ui.fragment.DiscoverFragment">
+
+            <includeu
+                android:id="@+id/inc_banner"
+                layout="@layout/custom_banner" />
+
+            <!--主页的按钮适配器-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_home_function"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="70dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 
-    </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+
 </layout>

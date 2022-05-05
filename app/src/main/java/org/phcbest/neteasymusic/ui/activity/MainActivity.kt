@@ -103,7 +103,7 @@ class MainActivity : BaseActivity() {
     override fun observeViewModel() {
         super.observeViewModel()
         mainActivityViewModel.liveDataPlaylist.observe(this, {
-            
+
         })
     }
 

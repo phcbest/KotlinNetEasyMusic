@@ -3,10 +3,12 @@ package org.phcbest.neteasymusic.ui.fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProviders
 import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.base.BaseFragment
 import org.phcbest.neteasymusic.databinding.FragmentDiscoverBinding
 import org.phcbest.neteasymusic.presenter.PresenterManager
+import org.phcbest.neteasymusic.ui.fragment.viewmodel.DiscoverFragmentViewModel
 import org.phcbest.neteasymusic.ui.widget.banner.BannerItemBean
 import org.phcbest.neteasymusic.ui.widget.banner.CustomBanner
 import org.phcbest.neteasymusic.ui.widget.homefun.CustomHomeFun
@@ -58,6 +60,8 @@ class DiscoverFragment : BaseFragment() {
     }
 
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?): ViewBinding {
+        val discoverFragmentViewModel =
+            ViewModelProviders.of(this)[DiscoverFragmentViewModel::class.java]
         _binding = FragmentDiscoverBinding.inflate(inflater, container, false)
         return _binding!!
     }
