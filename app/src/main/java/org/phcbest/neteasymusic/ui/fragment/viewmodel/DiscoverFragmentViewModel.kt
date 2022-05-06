@@ -11,7 +11,8 @@ class DiscoverFragmentViewModel : ViewModel() {
     var discoverBannerLiveData: LiveData<DiscoverBannerBean> = MutableLiveData()
 
     fun setDiscoverBannerLiveData() {
-        
+
+
     }
 
 
