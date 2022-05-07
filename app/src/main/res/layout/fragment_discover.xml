@@ -20,13 +20,13 @@
             setVisible="@{isLoad}" />
 
         <LinearLayout
-            setVisible="@{isLoad}"
+            setVisible="@{!isLoad}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             tools:context=".ui.fragment.DiscoverFragment">
 
-            <includeu
+            <include
                 android:id="@+id/inc_banner"
                 layout="@layout/custom_banner" />
 

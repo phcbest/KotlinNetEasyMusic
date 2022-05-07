@@ -1,15 +1,12 @@
 package org.phcbest.neteasymusic.ui.fragment
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.base.BaseFragment
 import org.phcbest.neteasymusic.databinding.FragmentDiscoverBinding
-import org.phcbest.neteasymusic.presenter.PresenterManager
 import org.phcbest.neteasymusic.ui.fragment.viewmodel.DiscoverFragmentViewModel
-import org.phcbest.neteasymusic.ui.widget.banner.BannerItemBean
 import org.phcbest.neteasymusic.ui.widget.banner.CustomBanner
 import org.phcbest.neteasymusic.ui.widget.homefun.CustomHomeFun
 
@@ -17,40 +14,39 @@ private const val TAG = "DiscoverFragment"
 
 class DiscoverFragment : BaseFragment() {
 
-    private var _binding: FragmentDiscoverBinding? = null
+    private var binding: FragmentDiscoverBinding? = null
     private var customBanner: CustomBanner? = null
+    private lateinit var discoverFragmentViewModel: DiscoverFragmentViewModel
 
-
-    private fun doBannerAdapter() {
-        val discoverPagePresenter = PresenterManager.getInstance().getDiscoverPagePresenter()
-        discoverPagePresenter.getBanner({ result ->
-            //开始适配
-            val bannerData: MutableList<BannerItemBean> = mutableListOf()
-            result.banners.forEach { info ->
-                bannerData.add(BannerItemBean(info.pic, object : BannerItemBean.OnTap {
-                    override fun OnClick() {
-                        Log.i(TAG, "OnClick: 点击banner")
-                    }
-                }))
-            }
-            customBanner =
-                CustomBanner(bannerData).setView(_binding!!.root).startShowAfterAdapter()
-        }, {})
-    }
-
-    private fun doFunAdapter() {
-        CustomHomeFun().setView(_binding!!.root).startAdapter()
-    }
 
     override fun initPresenter() {
-        //进行ui适配
-        doBannerAdapter()
-        //适配功能栏
-        doFunAdapter()
+        discoverFragmentViewModel.setDiscoverBannerLiveData()
+    }
+
+    override fun observeViewModel() {
+        super.observeViewModel()
+        discoverFragmentViewModel.discoverBannerLiveData.observe(this, {
+            if (it != null) {
+                customBanner =
+                    CustomBanner(it).setView(binding!!.root).startShowAfterAdapter()
+            }
+        })
+        discoverFragmentViewModel.dataState.observe(this, {
+            it.forEach { map ->
+                if (map.value == DiscoverFragmentViewModel.STATE.FAIL) {
+                    //如果有一个状态是未成功
+                    binding?.isLoad = true
+                    return@forEach
+                } else {
+                    binding?.isLoad = false
+                    return@forEach
+                }
+            }
+        })
     }
 
     override fun initView() {
-
+        CustomHomeFun().setView(binding!!.root).startAdapter()
     }
 
     override fun onBaseDestroyView() {
@@ -60,10 +56,10 @@ class DiscoverFragment : BaseFragment() {
     }
 
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?): ViewBinding {
-        val discoverFragmentViewModel =
+        discoverFragmentViewModel =
             ViewModelProviders.of(this)[DiscoverFragmentViewModel::class.java]
-        _binding = FragmentDiscoverBinding.inflate(inflater, container, false)
-        return _binding!!
+        binding = FragmentDiscoverBinding.inflate(inflater, container, false)
+        return binding!!
     }
 
     //这写法类似静态方法,可以直接调用该方法中的静态成员和静态方法

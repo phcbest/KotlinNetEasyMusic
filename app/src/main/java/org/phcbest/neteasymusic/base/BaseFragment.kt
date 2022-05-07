@@ -20,13 +20,18 @@ abstract class BaseFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         vb = getViewBinding(inflater, container)
         initView()
         initEvent()
         initPresenter()
+        observeViewModel()
         return vb!!.root
+    }
+
+    open fun observeViewModel() {
+
     }
 
 
