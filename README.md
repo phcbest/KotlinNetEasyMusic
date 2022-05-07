@@ -8,3 +8,4 @@
 
 ## License
 
+[MIT License](https://github.com/phcbest/KotlinNetEasyMusic/blob/master/LICENSE)
