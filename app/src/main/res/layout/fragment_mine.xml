@@ -145,7 +145,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="10dp"
                         app:round="10dp"
-                        app:roundedCornersImageSrc="@{playlist.coverImgUrl+``}" />
+                        app:roundedCornersImageSrc="@{playlist.coverImgUrl??``}" />
 
                     <LinearLayout
                         android:layout_width="0dp"

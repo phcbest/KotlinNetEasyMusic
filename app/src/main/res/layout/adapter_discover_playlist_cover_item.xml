@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="recommend"
+            type="org.phcbest.neteasymusic.bean.RecommendPlayListBean.Recommend" />
+
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <androidx.constraintlayout.utils.widget.ImageFilterView
+                roundedCornersImageSrc="@{recommend.picUrl??``}"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:round="10dp" />
+            <!--播放量tips-->
+            <TextView
+                setPlayCount="@{recommend.playcount}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_margin="5dp"
+                android:background="@drawable/shape_discover_playcount_bg"
+                android:gravity="center"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{recommend.name??``}"
+            android:textSize="12sp" />
+    </LinearLayout>
+</layout>

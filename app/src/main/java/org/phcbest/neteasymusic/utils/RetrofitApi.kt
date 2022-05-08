@@ -28,6 +28,20 @@ interface RetrofitApi {
     @GET("/banner")
     fun getDiscoverBanner(@Query("type") type: String): Observable<DiscoverBannerBean>
 
+
+    /**
+     * 获得推荐歌单
+     */
+    @GET("/personalized")
+    fun getPersonalizedPlayList(@Query("limit") limit: String): Observable<PersonalizedPlayListBean>
+
+    /**
+     * 获得每日推荐歌单
+     */
+    @GET("/recommend/resource")
+    fun getRecommendPlayList(): Observable<RecommendPlayListBean>
+
+
     /**
      * 搜索歌曲
      */

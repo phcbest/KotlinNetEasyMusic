@@ -25,7 +25,7 @@
             android:background="#E4E2E2"
             android:scaleType="centerCrop"
             app:round="10dp"
-            app:roundedCornersImageSrc="@{playlist.coverImgUrl+``}" />
+            app:roundedCornersImageSrc="@{playlist.coverImgUrl??``}" />
 
         <LinearLayout
             android:layout_width="0dp"

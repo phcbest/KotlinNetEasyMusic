@@ -3,8 +3,12 @@ package org.phcbest.neteasymusic.ui.mvvm_adapter
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.media.Image
+import android.text.Spannable
 import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.Spanned
+import android.text.style.ImageSpan
 import android.text.style.RelativeSizeSpan
 import android.util.TypedValue
 import android.view.View
@@ -19,6 +23,7 @@ import org.phcbest.neteasymusic.bean.UserPlaylistBean
 import org.phcbest.neteasymusic.ui.widget.custom.CircularImageView
 import org.phcbest.neteasymusic.utils.SpStorageUtils
 import org.phcbest.neteasymusic.utils.ndk_link.GaussianBlurUtils
+import java.text.DecimalFormat
 
 
 class CustomBindingAdapter {
@@ -101,6 +106,30 @@ class CustomBindingAdapter {
                         }
                     })
             }
+        }
+
+
+        @JvmStatic
+        @BindingAdapter("setPlayCount")
+        fun setPlayCount(textView: TextView, playCount: Long) {
+            val ssb = SpannableStringBuilder()
+            ssb.append("\u0020")
+            ssb.setSpan(ImageSpan(textView.context,
+                R.drawable.ic_play_white,
+                ImageSpan.ALIGN_CENTER),
+                0,
+                1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            if (playCount in 0..9999) {
+                ssb.append(playCount.toString())
+            }
+            if (playCount in 10000..99999999) {
+                ssb.append((playCount / 10000).toString())
+                ssb.append("万")
+            }
+            if (playCount > 100000000) {
+                ssb.append("%.2f亿".format(playCount / 100000000.0))
+            }
+            textView.text = ssb
         }
 
     }
