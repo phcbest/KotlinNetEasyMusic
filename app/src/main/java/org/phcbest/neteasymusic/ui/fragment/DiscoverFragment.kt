@@ -30,18 +30,21 @@ class DiscoverFragment : BaseFragment() {
 
     override fun observeViewModel() {
         super.observeViewModel()
+        //设置banner
         discoverFragmentViewModel.discoverBannerLiveData.observe(this, {
             if (it != null) {
                 customBanner =
                     CustomBanner(it).setView(binding!!.root).startShowAfterAdapter()
             }
         })
+        //设置推荐歌单
         discoverFragmentViewModel.recommendPlayListLiveData.observe(this, {
             if (it != null) {
                 discoverRecommendPlayListAdapter.setItemData(it, 5)
             }
         })
-
+        
+        //管理状态显示
         discoverFragmentViewModel.dataState.observe(this, {
             it.forEach { map ->
                 if (map.value == DiscoverFragmentViewModel.STATE.FAIL) {

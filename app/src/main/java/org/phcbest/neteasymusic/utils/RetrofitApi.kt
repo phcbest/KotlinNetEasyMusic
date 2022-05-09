@@ -109,4 +109,17 @@ interface RetrofitApi {
      */
     @GET("/playlist/detail")
     fun getPlayListDetail(@Query("id") id: String): Observable<PlayListDetailBean>
+
+
+    /**
+     * 获取相似音乐
+     */
+    @GET("/simi/song")
+    fun getSimilaritySong(@Query("id") id: String): Observable<SimilaritySongBean>
+
+    /**
+     * 获得最近播放的音乐
+     */
+    @GET("/record/recent/song")
+    fun getRecordRecentSong(@Query("limit") limit: Int): Observable<RecordRecentSongBean>
 }

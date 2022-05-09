@@ -24,6 +24,7 @@ import org.phcbest.neteasymusic.ui.widget.custom.CircularImageView
 import org.phcbest.neteasymusic.utils.SpStorageUtils
 import org.phcbest.neteasymusic.utils.ndk_link.GaussianBlurUtils
 import java.text.DecimalFormat
+import java.text.FieldPosition
 
 
 class CustomBindingAdapter {
@@ -112,11 +113,11 @@ class CustomBindingAdapter {
         @JvmStatic
         @BindingAdapter("setPlayCount")
         fun setPlayCount(textView: TextView, playCount: Long) {
+            val drawable = textView.context.resources.getDrawable(R.drawable.ic_play_white)
+            drawable.setBounds(0, 0, textView.lineHeight, textView.lineHeight)
             val ssb = SpannableStringBuilder()
             ssb.append("\u0020")
-            ssb.setSpan(ImageSpan(textView.context,
-                R.drawable.ic_play_white,
-                ImageSpan.ALIGN_CENTER),
+            ssb.setSpan(ImageSpan(drawable),
                 0,
                 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             if (playCount in 0..9999) {
@@ -129,6 +130,37 @@ class CustomBindingAdapter {
             if (playCount > 100000000) {
                 ssb.append("%.2f亿".format(playCount / 100000000.0))
             }
+            textView.text = ssb
+        }
+
+        /**
+         * 使用image设置TextView
+         * @param imageRes 图片R资源
+         * @param text 设置的文字
+         * @param position 设置的位置 0为在前面，1为在后面
+         */
+        @JvmStatic
+        @BindingAdapter("setTextWithImageImageRes",
+            "setTextWithImageImageText",
+            "setTextWithImageImagePosition",
+            requireAll = true)
+        fun setTextWithImage(textView: TextView, imageRes: Drawable, text: String, position: Int) {
+            imageRes.setBounds(0, 0, textView.lineHeight, textView.lineHeight)
+            val ssb = SpannableStringBuilder()
+            if (position == 0) {
+                ssb.append("\u0020")
+                ssb.setSpan(ImageSpan(imageRes),
+                    0,
+                    1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+            ssb.append(text)
+            if (position == 1) {
+                ssb.append("\u0020")
+                ssb.setSpan(ImageSpan(imageRes),
+                    ssb.length - 1,
+                    ssb.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+
             textView.text = ssb
         }
 
