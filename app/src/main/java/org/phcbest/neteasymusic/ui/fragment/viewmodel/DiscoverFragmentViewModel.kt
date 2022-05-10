@@ -22,6 +22,8 @@ class DiscoverFragmentViewModel : ViewModel() {
     var discoverBannerLiveData: MutableLiveData<DiscoverBannerBean?> = MutableLiveData()
     var recommendPlayListLiveData: MutableLiveData<RecommendPlayListBean?> = MutableLiveData()
     var simiSongLiveData: MutableLiveData<SimilaritySongBean?> = MutableLiveData()
+    var recordRecentSongItemLiveData: MutableLiveData<RecordRecentSongBean.Data.ListItem?> =
+        MutableLiveData()
 
     //liveData状态管理
     val dataState: MutableLiveData<Map<String, STATE>> = MutableLiveData()
@@ -86,9 +88,11 @@ class DiscoverFragmentViewModel : ViewModel() {
                 object : Function<RecordRecentSongBean, Observable<SimilaritySongBean>> {
                     override fun apply(t: RecordRecentSongBean?): Observable<SimilaritySongBean> {
                         //随机获得最几个听过的歌曲
-                        val randomItem = (0 until t?.data?.list?.size!!).random()
-                        val listItem = t.data.list[randomItem]
+                        val random = (0 until t?.data?.list?.size!!).random()
+                        val listItem = t.data.list[random]
                         val id = listItem.data.id
+
+                        recordRecentSongItemLiveData.postValue(listItem)
 
                         return RetrofitUtils.newInstance().getSimilaritySong(id.toString())
                     }
@@ -112,7 +116,7 @@ class DiscoverFragmentViewModel : ViewModel() {
                 override fun onError(e: Throwable?) {
                     e!!.printStackTrace()
                     simiSongLiveData.postValue(null)
-                    dataStateMap[stateSimiSong] = STATE.SUCCESS
+                    dataStateMap[stateSimiSong] = STATE.FAIL
                     dataState.postValue(dataStateMap)
                 }
 

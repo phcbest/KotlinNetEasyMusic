@@ -1,15 +1,19 @@
 package org.phcbest.neteasymusic.ui.fragment
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseFragment
 import org.phcbest.neteasymusic.databinding.FragmentDiscoverBinding
 import org.phcbest.neteasymusic.ui.fragment.viewmodel.DiscoverFragmentViewModel
 import org.phcbest.neteasymusic.ui.widget.adapter.DiscoverRecommendPlayListAdapter
+import org.phcbest.neteasymusic.ui.widget.adapter.DiscoverSimiSongAdapter
 import org.phcbest.neteasymusic.ui.widget.banner.CustomBanner
 import org.phcbest.neteasymusic.ui.widget.homefun.CustomHomeFun
 
@@ -22,10 +26,12 @@ class DiscoverFragment : BaseFragment() {
     private lateinit var discoverFragmentViewModel: DiscoverFragmentViewModel
 
     private lateinit var discoverRecommendPlayListAdapter: DiscoverRecommendPlayListAdapter
+    private lateinit var discoverSimiSongAdapter: DiscoverSimiSongAdapter
 
     override fun initPresenter() {
         discoverFragmentViewModel.setDiscoverBannerLiveData()
         discoverFragmentViewModel.setRecommendPlayListLiveData()
+        discoverFragmentViewModel.setSimiSongLiveDataByRecordRecent(100)
     }
 
     override fun observeViewModel() {
@@ -43,7 +49,18 @@ class DiscoverFragment : BaseFragment() {
                 discoverRecommendPlayListAdapter.setItemData(it, 5)
             }
         })
-        
+        //设置根据最近歌曲推荐
+        discoverFragmentViewModel.recordRecentSongItemLiveData.observe(this, {
+            if (it != null) {
+                binding?.recommendedBySong = it.data.name
+            }
+        })
+        //设置个性化推荐歌曲
+        discoverFragmentViewModel.simiSongLiveData.observe(this, {
+
+        })
+
+
         //管理状态显示
         discoverFragmentViewModel.dataState.observe(this, {
             it.forEach { map ->
@@ -60,8 +77,14 @@ class DiscoverFragment : BaseFragment() {
 
     override fun initView() {
         binding?.isLoad = true
+
         discoverRecommendPlayListAdapter = DiscoverRecommendPlayListAdapter()
         binding?.rvRecommendPlaylist?.adapter = discoverRecommendPlayListAdapter
+
+        binding?.rvSimiSong?.layoutManager = StaggeredGridLayoutManager(3, RecyclerView.HORIZONTAL)
+        discoverSimiSongAdapter = DiscoverSimiSongAdapter()
+        binding?.rvSimiSong?.adapter = discoverSimiSongAdapter
+
         CustomHomeFun().setView(binding!!.root).startAdapter()
     }
 

@@ -47,13 +47,13 @@ data class SimilaritySongBean(
         @SerializedName("hrMusic")
         val hrMusic: Any, // null
         @SerializedName("id")
-        val id: Int, // 5239700
+        val id: Long, // 5239700
         @SerializedName("lMusic")
         val lMusic: LMusic,
         @SerializedName("mMusic")
         val mMusic: MMusic,
         @SerializedName("mark")
-        val mark: Int, // 262144
+        val mark: Long, // 262144
         @SerializedName("mp3Url")
         val mp3Url: String, // http://m2.music.126.net/hmZoNQaqzZALvVp0rE7faA==/0.mp3
         @SerializedName("mvid")
@@ -123,9 +123,9 @@ data class SimilaritySongBean(
             @SerializedName("description")
             val description: String,
             @SerializedName("id")
-            val id: Int, // 511177
+            val id: Long, // 511177
             @SerializedName("mark")
-            val mark: Int, // 0
+            val mark: Long, // 0
             @SerializedName("name")
             val name: String, // 最好听的声音
             @SerializedName("onSale")
@@ -245,7 +245,7 @@ data class SimilaritySongBean(
             @SerializedName("extension")
             val extension: String, // mp3
             @SerializedName("id")
-            val id: Int, // 22832937
+            val id: Long, // 22832937
             @SerializedName("name")
             val name: String,
             @SerializedName("playTime")
@@ -287,7 +287,7 @@ data class SimilaritySongBean(
             @SerializedName("extension")
             val extension: String, // mp3
             @SerializedName("id")
-            val id: Int, // 22832938
+            val id: Long, // 22832938
             @SerializedName("name")
             val name: String,
             @SerializedName("playTime")
@@ -326,7 +326,7 @@ data class SimilaritySongBean(
             @SerializedName("freeTrialPrivilege")
             val freeTrialPrivilege: FreeTrialPrivilege,
             @SerializedName("id")
-            val id: Int, // 5239700
+            val id: Long, // 5239700
             @SerializedName("maxBrLevel")
             val maxBrLevel: String, // exhigh
             @SerializedName("maxbr")

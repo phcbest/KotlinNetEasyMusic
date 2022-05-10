@@ -63,7 +63,7 @@ data class RecordRecentSongBean(
                 @SerializedName("m")
                 val m: M,
                 @SerializedName("mark")
-                val mark: Int, // 270464
+                val mark: Long, // 270464
                 @SerializedName("mst")
                 val mst: Int, // 9
                 @SerializedName("mv")
