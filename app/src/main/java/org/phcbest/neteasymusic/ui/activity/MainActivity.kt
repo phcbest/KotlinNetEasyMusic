@@ -163,7 +163,7 @@ class MainActivity : BaseActivity() {
     }
 
 
-    var currentFragment: Fragment? = null
+    private var currentFragment: Fragment? = null
     private fun switchFragment(targetFragment: Fragment) {
         currentFragment = currentFragment ?: targetFragment
         val beginTransaction = supportFragmentManager.beginTransaction()

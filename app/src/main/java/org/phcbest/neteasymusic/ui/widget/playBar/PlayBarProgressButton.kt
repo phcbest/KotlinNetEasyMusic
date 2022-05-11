@@ -2,16 +2,12 @@ package org.phcbest.neteasymusic.ui.widget.playBar
 
 import android.content.Context
 import android.graphics.*
-import android.os.CountDownTimer
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import androidx.annotation.IntRange
 import androidx.core.graphics.drawable.toBitmap
-import androidx.core.view.marginRight
 import org.phcbest.neteasymusic.R
-import org.phcbest.neteasymusic.utils.CountDownTimeWithPause
-import kotlin.math.log
 
 
 private const val TAG = "PlayBarProgressButton"

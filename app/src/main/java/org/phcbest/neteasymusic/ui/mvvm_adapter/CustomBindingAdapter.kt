@@ -22,6 +22,7 @@ import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.bean.UserPlaylistBean
 import org.phcbest.neteasymusic.ui.widget.custom.CircularImageView
 import org.phcbest.neteasymusic.utils.SpStorageUtils
+import org.phcbest.neteasymusic.utils.custom.CenterAlignImageSpan
 import org.phcbest.neteasymusic.utils.ndk_link.GaussianBlurUtils
 import java.text.DecimalFormat
 import java.text.FieldPosition
@@ -117,7 +118,7 @@ class CustomBindingAdapter {
             drawable.setBounds(0, 0, textView.lineHeight, textView.lineHeight)
             val ssb = SpannableStringBuilder()
             ssb.append("\u0020")
-            ssb.setSpan(ImageSpan(drawable),
+            ssb.setSpan(CenterAlignImageSpan(drawable),
                 0,
                 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             if (playCount in 0..9999) {
@@ -149,7 +150,7 @@ class CustomBindingAdapter {
             val ssb = SpannableStringBuilder()
             if (position == 0) {
                 ssb.append("\u0020")
-                ssb.setSpan(ImageSpan(imageRes),
+                ssb.setSpan(CenterAlignImageSpan(imageRes),
                     0,
                     1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             }

@@ -7,11 +7,9 @@ import android.media.MediaPlayer
 import android.os.Binder
 import android.os.IBinder
 import android.util.Log
-import androidx.annotation.IntRange
 import androidx.lifecycle.MutableLiveData
 import org.phcbest.neteasymusic.presenter.PresenterManager
-import org.phcbest.neteasymusic.utils.CountDownTimeWithPause
-import kotlin.math.max
+import org.phcbest.neteasymusic.utils.custom.CountDownTimeWithPause
 
 private const val TAG = "MusicPlayService"
 

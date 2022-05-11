@@ -1,11 +1,11 @@
-package org.phcbest.neteasymusic.utils
+package org.phcbest.neteasymusic.utils.custom
 
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.os.SystemClock
 import android.util.Log
-import kotlin.math.log
+import org.phcbest.neteasymusic.utils.Constants
 
 
 /**

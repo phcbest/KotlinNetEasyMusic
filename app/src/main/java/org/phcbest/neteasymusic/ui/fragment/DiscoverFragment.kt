@@ -3,6 +3,8 @@ package org.phcbest.neteasymusic.ui.fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.RotateAnimation
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
@@ -57,7 +59,10 @@ class DiscoverFragment : BaseFragment() {
         })
         //设置个性化推荐歌曲
         discoverFragmentViewModel.simiSongLiveData.observe(this, {
-
+            if (it != null) {
+                discoverSimiSongAdapter.setItemsData(it)
+                binding?.haveSimiRecommend = it.songs.isNotEmpty()
+            }
         })
 
 
@@ -86,6 +91,22 @@ class DiscoverFragment : BaseFragment() {
         binding?.rvSimiSong?.adapter = discoverSimiSongAdapter
 
         CustomHomeFun().setView(binding!!.root).startAdapter()
+    }
+
+    override fun initEvent() {
+        super.initEvent()
+        //设置推荐的点击刷新
+        binding!!.llSimiReflash.setOnClickListener {
+            discoverFragmentViewModel.setSimiSongLiveDataByRecordRecent(100)
+            //执行旋转动画
+            //设置动画
+            val rotateAnimation = RotateAnimation(0F, 360F,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f)
+            rotateAnimation.duration = 500
+            binding!!.ivSimiReflash.animation = rotateAnimation
+            binding!!.ivSimiReflash.startAnimation(rotateAnimation)
+        }
     }
 
     override fun onBaseDestroyView() {
