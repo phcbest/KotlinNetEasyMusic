@@ -49,7 +49,7 @@ class CustomPlayBar {
         init {
             mPlayBtn = view.findViewById(R.id.btn_play_bar_play)
             mPlayCover = view.findViewById(R.id.iv_play_bar_cover)
-            mPlayList = view.findViewById(R.id.iv_play_bar_list)
+            mPlayList = view.findViewById(R.id.btn_play_bar_list)
             mPlayName = view.findViewById(R.id.tv_play_bar_name)
         }
     }

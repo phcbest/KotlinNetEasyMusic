@@ -72,12 +72,12 @@
             android:layout_marginStart="10dp"
             android:elevation="2dp"
             app:layout_constraintBottom_toBottomOf="@id/bg_play_bar"
-            app:layout_constraintEnd_toStartOf="@id/iv_play_bar_list"
+            app:layout_constraintEnd_toStartOf="@id/btn_play_bar_list"
             app:layout_constraintStart_toEndOf="@id/tv_play_bar_name"
             app:layout_constraintTop_toTopOf="@id/bg_play_bar" />
 
         <ImageView
-            android:id="@+id/iv_play_bar_list"
+            android:id="@+id/btn_play_bar_list"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="20dp"

@@ -11,7 +11,7 @@ import org.phcbest.neteasymusic.base.BaseApplication
 
 class NetWorkUtils {
     companion object {
-        fun isNetWorkConnected(): Boolean {
+        private fun isNetWorkConnected(): Boolean {
             //"?:" 在kotlin中 如果左侧是一个null那么会返回右侧
             var result = false
             val connectivityManager =
@@ -22,6 +22,7 @@ class NetWorkUtils {
                 val actNw =
                     connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
                 result = when {
+
                     actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
                     actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
                     actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true

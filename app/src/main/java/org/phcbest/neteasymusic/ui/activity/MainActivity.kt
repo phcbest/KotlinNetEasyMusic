@@ -20,7 +20,9 @@ import org.phcbest.neteasymusic.presenter.IGetSongInfoPresenter
 import org.phcbest.neteasymusic.presenter.PresenterManager
 import org.phcbest.neteasymusic.service.MusicPlayService
 import org.phcbest.neteasymusic.ui.activity.viewmodel.MainActivityViewModel
+import org.phcbest.neteasymusic.ui.dialog.DialogBox
 import org.phcbest.neteasymusic.ui.fragment.*
+import org.phcbest.neteasymusic.ui.widget.adapter.PlayListDialogAdapter
 import org.phcbest.neteasymusic.ui.widget.playBar.CustomPlayBar
 
 
@@ -41,8 +43,11 @@ class MainActivity : BaseActivity() {
     private var getSongInfoPresenter: IGetSongInfoPresenter? = null
     private lateinit var mainActivityViewModel: MainActivityViewModel
 
+    private lateinit var mainPlayListDialog: DialogBox.MainPlayListResult
+
+    private lateinit var playListDialogAdapter: PlayListDialogAdapter
+
     override fun initView() {
-        mainActivityViewModel = ViewModelProviders.of(this)[MainActivityViewModel::class.java]
         //设置导航栏tint效果为null
         binding.navMain.itemIconTintList = null
         //初始化fragment
@@ -53,6 +58,11 @@ class MainActivity : BaseActivity() {
         cloudVillageFragment = CloudVillageFragment.newInstance()
         //执行playbar初始化
         mCustomPlayBar = CustomPlayBar.newInstance().initView(binding.root)
+        //初始化dialog
+        mainPlayListDialog = DialogBox.newInstance().initMainPlayListDialog(this)
+        //设置适配器
+        playListDialogAdapter = PlayListDialogAdapter()
+        mainPlayListDialog.dialogMainPlaylistBinding.rvDialogNowplay.adapter = playListDialogAdapter
     }
 
 
@@ -79,8 +89,17 @@ class MainActivity : BaseActivity() {
             }
             true
         }
-        //判断网络状态来 初始化主页位置
+        //判断网络状态来 初始化主页位置,这里直接执行点击下发ui事件
         binding.navMain.findViewById<View>(R.id.menu_discover).performClick()
+
+        //设置播放栏的点击按钮事件
+        binding.mainPlayBar.btnPlayBarList.setOnClickListener {
+            mainPlayListDialog.dialogMainPlaylistBinding.isDialogLoad = true
+            //获得歌单
+            mainActivityViewModel.setPlayListDetail("413126379")
+            //显示dialog
+            mainPlayListDialog.dialog.show()
+        }
 
     }
 
@@ -97,13 +116,17 @@ class MainActivity : BaseActivity() {
                 }
             },
             {})
-
     }
 
     override fun observeViewModel() {
         super.observeViewModel()
-        mainActivityViewModel.liveDataPlaylist.observe(this, {
-
+        mainActivityViewModel.playlistDetailLiveData.observe(this, {
+            if (it != null) {
+                playListDialogAdapter.setPlayListDetail(it)
+                mainPlayListDialog.dialogMainPlaylistBinding.isDialogLoad = false
+            } else {
+                mainPlayListDialog.dialogMainPlaylistBinding.isDialogLoad = true
+            }
         })
     }
 
@@ -158,11 +181,13 @@ class MainActivity : BaseActivity() {
 
 
     override fun getViewBinding(): ViewBinding {
+        mainActivityViewModel = ViewModelProviders.of(this)[MainActivityViewModel::class.java]
         binding = ActivityMainBinding.inflate(layoutInflater)
         return binding
     }
 
 
+    //切换fragment
     private var currentFragment: Fragment? = null
     private fun switchFragment(targetFragment: Fragment) {
         currentFragment = currentFragment ?: targetFragment

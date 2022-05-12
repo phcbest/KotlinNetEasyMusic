@@ -11,4 +11,6 @@
     <string name="src_mine_x_songs">%d首</string>
     <string name="str_star_playlist">收藏歌单(%d个)</string>
     <string name="str_create_playlist">创建歌单(%d个)</string>
+
+
 </resources>
