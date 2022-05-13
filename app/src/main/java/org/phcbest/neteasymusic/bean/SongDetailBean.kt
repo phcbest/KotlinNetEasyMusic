@@ -196,7 +196,7 @@ data class SongDetailBean(
             @SerializedName("size")
             val size: Int, // 10167946
             @SerializedName("vd")
-            val vd: Int // -74805
+            val vd: Float // -74805
         )
 
         data class L(
@@ -207,7 +207,7 @@ data class SongDetailBean(
             @SerializedName("size")
             val size: Int, // 4067204
             @SerializedName("vd")
-            val vd: Int // -70739
+            val vd: Float // -70739
         )
 
         data class M(
@@ -218,7 +218,7 @@ data class SongDetailBean(
             @SerializedName("size")
             val size: Int, // 6100785
             @SerializedName("vd")
-            val vd: Int // -72309
+            val vd: Float // -72309
         )
     }
 }

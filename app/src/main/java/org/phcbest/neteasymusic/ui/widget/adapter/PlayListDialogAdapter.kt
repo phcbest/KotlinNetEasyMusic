@@ -15,6 +15,8 @@ class PlayListDialogAdapter : RecyclerView.Adapter<PlayListDialogAdapter.ViewHol
 
     private var playListDetailBean: PlayListDetailBean? = null
 
+    private lateinit var clock: (PlayListDetailBean.Playlist.Track) -> Unit
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
@@ -24,6 +26,7 @@ class PlayListDialogAdapter : RecyclerView.Adapter<PlayListDialogAdapter.ViewHol
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.binding.root.setOnClickListener { clock(playListDetailBean!!.playlist.tracks[position]) }
         holder.binding.songItem = playListDetailBean!!.playlist.tracks[position]
     }
 
@@ -38,5 +41,9 @@ class PlayListDialogAdapter : RecyclerView.Adapter<PlayListDialogAdapter.ViewHol
     fun setPlayListDetail(playListDetailBean: PlayListDetailBean) {
         this.playListDetailBean = playListDetailBean
         notifyDataSetChanged()
+    }
+
+    fun setOnclick(clock: (PlayListDetailBean.Playlist.Track) -> Unit) {
+        this.clock = clock
     }
 }

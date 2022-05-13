@@ -100,19 +100,34 @@ class MainActivity : BaseActivity() {
             //显示dialog
             mainPlayListDialog.dialog.show()
         }
-
+        //dialog playlist的点击事件设置
+        playListDialogAdapter.setOnclick {
+            Log.i(TAG, "initEvent: $it")
+        }
+        //播放栏按钮的事件
+        mCustomPlayBar?.viewHolder?.mPlayBtn?.setOnClickListener {
+            //设置ui表现和service表现
+            if (serviceBind?.playState!!) {
+                mCustomPlayBar!!.setUIResume()
+                serviceBind?.resumeOrStart()
+            } else {
+                mCustomPlayBar!!.setUIPause()
+                serviceBind?.pause()
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun initPresenter() {
+        //绑定服务
+        bindPlayService()
         getSongInfoPresenter = PresenterManager.getInstance().getSongInfoPresenter()
         //加载播放bar ui表现
         getSongInfoPresenter!!.getSongDetailByIDs(
-            "222799",
+            "224526",
             { songDetailBean ->
                 songDetailBean.songs[0].let {
                     mCustomPlayBar!!.setData(it)
-                    bindPlayService()
                 }
             },
             {})
@@ -133,14 +148,15 @@ class MainActivity : BaseActivity() {
     /**
      * Bind播放服务
      */
+    var serviceBind: MusicPlayService.MyBinder? = null
+
     private fun bindPlayService() {
-        var serviceBind: MusicPlayService.MyBinder? = null
         val conn = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
 //                serviceBind.progressLiveData.observe()
                 serviceBind = service as MusicPlayService.MyBinder
                 //播放音乐的url
-                serviceBind!!.play("222799")
+                serviceBind!!.play(224526)
 
                 serviceBind?.progressLiveData?.observe(this@MainActivity, {
                     when (it) {
@@ -167,16 +183,7 @@ class MainActivity : BaseActivity() {
             conn,
             Service.BIND_AUTO_CREATE
         )
-        mCustomPlayBar?.viewHolder?.mPlayBtn?.setOnClickListener {
-            //设置ui表现和service表现
-            if (serviceBind?.playState!!) {
-                mCustomPlayBar!!.setUIResume()
-                serviceBind?.resumeOrStart()
-            } else {
-                mCustomPlayBar!!.setUIPause()
-                serviceBind?.pause()
-            }
-        }
+
     }
 
 

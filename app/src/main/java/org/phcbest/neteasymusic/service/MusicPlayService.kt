@@ -131,7 +131,7 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener,
         /**
          * 加载音乐
          */
-        fun play(songID: String) {
+        fun play(songID: Int) {
             try {
                 PresenterManager.getInstance().getSongInfoPresenter()
                     .getSongDownLoadUrl(songID, success = { songUrlBean ->

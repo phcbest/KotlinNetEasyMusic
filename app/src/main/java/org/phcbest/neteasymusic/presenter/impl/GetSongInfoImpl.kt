@@ -56,7 +56,7 @@ class GetSongInfoImpl : IGetSongInfoPresenter {
      * 获取歌曲下载url
      */
     override fun getSongDownLoadUrl(
-        id: String,
+        id: Int,
         success: (SongUrlBean) -> Unit,
         error: (Throwable) -> Unit,
     ) {
