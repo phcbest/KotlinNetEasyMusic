@@ -127,7 +127,7 @@ class MainActivity : BaseActivity() {
             "224526",
             { songDetailBean ->
                 songDetailBean.songs[0].let {
-                    mCustomPlayBar!!.setData(it)
+                    mCustomPlayBar!!.setViewPerformance(it)
                 }
             },
             {})

@@ -36,7 +36,7 @@ class MusicPlayService : Service(), MediaPlayer.OnPreparedListener,
     }
 
     /**
-     * seavice的启动命令,用于设置启动状态
+     * service的启动命令,用于设置启动状态
      * @return 如果service被kill,系统会带着最后一次传入的intent参数重新启动
      */
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

@@ -55,7 +55,7 @@ class CustomPlayBar {
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    fun setData(song: SongDetailBean.Song) {
+    fun setViewPerformance(song: SongDetailBean.Song) {
         Log.i(TAG, "setData: $song")
         if (song.tns == null || song.tns.isEmpty()) {
             viewHolder?.mPlayName?.text = song.name
