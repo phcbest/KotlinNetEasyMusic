@@ -1,11 +1,6 @@
 package org.phcbest.neteasymusic.ui.activity
 
-import android.app.Service
-import android.content.ComponentName
-import android.content.Intent
-import android.content.ServiceConnection
 import android.os.Build
-import android.os.IBinder
 import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
@@ -14,11 +9,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseActivity
-import org.phcbest.neteasymusic.base.BaseApplication
 import org.phcbest.neteasymusic.databinding.ActivityMainBinding
 import org.phcbest.neteasymusic.presenter.IGetSongInfoPresenter
 import org.phcbest.neteasymusic.presenter.PresenterManager
-import org.phcbest.neteasymusic.service.MusicPlayService
 import org.phcbest.neteasymusic.ui.activity.viewmodel.MainActivityViewModel
 import org.phcbest.neteasymusic.ui.dialog.DialogBox
 import org.phcbest.neteasymusic.ui.fragment.*
@@ -106,21 +99,12 @@ class MainActivity : BaseActivity() {
         }
         //播放栏按钮的事件
         mCustomPlayBar?.viewHolder?.mPlayBtn?.setOnClickListener {
-            //设置ui表现和service表现
-            if (serviceBind?.playState!!) {
-                mCustomPlayBar!!.setUIResume()
-                serviceBind?.resumeOrStart()
-            } else {
-                mCustomPlayBar!!.setUIPause()
-                serviceBind?.pause()
-            }
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun initPresenter() {
         //绑定服务
-        bindPlayService()
         getSongInfoPresenter = PresenterManager.getInstance().getSongInfoPresenter()
         //加载播放bar ui表现
         getSongInfoPresenter!!.getSongDetailByIDs(
@@ -148,43 +132,6 @@ class MainActivity : BaseActivity() {
     /**
      * Bind播放服务
      */
-    var serviceBind: MusicPlayService.MyBinder? = null
-
-    private fun bindPlayService() {
-        val conn = object : ServiceConnection {
-            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-//                serviceBind.progressLiveData.observe()
-                serviceBind = service as MusicPlayService.MyBinder
-                //播放音乐的url
-                serviceBind!!.play(224526)
-
-                serviceBind?.progressLiveData?.observe(this@MainActivity, {
-                    when (it) {
-                        -1 -> {
-                            // TODO: 2022/5/2 设置结束后的ui表现
-                            binding.mainPlayBar.btnPlayBarPlay.resetProgress()
-                        }
-                        -2 -> {
-//                            binding.mainPlayBar.btnPlayBarPlay
-                        }
-                        else -> {
-                            binding.mainPlayBar.btnPlayBarPlay.updateProgress(it)
-                        }
-                    }
-                })
-            }
-
-            override fun onServiceDisconnected(name: ComponentName?) {
-                Log.i(TAG, "onServiceDisconnected: 服务断开")
-            }
-        }
-        BaseApplication.appContext?.bindService(
-            Intent(BaseApplication.appContext, MusicPlayService::class.java),
-            conn,
-            Service.BIND_AUTO_CREATE
-        )
-
-    }
 
 
     override fun getViewBinding(): ViewBinding {

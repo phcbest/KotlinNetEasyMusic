@@ -14,11 +14,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NetEasyMusic"
         android:usesCleartextTraffic="true">
-
         <service
-            android:name=".service.MusicPlayService"
+            android:name=".service.MusicService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="true"></service>
+
+        <meta-data
+            android:name="com.google.android.gms.car.application"
+            android:resource="@xml/automotive_app_desc" />
 
         <activity
             android:name=".ui.activity.SplashActivity"
@@ -45,7 +48,6 @@
             android:name=".ui.activity.LoginActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
-
     </application>
 
 </manifest>
