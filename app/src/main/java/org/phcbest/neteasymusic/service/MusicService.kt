@@ -3,12 +3,16 @@ package org.phcbest.neteasymusic.service
 import android.os.Binder
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
+import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.TextUtils
 import android.util.Log
 import androidx.media.MediaBrowserServiceCompat
 import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.Player
+
 
 class MusicService : MediaBrowserServiceCompat() {
 
@@ -74,8 +78,79 @@ class MusicService : MediaBrowserServiceCompat() {
         if (TextUtils.equals("media_root_id", parentId)) {
 
         }
-        var musicEntityList: MutableList<MusicEntity>
+        var musicEntityList: MutableList<MusicEntity> = arrayListOf()
+
+        for ((index, musicEntity) in musicEntityList.withIndex()) {
+            val metadataCompat: MediaMetadataCompat = buildMediaMetadata(musicEntity)
+
+            if (index == 0) {
+                mediaSession.setMetadata(metadataCompat)
+            }
+            mediaItems.add(MediaBrowserCompat.MediaItem(metadataCompat.description,
+                MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
+
+            exoPlayer.addMediaItem(MediaItem.fromUri(musicEntity.source));
+        }
+
+        result.sendResult(mediaItems)
+        Log.i(TAG, "onLoadChildren: addMediaItem")
+
+        initExoPlayerListener()
+        exoPlayer.prepare()
+        Log.i(TAG, "onLoadChildren: prepare")
+
     }
+
+
+    private fun buildMediaMetadata(musicEntity: MusicEntity): MediaMetadataCompat {
+        return MediaMetadataCompat.Builder()
+            .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, musicEntity.id)
+            .putString("__SOURCE__", musicEntity.source)
+            .putString(MediaMetadataCompat.METADATA_KEY_TITLE, musicEntity.name)
+            .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, musicEntity.artist)
+            .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, musicEntity.cover)
+            .build()
+    }
+
+    private fun initExoPlayerListener() {
+        exoPlayer.addListener(object : Player.Listener {
+            /**
+             * 用户触发切歌暂停播放,seek
+             * 播放器触发,播放结束,自动切歌
+             */
+            override fun onPlaybackStateChanged(state: Int) {
+                val currentPosition = exoPlayer.currentPosition
+                val duration = exoPlayer.duration
+                Log.i(TAG,
+                    "onPlaybackStateChanged: currentPosition = $currentPosition duration = $duration state = $state")
+
+                val playbackState: Int = when (state) {
+                    Player.STATE_IDLE -> PlaybackStateCompat.STATE_NONE
+                    Player.STATE_BUFFERING -> PlaybackStateCompat.STATE_BUFFERING
+                    Player.STATE_READY -> if (exoPlayer.playWhenReady) {
+                        PlaybackStateCompat.STATE_PLAYING
+                    } else {
+                        PlaybackStateCompat.STATE_PAUSED
+                    }
+                    Player.STATE_ENDED -> PlaybackStateCompat.STATE_STOPPED
+                    else -> PlaybackStateCompat.STATE_NONE
+                }
+                //播放器状态改变,通过mediaSession告诉ui在业务层注册的MediaControllerCompat.Callback回调
+                setPlaybackState(playbackState)
+            }
+        })
+    }
+
+    private fun setPlaybackState(playbackState: Int) {
+        val speed: Float = if (exoPlayer.playbackParameters == null) {
+            1f
+        } else {
+            exoPlayer.playbackParameters.speed
+        }
+        mediaSession.setPlaybackState(PlaybackStateCompat.Builder()
+            .setState(playbackState, exoPlayer.currentPosition, speed).build())
+    }
+
 
     private data class MusicEntity(
         val id: String,
