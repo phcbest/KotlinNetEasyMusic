@@ -84,6 +84,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
 
     //exoplayer
-    implementation 'com.google.android.exoplayer:exoplayer:2.17.1'
+//    implementation 'com.google.android.exoplayer:exoplayer:2.17.1'
 
 }

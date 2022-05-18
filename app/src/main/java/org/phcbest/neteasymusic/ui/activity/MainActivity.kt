@@ -1,10 +1,16 @@
 package org.phcbest.neteasymusic.ui.activity
 
+import android.content.ComponentName
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Build
+import android.os.IBinder
 import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.R
@@ -12,6 +18,7 @@ import org.phcbest.neteasymusic.base.BaseActivity
 import org.phcbest.neteasymusic.databinding.ActivityMainBinding
 import org.phcbest.neteasymusic.presenter.IGetSongInfoPresenter
 import org.phcbest.neteasymusic.presenter.PresenterManager
+import org.phcbest.neteasymusic.service.MusicPlayerService
 import org.phcbest.neteasymusic.ui.activity.viewmodel.MainActivityViewModel
 import org.phcbest.neteasymusic.ui.dialog.DialogBox
 import org.phcbest.neteasymusic.ui.fragment.*
@@ -115,6 +122,8 @@ class MainActivity : BaseActivity() {
                 }
             },
             {})
+        //绑定services
+        doBindServices()
     }
 
     override fun observeViewModel() {
@@ -127,11 +136,38 @@ class MainActivity : BaseActivity() {
                 mainPlayListDialog.dialogMainPlaylistBinding.isDialogLoad = true
             }
         })
+        //service和活动bind后更新的liveData
+        musicPlayerServiceLD.observe(this, {
+            if (it == null) {
+
+            }
+        })
     }
+
+
+    private var musicPlayerServiceLD: MutableLiveData<MusicPlayerService?> = MutableLiveData()
 
     /**
      * Bind播放服务
      */
+    private fun doBindServices() {
+
+        val serviceConnection = object : ServiceConnection {
+            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                Log.i(TAG, "onServiceConnected: 服务和活动连接完成")
+                val binder = service as MusicPlayerService.MyBinder
+                musicPlayerServiceLD.postValue(binder.getService())
+            }
+
+            override fun onServiceDisconnected(name: ComponentName?) {
+                Log.i(TAG, "onServiceDisconnected: 服务和活动断开连接")
+                musicPlayerServiceLD.postValue(null)
+            }
+        }
+        bindService(Intent(this, MusicPlayerService::class.java),
+            serviceConnection,
+            BIND_AUTO_CREATE)
+    }
 
 
     override fun getViewBinding(): ViewBinding {
