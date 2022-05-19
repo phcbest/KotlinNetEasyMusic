@@ -19,7 +19,7 @@ interface IGetSongInfoPresenter {
     )
 
     fun getSongDownLoadUrl(
-        id: Int,
+        id: String,
         success: (SongUrlBean) -> Unit,
         error: (Throwable) -> Unit,
     )

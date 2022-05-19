@@ -52,7 +52,7 @@ interface RetrofitApi {
      * 根据歌曲id获得下载url
      */
     @GET("/song/url")
-    fun getDownloadUrlById(@Query("id") id: Int): Observable<SongUrlBean>
+    fun getDownloadUrlById(@Query("id") id: String): Observable<SongUrlBean>
 
     /**
      * 歌曲详情

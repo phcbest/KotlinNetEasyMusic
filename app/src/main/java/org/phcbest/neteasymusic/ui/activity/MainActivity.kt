@@ -9,15 +9,11 @@ import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseActivity
 import org.phcbest.neteasymusic.databinding.ActivityMainBinding
-import org.phcbest.neteasymusic.presenter.IGetSongInfoPresenter
-import org.phcbest.neteasymusic.presenter.PresenterManager
 import org.phcbest.neteasymusic.service.MusicPlayerService
 import org.phcbest.neteasymusic.ui.activity.viewmodel.MainActivityViewModel
 import org.phcbest.neteasymusic.ui.dialog.DialogBox
@@ -40,12 +36,15 @@ class MainActivity : BaseActivity() {
     private var followFragment: Fragment? = null
     private var cloudVillageFragment: Fragment? = null
     private var mCustomPlayBar: CustomPlayBar? = null
-    private var getSongInfoPresenter: IGetSongInfoPresenter? = null
     private lateinit var mainActivityViewModel: MainActivityViewModel
 
     private lateinit var mainPlayListDialog: DialogBox.MainPlayListResult
 
     private lateinit var playListDialogAdapter: PlayListDialogAdapter
+
+    //歌单id
+    private val playListId = "413126379"
+
 
     override fun initView() {
         //设置导航栏tint效果为null
@@ -96,72 +95,63 @@ class MainActivity : BaseActivity() {
         binding.mainPlayBar.btnPlayBarList.setOnClickListener {
             mainPlayListDialog.dialogMainPlaylistBinding.isDialogLoad = true
             //获得歌单
-            mainActivityViewModel.setPlayListDetail("413126379")
+            mainActivityViewModel.setPlayListDetail(playListId)
             //显示dialog
             mainPlayListDialog.dialog.show()
         }
         //dialog playlist的点击事件设置
         playListDialogAdapter.setOnclick {
             Log.i(TAG, "initEvent: $it")
+            //进行音乐播放
+            mMusicPlayerService?.switchSong(0)
         }
         //播放栏按钮的事件
         mCustomPlayBar?.viewHolder?.mPlayBtn?.setOnClickListener {
+            mMusicPlayerService?.playControl(2)
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun initPresenter() {
-        //绑定服务
-        getSongInfoPresenter = PresenterManager.getInstance().getSongInfoPresenter()
-        //加载播放bar ui表现
-        getSongInfoPresenter!!.getSongDetailByIDs(
-            "224526",
-            { songDetailBean ->
-                songDetailBean.songs[0].let {
-                    mCustomPlayBar!!.setViewPerformance(it)
-                }
-            },
-            {})
+        //获取一次播放列表
+        mainActivityViewModel.setPlayListDetail(playListId)
         //绑定services
         doBindServices()
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun observeViewModel() {
         super.observeViewModel()
         mainActivityViewModel.playlistDetailLiveData.observe(this, {
             if (it != null) {
                 playListDialogAdapter.setPlayListDetail(it)
                 mainPlayListDialog.dialogMainPlaylistBinding.isDialogLoad = false
+                //当service不为空的时候设置播放列表x
+                mMusicPlayerService?.setPlayList(it.playlist)
             } else {
                 mainPlayListDialog.dialogMainPlaylistBinding.isDialogLoad = true
             }
         })
-        //service和活动bind后更新的liveData
-        musicPlayerServiceLD.observe(this, {
-            if (it == null) {
 
-            }
-        })
     }
 
-
-    private var musicPlayerServiceLD: MutableLiveData<MusicPlayerService?> = MutableLiveData()
 
     /**
      * Bind播放服务
      */
+    var mMusicPlayerService: MusicPlayerService? = null
     private fun doBindServices() {
 
         val serviceConnection = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 Log.i(TAG, "onServiceConnected: 服务和活动连接完成")
                 val binder = service as MusicPlayerService.MyBinder
-                musicPlayerServiceLD.postValue(binder.getService())
+                mMusicPlayerService = binder.getService()
             }
 
             override fun onServiceDisconnected(name: ComponentName?) {
                 Log.i(TAG, "onServiceDisconnected: 服务和活动断开连接")
-                musicPlayerServiceLD.postValue(null)
+                mMusicPlayerService = null
             }
         }
         bindService(Intent(this, MusicPlayerService::class.java),
