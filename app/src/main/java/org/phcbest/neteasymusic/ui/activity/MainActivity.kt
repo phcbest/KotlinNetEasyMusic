@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseActivity
+import org.phcbest.neteasymusic.bean.PlayListDetailBean
 import org.phcbest.neteasymusic.databinding.ActivityMainBinding
 import org.phcbest.neteasymusic.service.MusicPlayerService
 import org.phcbest.neteasymusic.ui.activity.viewmodel.MainActivityViewModel
@@ -100,10 +101,10 @@ class MainActivity : BaseActivity() {
             mainPlayListDialog.dialog.show()
         }
         //dialog playlist的点击事件设置
-        playListDialogAdapter.setOnclick {
-            Log.i(TAG, "initEvent: $it")
+        playListDialogAdapter.setOnclick { track: PlayListDetailBean.Playlist.Track, i: Int ->
+            Log.i(TAG, "initEvent: $track")
             //进行音乐播放
-            mMusicPlayerService?.switchSong(0)
+            mMusicPlayerService?.switchSong(index = i)
         }
         //播放栏按钮的事件
         mCustomPlayBar?.viewHolder?.mPlayBtn?.setOnClickListener {

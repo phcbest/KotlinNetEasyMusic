@@ -2,14 +2,17 @@ package org.phcbest.neteasymusic.service
 
 import android.app.Service
 import android.content.Intent
+import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.IBinder
 
 
 import android.os.Binder
 import android.os.Build
+import android.os.PowerManager
 import android.util.Log
 import androidx.annotation.RequiresApi
+import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.bean.PlayListDetailBean
 import org.phcbest.neteasymusic.presenter.PresenterManager
 import java.util.*
@@ -31,14 +34,18 @@ class MusicPlayerService : Service() {
         super.onCreate()
         //初始化播放器
         mMediaPlayer = MediaPlayer()
+        mMediaPlayer.setWakeMode(applicationContext, PowerManager.PARTIAL_WAKE_LOCK);
+        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         //初始化mediaPlayer的事件
         initMediaPlayerEvent()
     }
+
 
     private fun initMediaPlayerEvent() {
         mMediaPlayer.setOnPreparedListener {
             //准备加载,进行播放
             mMediaPlayer.start()
+
             //获得歌曲时间
 //            it.duration
         }
@@ -54,8 +61,7 @@ class MusicPlayerService : Service() {
         //设置错误监听为已经处理,就不会在切歌的时候触发完成回调
         mMediaPlayer.setOnErrorListener { mediaPlayer: MediaPlayer, what: Int, extra: Int ->
             Log.i(TAG, "initMediaPlayerEvent: OnErrorListener what = $what")
-
-            true
+            false
         }
     }
 
@@ -85,6 +91,7 @@ class MusicPlayerService : Service() {
             }
             else -> Log.i(TAG, "playControl: 控制代码$controlCode 没有符合的")
         }
+        isPlayer = mMediaPlayer.isPlaying
     }
 
 
