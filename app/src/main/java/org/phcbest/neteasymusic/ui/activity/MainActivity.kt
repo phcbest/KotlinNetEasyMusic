@@ -108,7 +108,11 @@ class MainActivity : BaseActivity() {
         }
         //播放栏按钮的事件
         mCustomPlayBar?.viewHolder?.mPlayBtn?.setOnClickListener {
-            mMusicPlayerService?.playControl(2)
+            if (mMusicPlayerService?.isPlayerLD?.value!!) {
+                mMusicPlayerService?.playControl(1)
+            } else {
+                mMusicPlayerService?.playControl(2)
+            }
         }
     }
 
@@ -137,6 +141,26 @@ class MainActivity : BaseActivity() {
     }
 
 
+    fun setTheObserverAfterTheServiceIsBound() {
+        //用户控制播放暂停的回调
+        mMusicPlayerService?.isPlayerLD?.observe(this, {
+            if (it) {
+                binding.mainPlayBar.btnPlayBarPlay.play()
+                binding.mainPlayBar.ivPlayBarCover.startTurn()
+            } else {
+                binding.mainPlayBar.btnPlayBarPlay.pause()
+                binding.mainPlayBar.ivPlayBarCover.stopTurn()
+            }
+        })
+
+        //加载好音乐后的回调
+        mMusicPlayerService?.currentSongEntityLD?.observe(this, {
+            binding.mainPlayBar.ivPlayBarCover.setBackAndFrontGround(-1, it.cover)
+            binding.mainPlayBar.tvPlayBarName
+        })
+    }
+
+
     /**
      * Bind播放服务
      */
@@ -148,6 +172,7 @@ class MainActivity : BaseActivity() {
                 Log.i(TAG, "onServiceConnected: 服务和活动连接完成")
                 val binder = service as MusicPlayerService.MyBinder
                 mMusicPlayerService = binder.getService()
+                setTheObserverAfterTheServiceIsBound()
             }
 
             override fun onServiceDisconnected(name: ComponentName?) {

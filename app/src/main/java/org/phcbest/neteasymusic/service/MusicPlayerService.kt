@@ -1,6 +1,7 @@
 package org.phcbest.neteasymusic.service
 
 import android.app.Service
+import android.content.Entity
 import android.content.Intent
 import android.media.AudioManager
 import android.media.MediaPlayer
@@ -12,6 +13,8 @@ import android.os.Build
 import android.os.PowerManager
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.bean.PlayListDetailBean
 import org.phcbest.neteasymusic.presenter.PresenterManager
@@ -40,12 +43,13 @@ class MusicPlayerService : Service() {
         initMediaPlayerEvent()
     }
 
+    var currentSongEntityLD: MutableLiveData<SongEntity> = MutableLiveData()
 
     private fun initMediaPlayerEvent() {
         mMediaPlayer.setOnPreparedListener {
             //准备加载,进行播放
-            mMediaPlayer.start()
-
+            playControl(2)
+            currentSongEntityLD.postValue(mPlaylist[mCurrentSongIndex])
             //获得歌曲时间
 //            it.duration
         }
@@ -66,7 +70,8 @@ class MusicPlayerService : Service() {
     }
 
 
-    var isPlayer: Boolean = false
+    //true为播放,false为暂停
+    var isPlayerLD: MutableLiveData<Boolean> = MutableLiveData(false)
 
     /**
      * 播放控制
@@ -91,7 +96,7 @@ class MusicPlayerService : Service() {
             }
             else -> Log.i(TAG, "playControl: 控制代码$controlCode 没有符合的")
         }
-        isPlayer = mMediaPlayer.isPlaying
+        isPlayerLD.postValue(mMediaPlayer.isPlaying)
     }
 
 
@@ -135,6 +140,7 @@ class MusicPlayerService : Service() {
                 if (it.data.isNotEmpty()) {
                     mMediaPlayer.setDataSource(it.data[0].url)
                     mMediaPlayer.prepareAsync()
+                    //将当前播放音乐的数据传递出去
                 }
             }, { it.printStackTrace() })
     }
