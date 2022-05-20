@@ -133,6 +133,7 @@ class TurnImageCover : View {
         }
         //设置前景
         Glide.with(mContext!!).asBitmap().load("$front?param=130y130")
+
             .into(object : CustomTarget<Bitmap>() {
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                     mFrontBm = getCircleBitmap(resource)

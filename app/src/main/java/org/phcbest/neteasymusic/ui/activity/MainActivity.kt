@@ -156,7 +156,8 @@ class MainActivity : BaseActivity() {
         //加载好音乐后的回调
         mMusicPlayerService?.currentSongEntityLD?.observe(this, {
             binding.mainPlayBar.ivPlayBarCover.setBackAndFrontGround(-1, it.cover)
-            binding.mainPlayBar.tvPlayBarName
+            binding.mainPlayBar.songName = it.name
+            binding.mainPlayBar.songAuthor = it.author
         })
     }
 

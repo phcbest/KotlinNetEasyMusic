@@ -110,7 +110,7 @@ class MusicPlayerService : Service() {
                 it.id.toString(),
                 it.al.picUrl,
                 if (it.ar!!.isEmpty()) {
-                    "佚名"
+                    "未知歌手"
                 } else {
                     val sj = StringJoiner("-")
                     it.ar.map { ar -> sj.add(ar.name) }

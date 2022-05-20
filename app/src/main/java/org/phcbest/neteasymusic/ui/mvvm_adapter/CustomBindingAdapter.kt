@@ -1,6 +1,7 @@
 package org.phcbest.neteasymusic.ui.mvvm_adapter
 
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.media.Image
@@ -8,8 +9,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.Spanned
-import android.text.style.ImageSpan
-import android.text.style.RelativeSizeSpan
+import android.text.style.*
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
@@ -162,6 +162,26 @@ class CustomBindingAdapter {
                     ssb.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
 
+            textView.text = ssb
+        }
+
+
+        @JvmStatic
+        @BindingAdapter("setPayBarTextName", "setPayBarTextAuthor", requireAll = true)
+        fun setPayBarText(textView: TextView, name: String, author: String) {
+            val ssb = SpannableStringBuilder()
+            ssb.append(name)
+            val length = ssb.length
+            ssb.append("-")
+            ssb.append(author)
+            ssb.setSpan(AbsoluteSizeSpan(30),
+                length,
+                ssb.length,
+                Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+            ssb.setSpan(ForegroundColorSpan(Color.GRAY),
+                length,
+                ssb.length,
+                Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
             textView.text = ssb
         }
 
