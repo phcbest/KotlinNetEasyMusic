@@ -1,25 +1,18 @@
 package org.phcbest.neteasymusic.service
 
 import android.app.Service
-import android.content.Entity
 import android.content.Intent
 import android.media.AudioManager
 import android.media.MediaPlayer
-import android.os.IBinder
+import android.os.*
 
 
-import android.os.Binder
-import android.os.Build
-import android.os.PowerManager
 import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.bean.PlayListDetailBean
 import org.phcbest.neteasymusic.presenter.PresenterManager
 import java.util.*
-import kotlin.math.log
 
 private const val TAG = "MusicPlayService"
 
@@ -43,16 +36,34 @@ class MusicPlayerService : Service() {
         initMediaPlayerEvent()
     }
 
+    /**
+     *  控制发送进度给外部
+     */
+    var mProgressHandler: Handler = object : Handler(Looper.myLooper()!!) {
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+            //获得当前播放的进度
+            if (this@MusicPlayerService::mMediaPlayer.isInitialized) {
+                Log.i(TAG,
+                    "handleMessage: 歌曲长度${mMediaPlayer.duration}  当前位置${mMediaPlayer.currentPosition}")
+                //将进度推出
+                
+                sendEmptyMessageDelayed(0, 1000)
+            }
+        }
+    }
+//        progressHandler.sendEmptyMessage(0)
+
+
     var currentSongEntityLD: MutableLiveData<SongEntity> = MutableLiveData()
 
     private fun initMediaPlayerEvent() {
         mMediaPlayer.setOnPreparedListener {
-
+            //取消消息
+            mProgressHandler.removeMessages(0)
             //准备加载,进行播放
             playControl(2)
             currentSongEntityLD.postValue(mPlaylist[mCurrentSongIndex])
-            //获得歌曲时间
-//            it.duration
         }
         mMediaPlayer.setOnCompletionListener {
             //播放完成回调,切换下一首
@@ -98,6 +109,12 @@ class MusicPlayerService : Service() {
             else -> Log.i(TAG, "playControl: 控制代码$controlCode 没有符合的")
         }
         isPlayerLD.postValue(mMediaPlayer.isPlaying)
+        //设置进度退出
+        if (mMediaPlayer.isPlaying) {
+            mProgressHandler.sendEmptyMessage(0)
+        } else {
+            mProgressHandler.removeMessages(0)
+        }
     }
 
 
@@ -133,6 +150,7 @@ class MusicPlayerService : Service() {
     }
 
     private fun aSyncLoadSong() {
+        //复位播放器
         mMediaPlayer.reset()
         //网络请求获得播放地址
         Log.i(TAG, "aSyncLoadSong: 加载音乐的下标 $mCurrentSongIndex")
