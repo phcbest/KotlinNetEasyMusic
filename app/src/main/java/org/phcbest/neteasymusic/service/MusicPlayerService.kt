@@ -10,6 +10,7 @@ import android.os.*
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.sync.Mutex
 import org.phcbest.neteasymusic.bean.PlayListDetailBean
 import org.phcbest.neteasymusic.presenter.PresenterManager
 import java.util.*
@@ -36,18 +37,25 @@ class MusicPlayerService : Service() {
         initMediaPlayerEvent()
     }
 
+    var playProgressLD: MutableLiveData<Float> = MutableLiveData(0f)
+
     /**
      *  控制发送进度给外部
      */
-    var mProgressHandler: Handler = object : Handler(Looper.myLooper()!!) {
+    private var mProgressHandler: Handler = object : Handler(Looper.myLooper()!!) {
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
             //获得当前播放的进度
             if (this@MusicPlayerService::mMediaPlayer.isInitialized) {
+
                 Log.i(TAG,
                     "handleMessage: 歌曲长度${mMediaPlayer.duration}  当前位置${mMediaPlayer.currentPosition}")
                 //将进度推出
-                
+                if (mMediaPlayer.duration <= 0 || mMediaPlayer.duration <= 0) {
+                    playProgressLD.postValue(0f)
+                } else {
+                    playProgressLD.postValue(100F * mMediaPlayer.currentPosition / mMediaPlayer.duration)
+                }
                 sendEmptyMessageDelayed(0, 1000)
             }
         }

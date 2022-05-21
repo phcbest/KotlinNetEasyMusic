@@ -21,6 +21,7 @@ import org.phcbest.neteasymusic.ui.dialog.DialogBox
 import org.phcbest.neteasymusic.ui.fragment.*
 import org.phcbest.neteasymusic.ui.widget.adapter.PlayListDialogAdapter
 import org.phcbest.neteasymusic.ui.widget.playBar.CustomPlayBar
+import kotlin.math.log
 
 
 class MainActivity : BaseActivity() {
@@ -158,6 +159,12 @@ class MainActivity : BaseActivity() {
             binding.mainPlayBar.ivPlayBarCover.setBackAndFrontGround(-1, it.cover)
             binding.mainPlayBar.songName = it.name
             binding.mainPlayBar.songAuthor = it.author
+        })
+
+        //进度接收
+        mMusicPlayerService?.playProgressLD?.observe(this, {
+            Log.i(TAG, "setTheObserverAfterTheServiceIsBound: playProgress $it")
+            binding.mainPlayBar.btnPlayBarPlay.updateProgress(it)
         })
     }
 

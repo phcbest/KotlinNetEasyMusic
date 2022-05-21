@@ -5,6 +5,7 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import androidx.annotation.FloatRange
 import androidx.annotation.IntRange
 import androidx.core.graphics.drawable.toBitmap
 import org.phcbest.neteasymusic.R
@@ -71,7 +72,7 @@ class PlayBarProgressButton : View {
         val widthHalf = (width / 2).toFloat()
         val heightHalf = (height / 2).toFloat()
         val radius = (width.coerceAtMost(height) / 2) - 3.toFloat()//因为画笔自带3f厚度,需要减掉
-        Log.i(TAG, "onDraw: $widthHalf,$heightHalf,$radius")
+//        Log.i(TAG, "onDraw: $widthHalf,$heightHalf,$radius")
         //绘制圆圈
         canvas.drawCircle(
             widthHalf,
@@ -126,7 +127,7 @@ class PlayBarProgressButton : View {
     fun resetProgress() {
 //        mProgressCDT?.cancel()
 //        mProgressCDT?.start()?.pause()
-        updateProgress(0)
+        updateProgress(0F)
     }
 
     //进度控制
@@ -163,9 +164,9 @@ class PlayBarProgressButton : View {
     /**
      * 进度更新
      */
-    fun updateProgress(@IntRange(from = 0, to = 100) progress: Int) {
-        this.mSweepAngle = (3.6 * progress).toFloat()
-        Log.i(TAG, "更新进度为: ${(3.6 * progress).toFloat()}")
+    fun updateProgress(@FloatRange(from = 0.0, to = 100.0) progress: Float) {
+        this.mSweepAngle = 3.6F * progress
+//        Log.i(TAG, "更新进度为: ${(3.6 * progress).toFloat()}")
         invalidate()
     }
 
