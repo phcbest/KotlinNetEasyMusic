@@ -47,6 +47,7 @@ class MusicPlayerService : Service() {
 
     private fun initMediaPlayerEvent() {
         mMediaPlayer.setOnPreparedListener {
+
             //准备加载,进行播放
             playControl(2)
             currentSongEntityLD.postValue(mPlaylist[mCurrentSongIndex])

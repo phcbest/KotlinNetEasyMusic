@@ -1,5 +1,6 @@
 package org.phcbest.neteasymusic.ui.widget.playBar
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.Drawable
@@ -71,16 +72,23 @@ class TurnImageCover : View {
         mFrontPaint.isAntiAlias = true //抗锯齿
         //配置动画
         val cdAnimation =
-            AnimationUtils.loadAnimation(mContext, R.anim.anim_play_bar_cd_turn)
+//            AnimationUtils.loadAnimation(mContext, R.anim.anim_play_bar_cd_turn)
+            ObjectAnimator.ofFloat(this, "rotation", 0F, 360f)
+        cdAnimation.duration = 30000
+        cdAnimation.repeatCount = -1
+        cdAnimation.start()
+        cdAnimation.pause()
         cdAnimation.interpolator = LinearInterpolator() //设置匀速转动
         //创建handler用于旋转view
         handlerTurn = Handler(Looper.myLooper()!!) { msg ->
             if (msg.what == Constants.HandlerParamKey.HANDLER_TURN_IMAGE_COVER_START) {
                 //配置转动动画
-                this.startAnimation(cdAnimation)
+                cdAnimation.resume()
+//                this.startAnimation(cdAnimation)
             } else if (msg.what == Constants.HandlerParamKey.HANDLER_TURN_IMAGE_COVER_STOP) {
                 //暂停转动动画
-                this.clearAnimation()
+//                this.clearAnimation()
+                cdAnimation.pause()
             }
             true
         }
