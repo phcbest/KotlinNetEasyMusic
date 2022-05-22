@@ -117,7 +117,7 @@ class MusicPlayerService : Service() {
             else -> Log.i(TAG, "playControl: 控制代码$controlCode 没有符合的")
         }
         isPlayerLD.postValue(mMediaPlayer.isPlaying)
-        //设置进度退出
+        //设置进度推出  声音渐弱和渐强
         if (mMediaPlayer.isPlaying) {
             mProgressHandler.sendEmptyMessage(0)
         } else {
@@ -147,9 +147,9 @@ class MusicPlayerService : Service() {
     }
 
     //添加歌曲到播放列表
-    private fun addSongToList(songEntity: SongEntity, playWhenAppend: Boolean) {
+    fun addSongToList(songEntity: SongEntity, playWhenAppend: Boolean) {
         //歌曲列表不包含当前歌曲,添加到当前播放的歌曲后面
-        mPlaylist.add(mCurrentSongIndex, songEntity)
+        mPlaylist.add(mCurrentSongIndex + 1, songEntity)
         //加载歌曲
         if (playWhenAppend) {
             mCurrentSongIndex++

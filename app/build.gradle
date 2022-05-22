@@ -86,4 +86,7 @@ dependencies {
     //exoplayer
 //    implementation 'com.google.android.exoplayer:exoplayer:2.17.1'
 
+    // mmkv
+    implementation 'com.tencent:mmkv:1.2.13'
+
 }

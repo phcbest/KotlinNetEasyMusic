@@ -1,5 +1,6 @@
 package org.phcbest.neteasymusic.ui.fragment
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,8 @@ import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseFragment
 import org.phcbest.neteasymusic.databinding.FragmentDiscoverBinding
+import org.phcbest.neteasymusic.service.MusicPlayerService
+import org.phcbest.neteasymusic.ui.activity.MainActivity
 import org.phcbest.neteasymusic.ui.fragment.viewmodel.DiscoverFragmentViewModel
 import org.phcbest.neteasymusic.ui.widget.adapter.DiscoverRecommendPlayListAdapter
 import org.phcbest.neteasymusic.ui.widget.adapter.DiscoverSimiSongAdapter
@@ -106,6 +109,20 @@ class DiscoverFragment : BaseFragment() {
             rotateAnimation.duration = 500
             binding!!.ivSimiReflash.animation = rotateAnimation
             binding!!.ivSimiReflash.startAnimation(rotateAnimation)
+        }
+        //设置根据最近听歌推荐歌曲的点击回调
+        discoverSimiSongAdapter.setClick { song, position ->
+            Log.i(TAG, "initEvent discoverSimiSongAdapter: $song")
+            val mainActivity = this.activity as MainActivity
+            mainActivity.mMusicPlayerService?.addSongToList(MusicPlayerService.SongEntity(
+                song.id.toString(),
+                song.name,
+                song.id.toString(),
+                song.album.picUrl,
+                song.artists[0].name
+
+            ),
+                true)
         }
     }
 

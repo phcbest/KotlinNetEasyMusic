@@ -46,7 +46,7 @@ class PlayListDialogAdapter : RecyclerView.Adapter<PlayListDialogAdapter.ViewHol
         notifyDataSetChanged()
     }
 
-    fun setOnclick(clock: (PlayListDetailBean.Playlist.Track, Int) -> Unit) {
-        this.clock = clock
+    fun setOnclick(click: (PlayListDetailBean.Playlist.Track, Int) -> Unit) {
+        this.clock = click
     }
 }

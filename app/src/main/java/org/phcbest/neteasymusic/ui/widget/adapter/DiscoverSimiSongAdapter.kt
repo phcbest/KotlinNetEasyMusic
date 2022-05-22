@@ -1,6 +1,7 @@
 package org.phcbest.neteasymusic.ui.widget.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -27,7 +28,12 @@ class DiscoverSimiSongAdapter : RecyclerView.Adapter<DiscoverSimiSongAdapter.Vie
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.song = similaritySongBean!!.songs[position]
+        holder.binding.root.setOnClickListener {
+            this.click(similaritySongBean!!.songs[position],
+                position)
+        }
     }
+
 
     override fun getItemCount(): Int {
         return if (similaritySongBean == null) {
@@ -35,5 +41,10 @@ class DiscoverSimiSongAdapter : RecyclerView.Adapter<DiscoverSimiSongAdapter.Vie
         } else {
             similaritySongBean!!.songs.size
         }
+    }
+
+    private lateinit var click: (SimilaritySongBean.Song, Int) -> Unit
+    fun setClick(click: (SimilaritySongBean.Song, position: Int) -> Unit) {
+        this.click = click
     }
 }
