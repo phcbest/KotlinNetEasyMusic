@@ -1,8 +1,5 @@
 package org.phcbest.neteasymusic.utils
 
-import android.os.Bundle
-import android.os.Handler
-import android.os.Message
 import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -58,9 +55,9 @@ class LogIntercepted : Interceptor {
         )
         //添加cookie
         val newBuilder = request.newBuilder()
-        SpStorageUtils.newInstance().getCookie()
+        MMKVStorageUtils.newInstance().getCookie()
             .let {
-                if (!it.contains(SpStorageUtils.SP_NULL)) {
+                if (!it.contains(MMKVStorageUtils.SP_NULL)) {
                     Log.i(TAG, "intercept: cookie:$it")
                     //ntmd添加hander后需要nm build,怪不得一直请求没有带上token,就离谱
                     request = newBuilder.addHeader("Cookie", it).build()

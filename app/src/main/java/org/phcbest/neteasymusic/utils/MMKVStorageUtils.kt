@@ -1,19 +1,26 @@
 package org.phcbest.neteasymusic.utils
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import com.google.gson.Gson
+import com.google.gson.TypeAdapter
+import com.google.gson.reflect.TypeToken
 import com.tencent.mmkv.MMKV
 import org.phcbest.neteasymusic.bean.LoginBean
+import org.phcbest.neteasymusic.bean.PlayListDetailBean
+import org.phcbest.neteasymusic.bean.SongEntity
 import retrofit2.Response
+import java.util.*
 
-class SpStorageUtils {
+class MMKVStorageUtils {
 
     companion object {
         public const val SP_NULL = "sp_null"
 
-        private const val TAG = "SpStorageUtils"
-        private var instance = SpStorageUtils()
-        fun newInstance(): SpStorageUtils {
+        private const val TAG = "MMKVStorageUtils"
+        private var instance = MMKVStorageUtils()
+        fun newInstance(): MMKVStorageUtils {
             return instance
         }
     }
@@ -22,6 +29,7 @@ class SpStorageUtils {
 //        BaseApplication.appContext?.getSharedPreferences("login", MODE_PRIVATE)!!
 
     private val logigMMKV = MMKV.mmkvWithID("login")
+    private val playlistMMKV = MMKV.mmkvWithID("playlist")
 
     fun storageCookie(info: Response<LoginBean>) {
         val setCookieHandler = info.raw().headers("Set-Cookie")
@@ -102,5 +110,51 @@ class SpStorageUtils {
             }
         }
         return loginBean
+    }
+
+
+    /**
+     * 存储歌单
+     */
+    fun storagePlayList(songEntities: List<SongEntity>) {
+        if (songEntities.isNotEmpty()) {
+            playlistMMKV.encode("songEntities", Gson().toJson(songEntities))
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun storagePlayList(playListDetailBean: PlayListDetailBean) {
+        if (playListDetailBean.playlist.tracks.isNotEmpty()) {
+            val songEntities: MutableList<SongEntity> = arrayListOf()
+            for (track in playListDetailBean.playlist.tracks) {
+                songEntities.add(SongEntity(
+                    track.id.toString(),
+                    track.name,
+                    track.id.toString(),
+                    track.al.picUrl,
+                    if (track.ar!!.isEmpty()) {
+                        "未知歌手"
+                    } else {
+                        val sj = StringJoiner("-")
+                        track.ar.map { ar -> sj.add(ar.name) }
+                        sj.toString()
+                    }
+                ))
+            }
+            storagePlayList(songEntities)
+        }
+    }
+
+    /**
+     * 获得歌单
+     */
+    fun getPlayList(): List<SongEntity>? {
+        val songEntitiesString = playlistMMKV.decodeString("songEntities", "")
+        var songEntities: List<SongEntity>? = null
+        if (songEntitiesString!!.isNotEmpty()) {
+            songEntities = Gson().fromJson<List<SongEntity>>(songEntitiesString,
+                object : TypeToken<List<SongEntity>>() {}.type)
+        }
+        return songEntities
     }
 }

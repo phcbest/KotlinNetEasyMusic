@@ -21,7 +21,7 @@ import org.phcbest.neteasymusic.ui.fragment.viewmodel.MineFragmentViewModel
 import org.phcbest.neteasymusic.ui.widget.adapter.MineFunAdapter
 import org.phcbest.neteasymusic.ui.widget.adapter.MinePlayListAdapter
 import org.phcbest.neteasymusic.ui.widget.adapter.adapter_data.MineFunAdapterData
-import org.phcbest.neteasymusic.utils.SpStorageUtils
+import org.phcbest.neteasymusic.utils.MMKVStorageUtils
 
 private const val TAG = "MineFragment"
 
@@ -31,7 +31,7 @@ class MineFragment : BaseFragment() {
     var minePlayListStarAdapter: MinePlayListAdapter? = null
     var minePlayListCreateAdapter: MinePlayListAdapter? = null
 
-    var uid = SpStorageUtils.newInstance().getLoginBean()?.profile?.userId
+    var uid = MMKVStorageUtils.newInstance().getLoginBean()?.profile?.userId
 
     companion object {
         @JvmStatic

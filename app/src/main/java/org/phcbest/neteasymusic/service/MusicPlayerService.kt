@@ -12,7 +12,10 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.sync.Mutex
 import org.phcbest.neteasymusic.bean.PlayListDetailBean
+import org.phcbest.neteasymusic.bean.SongEntity
 import org.phcbest.neteasymusic.presenter.PresenterManager
+import org.phcbest.neteasymusic.utils.MMKVStorageUtils
+import java.io.Serializable
 import java.util.*
 
 private const val TAG = "MusicPlayService"
@@ -126,23 +129,25 @@ class MusicPlayerService : Service() {
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    fun setPlayList(playlist: PlayListDetailBean.Playlist) {
+    fun setPlayListSync() {
         this.mPlaylist.clear()
-        playlist.tracks.map {
-            this.mPlaylist.add(SongEntity(
-                it.id.toString(),
-                it.name,
-                it.id.toString(),
-                it.al.picUrl,
-                if (it.ar!!.isEmpty()) {
-                    "未知歌手"
-                } else {
-                    val sj = StringJoiner("-")
-                    it.ar.map { ar -> sj.add(ar.name) }
-                    sj.toString()
-                }
-            ))
+//        playlist.tracks.map {
+//            this.mPlaylist.add(SongEntity(
+//                it.id.toString(),
+//                it.name,
+//                it.id.toString(),
+//                it.al.picUrl,
+//                if (it.ar!!.isEmpty()) {
+//                    "未知歌手"
+//                } else {
+//                    val sj = StringJoiner("-")
+//                    it.ar.map { ar -> sj.add(ar.name) }
+//                    sj.toString()
+//                }
+//            ))
+//        }
+        MMKVStorageUtils.newInstance().getPlayList().let {
+            this.mPlaylist.addAll(it!!)
         }
     }
 
@@ -214,13 +219,6 @@ class MusicPlayerService : Service() {
         aSyncLoadSong()
     }
 
-    data class SongEntity(
-        val id: String,
-        val name: String,
-        val songId: String,
-        val cover: String,
-        val author: String,
-    )
 
     //=============================binder相关==============================
     private val mBinder = MyBinder()

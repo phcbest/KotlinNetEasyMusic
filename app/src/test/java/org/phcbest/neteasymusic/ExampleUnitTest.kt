@@ -1,10 +1,8 @@
 package org.phcbest.neteasymusic
 
-import android.util.Log
 import org.junit.Test
 
 import org.junit.Assert.*
-import org.phcbest.neteasymusic.utils.SpStorageUtils
 
 /**
  * Example local unit test, which will execute on the development machine (host).

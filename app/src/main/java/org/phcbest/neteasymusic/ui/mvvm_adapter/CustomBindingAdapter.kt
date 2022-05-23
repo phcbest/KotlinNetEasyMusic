@@ -4,13 +4,10 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.media.Image
 import android.text.Spannable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.*
-import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -21,18 +18,16 @@ import com.bumptech.glide.request.transition.Transition
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.bean.UserPlaylistBean
 import org.phcbest.neteasymusic.ui.widget.custom.CircularImageView
-import org.phcbest.neteasymusic.utils.SpStorageUtils
+import org.phcbest.neteasymusic.utils.MMKVStorageUtils
 import org.phcbest.neteasymusic.utils.custom.CenterAlignImageSpan
 import org.phcbest.neteasymusic.utils.ndk_link.GaussianBlurUtils
-import java.text.DecimalFormat
-import java.text.FieldPosition
 
 
 class CustomBindingAdapter {
 
     companion object {
         private const val TAG = "CustomBindingAdapter"
-        var uid = SpStorageUtils.newInstance().getLoginBean()?.profile?.userId
+        var uid = MMKVStorageUtils.newInstance().getLoginBean()?.profile?.userId
 
         @JvmStatic
         @BindingAdapter("circularImageSrc")

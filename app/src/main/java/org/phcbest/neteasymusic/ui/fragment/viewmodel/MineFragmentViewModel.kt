@@ -8,11 +8,11 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import org.phcbest.neteasymusic.bean.UserDetailBean
 import org.phcbest.neteasymusic.bean.UserPlaylistBean
 import org.phcbest.neteasymusic.utils.RetrofitUtils
-import org.phcbest.neteasymusic.utils.SpStorageUtils
+import org.phcbest.neteasymusic.utils.MMKVStorageUtils
 
 class MineFragmentViewModel() : ViewModel() {
 
-    private val loginBean = SpStorageUtils.newInstance().getLoginBean()
+    private val loginBean = MMKVStorageUtils.newInstance().getLoginBean()
 
     private var userDetailBean: MutableLiveData<UserDetailBean> = MutableLiveData()
     private var userPlaylistBean: MutableLiveData<UserPlaylistBean> = MutableLiveData()

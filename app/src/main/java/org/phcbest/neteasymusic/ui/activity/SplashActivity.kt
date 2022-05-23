@@ -1,11 +1,9 @@
 package org.phcbest.neteasymusic.ui.activity
 
 import android.content.Intent
-import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
-import android.util.Log
 import android.widget.ImageView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.ViewModelProviders
@@ -14,11 +12,8 @@ import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseActivity
 import org.phcbest.neteasymusic.databinding.ActivityStartBinding
 import org.phcbest.neteasymusic.ui.activity.viewmodel.SplashActivityViewModel
-import org.phcbest.neteasymusic.utils.Constants
-import org.phcbest.neteasymusic.utils.RetrofitApi
-import org.phcbest.neteasymusic.utils.SpStorageUtils
+import org.phcbest.neteasymusic.utils.MMKVStorageUtils
 import org.phcbest.neteasymusic.utils.ToastUtils
-import org.phcbest.neteasymusic.utils.ui.StatusBarUtil
 
 private const val TAG = "StartActivity"
 
@@ -33,9 +28,9 @@ class SplashActivity : BaseActivity() {
     override fun initPresenter() {
 
         //判断登录状态
-        if (SpStorageUtils.newInstance()
-                .getCookie().contains(SpStorageUtils.SP_NULL) ||
-            SpStorageUtils.newInstance()
+        if (MMKVStorageUtils.newInstance()
+                .getCookie().contains(MMKVStorageUtils.SP_NULL) ||
+            MMKVStorageUtils.newInstance()
                 .getLoginBean() == null
         ) {
             handlerStartActivity.sendEmptyMessageDelayed(1, 500)

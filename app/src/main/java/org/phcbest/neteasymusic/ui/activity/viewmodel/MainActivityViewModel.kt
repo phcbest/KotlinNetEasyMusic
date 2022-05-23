@@ -6,13 +6,13 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import org.phcbest.neteasymusic.bean.PlayListDetailBean
 import org.phcbest.neteasymusic.utils.RetrofitUtils
-import org.phcbest.neteasymusic.utils.SpStorageUtils
+import org.phcbest.neteasymusic.utils.MMKVStorageUtils
 
 class MainActivityViewModel : ViewModel() {
 
     var playlistDetailLiveData: MutableLiveData<PlayListDetailBean?> = MutableLiveData()
 
-    private val loginBean = SpStorageUtils.newInstance().getLoginBean()
+    private val loginBean = MMKVStorageUtils.newInstance().getLoginBean()
 
 
     fun setPlayListDetail(playlistId: String) {

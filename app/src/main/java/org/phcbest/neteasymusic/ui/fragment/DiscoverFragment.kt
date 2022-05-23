@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseFragment
+import org.phcbest.neteasymusic.bean.SongEntity
 import org.phcbest.neteasymusic.databinding.FragmentDiscoverBinding
 import org.phcbest.neteasymusic.service.MusicPlayerService
 import org.phcbest.neteasymusic.ui.activity.MainActivity
@@ -114,7 +115,7 @@ class DiscoverFragment : BaseFragment() {
         discoverSimiSongAdapter.setClick { song, position ->
             Log.i(TAG, "initEvent discoverSimiSongAdapter: $song")
             val mainActivity = this.activity as MainActivity
-            mainActivity.mMusicPlayerService?.addSongToList(MusicPlayerService.SongEntity(
+            mainActivity.mMusicPlayerService?.addSongToList(SongEntity(
                 song.id.toString(),
                 song.name,
                 song.id.toString(),

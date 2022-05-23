@@ -9,7 +9,7 @@ import org.phcbest.neteasymusic.base.BaseActivity
 import org.phcbest.neteasymusic.databinding.ActivityLoginBinding
 import org.phcbest.neteasymusic.presenter.PresenterManager
 import org.phcbest.neteasymusic.ui.widget.custom.VerifyCodeView
-import org.phcbest.neteasymusic.utils.SpStorageUtils
+import org.phcbest.neteasymusic.utils.MMKVStorageUtils
 import org.phcbest.neteasymusic.utils.ToastUtils
 import java.util.regex.Pattern
 
@@ -47,8 +47,8 @@ class LoginActivity : BaseActivity() {
                 val body = result.body()!!
                 if (body.code == 200) {
 //                    Log.i(TAG, "doLogin: ${result.headers()}")
-                    SpStorageUtils.newInstance().storageCookie(result)
-                    SpStorageUtils.newInstance().storageLoginBean(body)
+                    MMKVStorageUtils.newInstance().storageCookie(result)
+                    MMKVStorageUtils.newInstance().storageLoginBean(body)
                     ToastUtils.SEND_SMG("登录成功")
                     startActivity(Intent(baseContext, MainActivity::class.java))
                 } else {

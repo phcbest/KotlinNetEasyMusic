@@ -1,12 +1,10 @@
 package org.phcbest.neteasymusic.ui.activity.viewmodel
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.phcbest.neteasymusic.presenter.ILoginPresenter
 import org.phcbest.neteasymusic.presenter.PresenterManager
-import org.phcbest.neteasymusic.utils.SpStorageUtils
+import org.phcbest.neteasymusic.utils.MMKVStorageUtils
 
 class SplashActivityViewModel : ViewModel() {
     companion object {
@@ -34,7 +32,7 @@ class SplashActivityViewModel : ViewModel() {
             if (it.body() == null || it.body()!!["code"] != 200) {
                 this.loginStatus.postValue(false)
             } else if (it.body()!!["code"] == 200) {
-                SpStorageUtils.newInstance().updateCookieNMTID(it)
+                MMKVStorageUtils.newInstance().updateCookieNMTID(it)
                 this.loginStatus.postValue(true)
             }
         }, {})

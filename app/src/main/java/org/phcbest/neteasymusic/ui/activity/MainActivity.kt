@@ -21,7 +21,7 @@ import org.phcbest.neteasymusic.ui.dialog.DialogBox
 import org.phcbest.neteasymusic.ui.fragment.*
 import org.phcbest.neteasymusic.ui.widget.adapter.PlayListDialogAdapter
 import org.phcbest.neteasymusic.ui.widget.playBar.CustomPlayBar
-import kotlin.math.log
+import org.phcbest.neteasymusic.utils.MMKVStorageUtils
 
 
 class MainActivity : BaseActivity() {
@@ -130,10 +130,12 @@ class MainActivity : BaseActivity() {
         super.observeViewModel()
         mainActivityViewModel.playlistDetailLiveData.observe(this, {
             if (it != null) {
+                //设置dialog的歌单
                 playListDialogAdapter.setPlayListDetail(it)
                 mainPlayListDialog.dialogMainPlaylistBinding.isDialogLoad = false
                 //当service不为空的时候设置播放列表x
-                mMusicPlayerService?.setPlayList(it.playlist)
+                MMKVStorageUtils.newInstance().storagePlayList(it)
+                mMusicPlayerService?.setPlayListSync()
             } else {
                 mainPlayListDialog.dialogMainPlaylistBinding.isDialogLoad = true
             }
