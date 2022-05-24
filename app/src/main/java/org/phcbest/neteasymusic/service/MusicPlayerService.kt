@@ -10,6 +10,7 @@ import android.os.*
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
+import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.sync.Mutex
 import org.phcbest.neteasymusic.bean.PlayListDetailBean
 import org.phcbest.neteasymusic.bean.SongEntity
@@ -25,7 +26,7 @@ private const val TAG = "MusicPlayService"
  */
 class MusicPlayerService : Service() {
 
-    private var mPlaylist: MutableList<SongEntity> = arrayListOf()
+    var mPlaylist: MutableLiveData<MutableList<SongEntity>> = MutableLiveData(arrayListOf())
     private lateinit var mMediaPlayer: MediaPlayer
     private var mCurrentSongIndex: Int = 0
 
@@ -74,7 +75,7 @@ class MusicPlayerService : Service() {
             mProgressHandler.removeMessages(0)
             //准备加载,进行播放
             playControl(2)
-            currentSongEntityLD.postValue(mPlaylist[mCurrentSongIndex])
+            currentSongEntityLD.postValue(mPlaylist.value?.get(mCurrentSongIndex))
         }
         mMediaPlayer.setOnCompletionListener {
             //播放完成回调,切换下一首
@@ -130,7 +131,6 @@ class MusicPlayerService : Service() {
 
 
     fun setPlayListSync() {
-        this.mPlaylist.clear()
 //        playlist.tracks.map {
 //            this.mPlaylist.add(SongEntity(
 //                it.id.toString(),
@@ -147,14 +147,17 @@ class MusicPlayerService : Service() {
 //            ))
 //        }
         MMKVStorageUtils.newInstance().getPlayList().let {
-            this.mPlaylist.addAll(it!!)
+            this.mPlaylist.postValue(it as MutableList<SongEntity>?)
         }
     }
 
     //添加歌曲到播放列表
     fun addSongToList(songEntity: SongEntity, playWhenAppend: Boolean) {
         //歌曲列表不包含当前歌曲,添加到当前播放的歌曲后面
-        mPlaylist.add(mCurrentSongIndex + 1, songEntity)
+        mPlaylist.value!!.add(mCurrentSongIndex + 1, songEntity)
+        //存储当前歌单到mmkv
+        MMKVStorageUtils.newInstance().storagePlayList(mPlaylist.value!!)
+        this.mPlaylist.postValue(mPlaylist.value)
         //加载歌曲
         if (playWhenAppend) {
             mCurrentSongIndex++
@@ -168,7 +171,7 @@ class MusicPlayerService : Service() {
         //网络请求获得播放地址
         Log.i(TAG, "aSyncLoadSong: 加载音乐的下标 $mCurrentSongIndex")
         PresenterManager.getInstance().getSongInfoPresenter()
-            .getSongDownLoadUrl(mPlaylist[mCurrentSongIndex].songId, {
+            .getSongDownLoadUrl(mPlaylist.value!![mCurrentSongIndex].songId, {
                 if (it.data.isNotEmpty()) {
                     mMediaPlayer.setDataSource(it.data[0].url)
                     mMediaPlayer.prepareAsync()
@@ -181,7 +184,7 @@ class MusicPlayerService : Service() {
      * 切换歌曲,按照index
      */
     fun switchSong(index: Int) {
-        if (index in mPlaylist.indices) {
+        if (index in mPlaylist.value!!.indices) {
             mCurrentSongIndex = index
             aSyncLoadSong()
         }
@@ -201,7 +204,7 @@ class MusicPlayerService : Service() {
         } ")
         if (nextOrPrevious) {
             //判断最后一首
-            if (mCurrentSongIndex >= mPlaylist.size - 1) {
+            if (mCurrentSongIndex >= mPlaylist.value!!.size - 1) {
                 mCurrentSongIndex = 0
             } else {
                 mCurrentSongIndex++
@@ -210,7 +213,7 @@ class MusicPlayerService : Service() {
         } else {
             //判断第一首
             if (mCurrentSongIndex == 0) {
-                mCurrentSongIndex = mPlaylist.size - 1
+                mCurrentSongIndex = mPlaylist.value!!.size - 1
             } else {
                 mCurrentSongIndex--
             }

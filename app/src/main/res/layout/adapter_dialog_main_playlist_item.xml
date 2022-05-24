@@ -5,7 +5,7 @@
 
         <variable
             name="songItem"
-            type="org.phcbest.neteasymusic.bean.PlayListDetailBean.Playlist.Track" />
+            type="org.phcbest.neteasymusic.bean.SongEntity" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -34,7 +34,7 @@
             android:layout_marginStart="10dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@{songItem.ar.get(0).name??``}"
+            android:text="@{songItem.author??``}"
             android:textSize="10sp" />
     </LinearLayout>
 </layout>

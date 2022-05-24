@@ -132,7 +132,7 @@ class MMKVStorageUtils {
                     track.name,
                     track.id.toString(),
                     track.al.picUrl,
-                    if (track.ar!!.isEmpty()) {
+                    if (track.ar == null || track.ar.isEmpty()) {
                         "未知歌手"
                     } else {
                         val sj = StringJoiner("-")

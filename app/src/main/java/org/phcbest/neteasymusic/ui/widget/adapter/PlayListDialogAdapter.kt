@@ -6,16 +6,18 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.bean.PlayListDetailBean
+import org.phcbest.neteasymusic.bean.SongEntity
 import org.phcbest.neteasymusic.databinding.AdapterDialogMainPlaylistItemBinding
+import org.phcbest.neteasymusic.utils.MMKVStorageUtils
 
 class PlayListDialogAdapter : RecyclerView.Adapter<PlayListDialogAdapter.ViewHolder>() {
 
     class ViewHolder(var binding: AdapterDialogMainPlaylistItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    private var playListDetailBean: PlayListDetailBean? = null
+    private var songEntities: List<SongEntity>? = null
 
-    private lateinit var clock: (PlayListDetailBean.Playlist.Track, Int) -> Unit
+    private lateinit var clock: (SongEntity, Int) -> Unit
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -27,26 +29,28 @@ class PlayListDialogAdapter : RecyclerView.Adapter<PlayListDialogAdapter.ViewHol
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.root.setOnClickListener {
-            clock(playListDetailBean!!.playlist.tracks[position],
+            clock(songEntities!![position],
                 position)
         }
-        holder.binding.songItem = playListDetailBean!!.playlist.tracks[position]
+        holder.binding.songItem = songEntities!![position]
     }
 
     override fun getItemCount(): Int {
-        return if (playListDetailBean == null) {
+        return if (songEntities == null) {
             0
         } else {
-            playListDetailBean!!.playlist.tracks.size
+            songEntities!!.size
         }
     }
 
-    fun setPlayListDetail(playListDetailBean: PlayListDetailBean) {
-        this.playListDetailBean = playListDetailBean
-        notifyDataSetChanged()
+    fun setPlayListDetailSync() {
+        MMKVStorageUtils.newInstance().getPlayList().let {
+            this.songEntities = it
+            notifyDataSetChanged()
+        }
     }
 
-    fun setOnclick(click: (PlayListDetailBean.Playlist.Track, Int) -> Unit) {
+    fun setOnclick(click: (SongEntity, Int) -> Unit) {
         this.clock = click
     }
 }

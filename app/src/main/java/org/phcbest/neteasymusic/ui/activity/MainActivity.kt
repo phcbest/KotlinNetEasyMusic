@@ -14,6 +14,7 @@ import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseActivity
 import org.phcbest.neteasymusic.bean.PlayListDetailBean
+import org.phcbest.neteasymusic.bean.SongEntity
 import org.phcbest.neteasymusic.databinding.ActivityMainBinding
 import org.phcbest.neteasymusic.service.MusicPlayerService
 import org.phcbest.neteasymusic.ui.activity.viewmodel.MainActivityViewModel
@@ -93,17 +94,20 @@ class MainActivity : BaseActivity() {
         //判断网络状态来 初始化主页位置,这里直接执行点击下发ui事件
         binding.navMain.findViewById<View>(R.id.menu_discover).performClick()
 
+        //获得歌单
+        mainActivityViewModel.setPlayListDetail(playListId)
+
         //设置播放栏的点击按钮事件
         binding.mainPlayBar.btnPlayBarList.setOnClickListener {
-            mainPlayListDialog.dialogMainPlaylistBinding.isDialogLoad = true
+//            mainPlayListDialog.dialogMainPlaylistBinding.isDialogLoad = true
             //获得歌单
-            mainActivityViewModel.setPlayListDetail(playListId)
+//            mainActivityViewModel.setPlayListDetail(playListId)
             //显示dialog
             mainPlayListDialog.dialog.show()
         }
         //dialog playlist的点击事件设置
-        playListDialogAdapter.setOnclick { track: PlayListDetailBean.Playlist.Track, i: Int ->
-            Log.i(TAG, "initEvent: $track")
+        playListDialogAdapter.setOnclick { songEntity: SongEntity, i: Int ->
+            Log.i(TAG, "initEvent: $songEntity")
             //进行音乐播放
             mMusicPlayerService?.switchSong(index = i)
         }
@@ -130,11 +134,11 @@ class MainActivity : BaseActivity() {
         super.observeViewModel()
         mainActivityViewModel.playlistDetailLiveData.observe(this, {
             if (it != null) {
+                MMKVStorageUtils.newInstance().storagePlayList(it)
                 //设置dialog的歌单
-                playListDialogAdapter.setPlayListDetail(it)
+                playListDialogAdapter.setPlayListDetailSync()
                 mainPlayListDialog.dialogMainPlaylistBinding.isDialogLoad = false
                 //当service不为空的时候设置播放列表x
-                MMKVStorageUtils.newInstance().storagePlayList(it)
                 mMusicPlayerService?.setPlayListSync()
             } else {
                 mainPlayListDialog.dialogMainPlaylistBinding.isDialogLoad = true
@@ -167,6 +171,11 @@ class MainActivity : BaseActivity() {
         mMusicPlayerService?.playProgressLD?.observe(this, {
             Log.i(TAG, "setTheObserverAfterTheServiceIsBound: playProgress $it")
             binding.mainPlayBar.btnPlayBarPlay.updateProgress(it)
+        })
+
+        //歌单的变动
+        mMusicPlayerService?.mPlaylist?.observe(this, {
+            playListDialogAdapter.setPlayListDetailSync()
         })
     }
 
