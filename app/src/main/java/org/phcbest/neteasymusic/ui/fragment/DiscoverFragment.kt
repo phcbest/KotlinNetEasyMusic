@@ -2,7 +2,6 @@ package org.phcbest.neteasymusic.ui.fragment
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
@@ -13,9 +12,9 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseFragment
+import org.phcbest.neteasymusic.bean.Banner
 import org.phcbest.neteasymusic.bean.SongEntity
 import org.phcbest.neteasymusic.databinding.FragmentDiscoverBinding
-import org.phcbest.neteasymusic.service.MusicPlayerService
 import org.phcbest.neteasymusic.ui.activity.MainActivity
 import org.phcbest.neteasymusic.ui.fragment.viewmodel.DiscoverFragmentViewModel
 import org.phcbest.neteasymusic.ui.widget.adapter.DiscoverRecommendPlayListAdapter
@@ -42,11 +41,10 @@ class DiscoverFragment : BaseFragment() {
 
     override fun observeViewModel() {
         super.observeViewModel()
-        //设置banner
+        //设置banner数据
         discoverFragmentViewModel.discoverBannerLiveData.observe(this, {
             if (it != null) {
-                customBanner =
-                    CustomBanner(it).setView(binding!!.root).startShowAfterAdapter()
+                customBanner?.startShowAfterAdapter(it)
             }
         })
         //设置推荐歌单
@@ -87,6 +85,9 @@ class DiscoverFragment : BaseFragment() {
     override fun initView() {
         binding?.isLoad = true
 
+        //初始化banner
+        customBanner = CustomBanner().setView(binding!!.root)
+
         discoverRecommendPlayListAdapter = DiscoverRecommendPlayListAdapter()
         binding?.rvRecommendPlaylist?.adapter = discoverRecommendPlayListAdapter
 
@@ -124,6 +125,10 @@ class DiscoverFragment : BaseFragment() {
 
             ),
                 true)
+        }
+        //设置customBanner的项目点击事件
+        customBanner?.bannerAdapter?.setOnClick { banner: Banner, i: Int ->
+            Log.i(TAG, "initEvent: index $i banner $banner")
         }
     }
 

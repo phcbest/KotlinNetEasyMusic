@@ -18,11 +18,13 @@ import org.phcbest.neteasymusic.bean.DiscoverBannerBean
 
 private const val TAG = "CustomBanner"
 
-class CustomBanner(var bannerItemInfo: DiscoverBannerBean?) {
+//var bannerItemInfo: DiscoverBannerBean?
+class CustomBanner() {
 
 
     var vpBanner: ViewPager2? = null
     var rvBannerIndex: RecyclerView? = null
+    var bannerAdapter: BannerAdapter? = null
 
     fun setView(view: View): CustomBanner {
         vpBanner = view.findViewById(R.id.vp_banner)
@@ -30,37 +32,45 @@ class CustomBanner(var bannerItemInfo: DiscoverBannerBean?) {
         //初始化recycler排序顺序
         rvBannerIndex!!.layoutManager =
             LinearLayoutManager(view.context, LinearLayoutManager.HORIZONTAL, false)
+        //初始化适配器
+        bannerAdapter = BannerAdapter()
+        vpBanner!!.adapter = bannerAdapter
         return this
     }
 
     //计算下标数，生成下标对应数组
-    private fun mutableList(position: Int): MutableList<Boolean> {
+    private fun mutableList(
+        position: Int,
+        bannerItemInfo: DiscoverBannerBean,
+    ): MutableList<Boolean> {
         val indexState = mutableListOf<Boolean>()
-        for (index in bannerItemInfo!!.banners.indices) {
+        for (index in bannerItemInfo.banners.indices) {
             if (index == position) indexState.add(true) else indexState.add(false)
         }
         return indexState
     }
 
-    fun startShowAfterAdapter(): CustomBanner {
+    fun startShowAfterAdapter(bannerItemInfo: DiscoverBannerBean) {
+        //设置banner数据
+        bannerAdapter?.setBannerItem(bannerItemInfo)
         //适配轮播图和轮播下标
-        vpBanner!!.adapter = BannerAdapter(bannerItemInfo!!.banners)
-        rvBannerIndex!!.adapter = BannerIndexAdapter(mutableList(0))
+        rvBannerIndex!!.adapter = BannerIndexAdapter(mutableList(0, bannerItemInfo))
         //设置滑动切换下标
         vpBanner!!.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 rvBannerIndex!!.adapter =
-                    BannerIndexAdapter(mutableList(position % bannerItemInfo!!.banners.size))
+                    BannerIndexAdapter(mutableList(position % bannerItemInfo.banners.size,
+                        bannerItemInfo))
             }
         })
         //设置初始页
         vpBanner!!.setCurrentItem(
-            Int.MAX_VALUE / 2 - (Int.MAX_VALUE / 2 % bannerItemInfo!!.banners.size),
+            Int.MAX_VALUE / 2 - (Int.MAX_VALUE / 2 % bannerItemInfo.banners.size),
             false
         )
         //启动定时器
         countDownTimer.start()
-        return this
+
     }
 
 
@@ -114,10 +124,14 @@ class CustomBanner(var bannerItemInfo: DiscoverBannerBean?) {
     /**
      * 这个是viewpage2的适配器,内部类需要添加inner关键字
      */
-    inner class BannerAdapter(bannerInfo: List<Banner>) :
+    inner class BannerAdapter() :
         RecyclerView.Adapter<BannerAdapter.ViewHolder>() {
 
-        var bannerItemInfo = bannerInfo;
+        var bannerItemInfo: List<Banner>? = null;
+
+        fun setBannerItem(bannerItemInfo: DiscoverBannerBean) {
+            this.bannerItemInfo = bannerItemInfo.banners
+        }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(
@@ -127,14 +141,19 @@ class CustomBanner(var bannerItemInfo: DiscoverBannerBean?) {
             return ViewHolder(view)
         }
 
+        private var click: ((banner: Banner, index: Int) -> Unit)? = null
+        fun setOnClick(click: (banner: Banner, index: Int) -> Unit) {
+            this.click = click
+        }
+
         @SuppressLint("ClickableViewAccessibility")
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val p = position % bannerItemInfo.size
-            val itemData = bannerItemInfo[p]
+            val p = position % bannerItemInfo!!.size
+            val itemData = bannerItemInfo!![p]
             Glide.with(holder.itemView).load(itemData.pic).centerCrop()
                 .into(holder.bannerImageView)
             holder.bannerImageView.setOnClickListener { v ->
-
+                this.click?.let { it(itemData, p) }
             }
             //用户触摸时暂停定时器,因为viewpage底层将相关事件拦截了，不能用viewpage的setOnTouchListener
             holder.bannerImageView.setOnTouchListener { _, event ->
