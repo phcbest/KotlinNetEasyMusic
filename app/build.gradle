@@ -41,6 +41,7 @@ android {
             path file('src/main/cpp/CMakeLists.txt')
         }
     }
+    ndkVersion '21.0.6113669'
 
 }
 
