@@ -35,7 +35,7 @@ class CustomBindingAdapter {
         @BindingAdapter("circularImageSrc", "circularSizeLimit", requireAll = false)
         fun setCircularImageView(view: View, imageSrc: String, sizeLimit: Int) {
             if (view is CircularImageView) {
-                Log.i(TAG, "setCircularImageView: 图片限制$sizeLimit")
+//                Log.i(TAG, "setCircularImageView: 图片限制$sizeLimit")
                 view.setImage(imageSrc, sizeLimit)
             }
         }

@@ -110,7 +110,7 @@ class CircularImageView : View {
             if (sizeLimit != 0) {
                 url = "$imageUrl?param=$sizeLimit" + "y$sizeLimit"
             }
-            Log.i(TAG, "onResourceReady: 加载新图像 $url")
+//            Log.i(TAG, "onResourceReady: 加载新图像 $url")
             Glide.with(mContext!!).asBitmap().load(url).error(R.drawable.sample_avatar)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(object : CustomTarget<Bitmap>() {

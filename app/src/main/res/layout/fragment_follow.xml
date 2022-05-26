@@ -3,13 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="isLoad"
+            type="Boolean" />
+    </data>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.fragment.FollowFragment">
 
+        <include
+            layout="@layout/view_isload"
+            setVisible="@{isLoad}" />
 
         <androidx.core.widget.NestedScrollView
+            setVisible="@{!isLoad}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

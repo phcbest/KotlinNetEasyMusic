@@ -9,6 +9,7 @@ import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseFragment
+import org.phcbest.neteasymusic.base.PAGE_STATE
 import org.phcbest.neteasymusic.databinding.FragmentFollowBinding
 import org.phcbest.neteasymusic.ui.fragment.viewmodel.FollowFragmentViewModel
 import org.phcbest.neteasymusic.ui.widget.adapter.FollowViewListAdapter
@@ -36,6 +37,7 @@ class FollowFragment : BaseFragment() {
 
     private var mFollowViewListAdapter: FollowViewListAdapter? = null
     override fun initView() {
+        binding?.isLoad = true
         //初始化view
         mFollowViewListAdapter = FollowViewListAdapter()
         binding?.rvFollowList?.adapter = mFollowViewListAdapter
@@ -61,6 +63,17 @@ class FollowFragment : BaseFragment() {
         super.observeViewModel()
         mFollowFragmentViewModel?.userFollowBeanLD?.observe(this) {
             mFollowViewListAdapter?.setUserFollowBean(it!!)
+        }
+        mFollowFragmentViewModel?.dataState?.observe(this) {
+            it.forEach { map ->
+                if (map.value == PAGE_STATE.FAIL) {
+                    //如果有一个状态是未成功
+                    binding?.isLoad = true
+                    return@forEach
+                }
+            }
+            //没有未成功状态，设置未成功
+            binding?.isLoad = false
         }
     }
 

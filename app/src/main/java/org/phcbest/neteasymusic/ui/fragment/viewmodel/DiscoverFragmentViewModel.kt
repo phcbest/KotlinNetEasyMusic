@@ -7,12 +7,11 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.functions.Consumer
 import io.reactivex.rxjava3.functions.Function
 import io.reactivex.rxjava3.schedulers.Schedulers
+import org.phcbest.neteasymusic.base.PAGE_STATE
 import org.phcbest.neteasymusic.bean.*
 import org.phcbest.neteasymusic.utils.RetrofitUtils
-import kotlin.random.Random
 
 class DiscoverFragmentViewModel : ViewModel() {
     companion object {
@@ -26,17 +25,17 @@ class DiscoverFragmentViewModel : ViewModel() {
         MutableLiveData()
 
     //liveData状态管理
-    val dataState: MutableLiveData<Map<String, STATE>> = MutableLiveData()
-    private var dataStateMap = HashMap<String, STATE>()
+    val dataState: MutableLiveData<Map<String, PAGE_STATE>> = MutableLiveData()
+    private var dataStateMap = HashMap<String, PAGE_STATE>()
 
     private val stateBanner = "banner"
     private val stateRecommendPlayList = "RecommendPlayList"
     private val stateSimiSong = "SimiSong"
 
     init {
-        dataStateMap[stateBanner] = STATE.FAIL
-        dataStateMap[stateRecommendPlayList] = STATE.FAIL
-        dataStateMap[stateSimiSong] = STATE.FAIL
+        dataStateMap[stateBanner] = PAGE_STATE.FAIL
+        dataStateMap[stateRecommendPlayList] = PAGE_STATE.FAIL
+        dataStateMap[stateSimiSong] = PAGE_STATE.FAIL
     }
 
     fun setDiscoverBannerLiveData() {
@@ -44,12 +43,12 @@ class DiscoverFragmentViewModel : ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io()).subscribe({
                 discoverBannerLiveData.postValue(it)
-                dataStateMap[stateBanner] = STATE.SUCCESS
+                dataStateMap[stateBanner] = PAGE_STATE.SUCCESS
                 dataState.postValue(dataStateMap)
             }, {
                 it.printStackTrace()
                 discoverBannerLiveData.postValue(null)
-                dataStateMap[stateBanner] = STATE.FAIL
+                dataStateMap[stateBanner] = PAGE_STATE.FAIL
                 dataState.postValue(dataStateMap)
             })
     }
@@ -60,12 +59,12 @@ class DiscoverFragmentViewModel : ViewModel() {
             .subscribeOn(Schedulers.io())
             .subscribe({
                 recommendPlayListLiveData.postValue(it)
-                dataStateMap[stateRecommendPlayList] = STATE.SUCCESS
+                dataStateMap[stateRecommendPlayList] = PAGE_STATE.SUCCESS
                 dataState.postValue(dataStateMap)
             }, {
                 it.printStackTrace()
                 recommendPlayListLiveData.postValue(null)
-                dataStateMap[stateRecommendPlayList] = STATE.FAIL
+                dataStateMap[stateRecommendPlayList] = PAGE_STATE.FAIL
                 dataState.postValue(dataStateMap)
             })
     }
@@ -108,7 +107,7 @@ class DiscoverFragmentViewModel : ViewModel() {
                 override fun onNext(t: SimilaritySongBean?) {
                     if (t != null) {
                         simiSongLiveData.postValue(t)
-                        dataStateMap[stateSimiSong] = STATE.SUCCESS
+                        dataStateMap[stateSimiSong] = PAGE_STATE.SUCCESS
                         dataState.postValue(dataStateMap)
                     }
                 }
@@ -116,7 +115,7 @@ class DiscoverFragmentViewModel : ViewModel() {
                 override fun onError(e: Throwable?) {
                     e!!.printStackTrace()
                     simiSongLiveData.postValue(null)
-                    dataStateMap[stateSimiSong] = STATE.FAIL
+                    dataStateMap[stateSimiSong] = PAGE_STATE.FAIL
                     dataState.postValue(dataStateMap)
                 }
 
@@ -127,9 +126,5 @@ class DiscoverFragmentViewModel : ViewModel() {
             })
     }
 
-
-    enum class STATE {
-        SUCCESS, FAIL
-    }
 
 }

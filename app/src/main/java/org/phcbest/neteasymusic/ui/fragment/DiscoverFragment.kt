@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseFragment
+import org.phcbest.neteasymusic.base.PAGE_STATE
 import org.phcbest.neteasymusic.bean.Banner
 import org.phcbest.neteasymusic.bean.SongEntity
 import org.phcbest.neteasymusic.databinding.FragmentDiscoverBinding
@@ -42,36 +43,36 @@ class DiscoverFragment : BaseFragment() {
     override fun observeViewModel() {
         super.observeViewModel()
         //设置banner数据
-        discoverFragmentViewModel.discoverBannerLiveData.observe(this, {
+        discoverFragmentViewModel.discoverBannerLiveData.observe(this) {
             if (it != null) {
                 customBanner?.startShowAfterAdapter(it)
             }
-        })
+        }
         //设置推荐歌单
-        discoverFragmentViewModel.recommendPlayListLiveData.observe(this, {
+        discoverFragmentViewModel.recommendPlayListLiveData.observe(this) {
             if (it != null) {
                 discoverRecommendPlayListAdapter.setItemData(it, 5)
             }
-        })
+        }
         //设置根据最近歌曲推荐
-        discoverFragmentViewModel.recordRecentSongItemLiveData.observe(this, {
+        discoverFragmentViewModel.recordRecentSongItemLiveData.observe(this) {
             if (it != null) {
                 binding?.recommendedBySong = it.data.name
             }
-        })
+        }
         //设置个性化推荐歌曲
-        discoverFragmentViewModel.simiSongLiveData.observe(this, {
+        discoverFragmentViewModel.simiSongLiveData.observe(this) {
             if (it != null) {
                 discoverSimiSongAdapter.setItemsData(it)
                 binding?.haveSimiRecommend = it.songs.isNotEmpty()
             }
-        })
+        }
 
 
         //管理状态显示
-        discoverFragmentViewModel.dataState.observe(this, {
+        discoverFragmentViewModel.dataState.observe(this) {
             it.forEach { map ->
-                if (map.value == DiscoverFragmentViewModel.STATE.FAIL) {
+                if (map.value == PAGE_STATE.FAIL) {
                     //如果有一个状态是未成功
                     binding?.isLoad = true
                     return@forEach
@@ -79,7 +80,7 @@ class DiscoverFragment : BaseFragment() {
             }
             //没有未成功状态，设置未成功
             binding?.isLoad = false
-        })
+        }
     }
 
     override fun initView() {
