@@ -122,4 +122,11 @@ interface RetrofitApi {
      */
     @GET("/record/recent/song")
     fun getRecordRecentSong(@Query("limit") limit: Int): Observable<RecordRecentSongBean>
+
+
+    /**
+     * 获得用户关注
+     */
+    @GET("/user/follows")
+    fun getUserFollows(@Query("uid") uid: Long): Observable<UserFollowBean>
 }

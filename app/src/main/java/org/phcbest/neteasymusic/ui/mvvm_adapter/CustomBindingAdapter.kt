@@ -2,12 +2,14 @@ package org.phcbest.neteasymusic.ui.mvvm_adapter
 
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.Outline
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.*
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -30,10 +32,11 @@ class CustomBindingAdapter {
         var uid = MMKVStorageUtils.newInstance().getLoginBean()?.profile?.userId
 
         @JvmStatic
-        @BindingAdapter("circularImageSrc")
-        fun setCircularImageView(view: View, imageSrc: String) {
+        @BindingAdapter("circularImageSrc", "circularSizeLimit", requireAll = false)
+        fun setCircularImageView(view: View, imageSrc: String, sizeLimit: Int) {
             if (view is CircularImageView) {
-                view.setImage(imageSrc)
+                Log.i(TAG, "setCircularImageView: 图片限制$sizeLimit")
+                view.setImage(imageSrc, sizeLimit)
             }
         }
 
