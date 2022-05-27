@@ -148,7 +148,7 @@ class CustomBanner() {
 
         @SuppressLint("ClickableViewAccessibility")
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val p = position % bannerItemInfo!!.size
+            val p = position % bannerItemInfo?.size!!
             val itemData = bannerItemInfo!![p]
             Glide.with(holder.itemView).load(itemData.pic).centerCrop()
                 .into(holder.bannerImageView)

@@ -13,11 +13,20 @@
         setTextWithImageImagePosition="@{0}"
         setTextWithImageImageRes="@{@drawable/ic_topic}"
         setTextWithImageImageText="@{title??`this is text maybe to long`}"
-        android:layout_width="300dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="2dp"
+        android:background="@drawable/shape_topic_bg"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"
         android:textColor="#BE000000"
-        android:textSize="16sp">
+        android:textSize="13sp">
 
     </TextView>
 </layout>

@@ -2,12 +2,14 @@ package org.phcbest.neteasymusic.ui.fragment
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseFragment
@@ -48,9 +50,11 @@ class FollowFragment : BaseFragment() {
         binding?.rvFollowList?.adapter = mFollowViewListAdapter
 
         mHotTopicAdapter = HotTopicAdapter()
-        val gridLayoutManager = GridLayoutManager(context, 5, GridLayoutManager.HORIZONTAL, false)
-        binding?.rvHotTopic?.layoutManager =
-            gridLayoutManager
+//        val gridLayoutManager =
+//            GridLayoutManager(context, 5, GridLayoutManager.HORIZONTAL, false)
+        val staggeredGridLayoutManager =
+            StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL)
+        binding?.rvHotTopic?.layoutManager = staggeredGridLayoutManager
         binding?.rvHotTopic?.adapter = mHotTopicAdapter
 
         binding?.rvFollowDynamic?.adapter

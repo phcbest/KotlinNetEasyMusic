@@ -49,7 +49,7 @@ class FollowFragmentViewModel : ViewModel() {
 
 
     fun getHotTopicBeanLD() {
-        RetrofitUtils.newInstance().getHotTopic().observeOn(AndroidSchedulers.mainThread())
+        RetrofitUtils.newInstance().getHotTopic(10, 0).observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io()).subscribe({
                 hotTopicBeanLD.postValue(it)
                 setLdState(STATE_HOTTOPIC, true)
