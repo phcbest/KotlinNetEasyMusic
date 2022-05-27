@@ -28,7 +28,7 @@ class CloudVillageFragment : BaseFragment() {
     override fun initView() {
     }
 
-    override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?): ViewBinding {
+    override fun setViewBinding(inflater: LayoutInflater, container: ViewGroup?): ViewBinding {
         val view = DataBindingUtil.inflate<FragmentCloudVillageBinding>(inflater,
             R.layout.fragment_cloud_village,
             container,

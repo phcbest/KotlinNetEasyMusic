@@ -139,7 +139,7 @@ class DiscoverFragment : BaseFragment() {
         }
     }
 
-    override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?): ViewBinding {
+    override fun setViewBinding(inflater: LayoutInflater, container: ViewGroup?): ViewBinding {
         discoverFragmentViewModel =
             ViewModelProviders.of(this)[DiscoverFragmentViewModel::class.java]
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_discover, container, false)

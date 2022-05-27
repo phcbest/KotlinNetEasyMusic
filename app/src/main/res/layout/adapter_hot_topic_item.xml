@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="title"
+            type="String" />
+    </data>
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/tv_topic_name"
+        setTextWithImageImagePosition="@{0}"
+        setTextWithImageImageRes="@{@drawable/ic_topic}"
+        setTextWithImageImageText="@{title??`this is text maybe to long`}"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:textColor="#BE000000"
+        android:textSize="16sp">
+
+    </TextView>
+</layout>

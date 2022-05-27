@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
@@ -14,6 +15,7 @@ import org.phcbest.neteasymusic.base.PAGE_STATE
 import org.phcbest.neteasymusic.databinding.FragmentFollowBinding
 import org.phcbest.neteasymusic.ui.fragment.viewmodel.FollowFragmentViewModel
 import org.phcbest.neteasymusic.ui.widget.adapter.FollowViewListAdapter
+import org.phcbest.neteasymusic.ui.widget.adapter.HotTopicAdapter
 
 
 class FollowFragment : BaseFragment() {
@@ -34,15 +36,23 @@ class FollowFragment : BaseFragment() {
     override fun initPresenter() {
         //获得用户关注列表
         mFollowFragmentViewModel?.getUserFollowBeanLD(10, 0)
+        mFollowFragmentViewModel?.getHotTopicBeanLD()
     }
 
     private var mFollowViewListAdapter: FollowViewListAdapter? = null
+    private var mHotTopicAdapter: HotTopicAdapter? = null
     override fun initView() {
         binding?.isLoad = true
         //初始化view
         mFollowViewListAdapter = FollowViewListAdapter(binding?.rvFollowList?.layoutManager!!)
         binding?.rvFollowList?.adapter = mFollowViewListAdapter
-        binding?.rvHotTopic?.adapter
+
+        mHotTopicAdapter = HotTopicAdapter()
+        val gridLayoutManager = GridLayoutManager(context, 5, GridLayoutManager.HORIZONTAL, false)
+        binding?.rvHotTopic?.layoutManager =
+            gridLayoutManager
+        binding?.rvHotTopic?.adapter = mHotTopicAdapter
+
         binding?.rvFollowDynamic?.adapter
     }
 
@@ -69,6 +79,10 @@ class FollowFragment : BaseFragment() {
         mFollowFragmentViewModel?.userFollowBeanLD?.observe(this) {
             mFollowViewListAdapter?.addUserFollowBean(it!!)
         }
+        mFollowFragmentViewModel?.hotTopicBeanLD?.observe(this) {
+            mHotTopicAdapter?.setHotTopicBean(it)
+        }
+
         mFollowFragmentViewModel?.dataState?.observe(this) {
             it.forEach { map ->
                 if (map.value == PAGE_STATE.FAIL) {
@@ -82,7 +96,7 @@ class FollowFragment : BaseFragment() {
         }
     }
 
-    override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?): ViewBinding {
+    override fun setViewBinding(inflater: LayoutInflater, container: ViewGroup?): ViewBinding {
         mFollowFragmentViewModel = ViewModelProviders.of(this)[FollowFragmentViewModel::class.java]
         binding = DataBindingUtil.inflate<FragmentFollowBinding>(inflater,
             R.layout.fragment_follow,

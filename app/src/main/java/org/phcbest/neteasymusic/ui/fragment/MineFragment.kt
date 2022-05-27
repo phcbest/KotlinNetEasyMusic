@@ -142,7 +142,7 @@ class MineFragment : BaseFragment() {
                 })
     }
 
-    override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?): ViewBinding {
+    override fun setViewBinding(inflater: LayoutInflater, container: ViewGroup?): ViewBinding {
         //返回viewbinding
         binding = DataBindingUtil.inflate(
             inflater,

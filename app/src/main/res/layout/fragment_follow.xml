@@ -50,7 +50,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:text="大家都在聊"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_hot_topic"

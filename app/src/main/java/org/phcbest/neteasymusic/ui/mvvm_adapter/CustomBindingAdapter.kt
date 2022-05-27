@@ -42,7 +42,7 @@ class CustomBindingAdapter {
         ) {
             if (view is CircularImageView) {
 //                Log.i(TAG, "setCircularImageView: 图片限制$sizeLimit")
-                view.setImage(imageSrc, sizeLimit,stroke)
+                view.setImage(imageSrc, sizeLimit, stroke)
             }
         }
 
@@ -83,7 +83,7 @@ class CustomBindingAdapter {
          */
         @JvmStatic
         @BindingAdapter("setVisible")
-        fun setVisible(view: View, status: Boolean) {
+        fun setVisible(view: View, status: Boolean = true) {
             view.visibility = if (status) View.VISIBLE else View.GONE
         }
 
