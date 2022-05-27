@@ -128,5 +128,18 @@ interface RetrofitApi {
      * 获得用户关注
      */
     @GET("/user/follows")
-    fun getUserFollows(@Query("uid") uid: Long): Observable<UserFollowBean>
+    fun getUserFollows(
+        @Query("uid") uid: Long,
+        @Query("limit") limit: Int = 10,
+        @Query("offset") offset: Int = 0,
+    ): Observable<UserFollowBean>
+
+    /**
+     * 获得热门话题
+     */
+    @GET("/hot/topic")
+    fun getHotTopic(
+        @Query("limit") limit: Int = 15,
+        @Query("offset") offset: Int = 0,
+    ): Observable<HotTopicBean>
 }

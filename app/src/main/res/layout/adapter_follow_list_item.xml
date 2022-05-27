@@ -17,6 +17,7 @@
         <org.phcbest.neteasymusic.ui.widget.custom.CircularImageView
             circularImageSrc="@{follow.avatarUrl??``}"
             circularSizeLimit="@{150}"
+            circularStroke="@{follow.userType!=0}"
             android:layout_width="60dp"
             android:layout_height="60dp" />
 

@@ -9,6 +9,7 @@ import org.phcbest.neteasymusic.base.PAGE_STATE
 import org.phcbest.neteasymusic.bean.UserFollowBean
 import org.phcbest.neteasymusic.utils.MMKVStorageUtils
 import org.phcbest.neteasymusic.utils.RetrofitUtils
+import retrofit2.http.Query
 
 class FollowFragmentViewModel : ViewModel() {
     companion object {
@@ -28,9 +29,11 @@ class FollowFragmentViewModel : ViewModel() {
         dataStateMap[stateFollowList] = PAGE_STATE.FAIL
     }
 
-    fun getUserFollowBeanLD() {
+    fun getUserFollowBeanLD(limit: Int, offset: Int) {
         RetrofitUtils.newInstance()
-            .getUserFollows(MMKVStorageUtils.newInstance().getLoginBean()!!.profile.userId)
+            .getUserFollows(MMKVStorageUtils.newInstance().getLoginBean()!!.profile.userId,
+                limit,
+                offset)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io()).subscribe({
                 dataStateMap[stateFollowList] = PAGE_STATE.SUCCESS

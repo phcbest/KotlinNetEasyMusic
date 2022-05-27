@@ -7,7 +7,7 @@ data class UserFollowBean(
     @SerializedName("code")
     val code: Int, // 200
     @SerializedName("follow")
-    val follow: List<Follow>,
+    val follow: MutableList<Follow>,
     @SerializedName("more")
     val more: Boolean, // true
     @SerializedName("touchCount")

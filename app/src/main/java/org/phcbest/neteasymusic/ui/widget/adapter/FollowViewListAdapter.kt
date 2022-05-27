@@ -4,20 +4,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.bean.UserFollowBean
 import org.phcbest.neteasymusic.databinding.AdapterFollowListItemBinding
 
-class FollowViewListAdapter : RecyclerView.Adapter<FollowViewListAdapter.ViewHolder>() {
+class FollowViewListAdapter(var layoutManager: RecyclerView.LayoutManager) :
+    RecyclerView.Adapter<FollowViewListAdapter.ViewHolder>() {
     class ViewHolder(var binding: AdapterFollowListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     var mUserFollowBean: UserFollowBean? = null
 
-    fun setUserFollowBean(userFollowBean: UserFollowBean) {
-        this.mUserFollowBean = userFollowBean
-        notifyItemRangeChanged(0, userFollowBean.follow.size)
+    fun addUserFollowBean(userFollowBean: UserFollowBean) {
+        if (this.mUserFollowBean == null) {
+            this.mUserFollowBean = userFollowBean
+            notifyItemRangeChanged(0, this.mUserFollowBean!!.follow.size)
+        } else {
+            val oldSize = this.mUserFollowBean!!.follow.size
+            for (follow in userFollowBean.follow) {
+                this.mUserFollowBean?.follow?.add(follow)
+            }
+            notifyItemRangeChanged(0, this.mUserFollowBean!!.follow.size)
+            layoutManager.scrollToPosition(oldSize)
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,7 +41,6 @@ class FollowViewListAdapter : RecyclerView.Adapter<FollowViewListAdapter.ViewHol
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.follow = mUserFollowBean!!.follow[position]
-
     }
 
     override fun getItemCount(): Int {

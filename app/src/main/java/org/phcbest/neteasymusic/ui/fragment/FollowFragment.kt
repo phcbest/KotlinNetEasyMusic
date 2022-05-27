@@ -1,12 +1,13 @@
 package org.phcbest.neteasymusic.ui.fragment
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.bumptech.glide.Glide
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseFragment
 import org.phcbest.neteasymusic.base.PAGE_STATE
@@ -14,8 +15,6 @@ import org.phcbest.neteasymusic.databinding.FragmentFollowBinding
 import org.phcbest.neteasymusic.ui.fragment.viewmodel.FollowFragmentViewModel
 import org.phcbest.neteasymusic.ui.widget.adapter.FollowViewListAdapter
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 class FollowFragment : BaseFragment() {
 
@@ -23,6 +22,8 @@ class FollowFragment : BaseFragment() {
     private var mFollowFragmentViewModel: FollowFragmentViewModel? = null
 
     companion object {
+        private const val TAG = "FollowFragment"
+
         /**
          * 这个JvmStatic注释是为了在java中调用kotlin
          */
@@ -32,14 +33,14 @@ class FollowFragment : BaseFragment() {
 
     override fun initPresenter() {
         //获得用户关注列表
-        mFollowFragmentViewModel?.getUserFollowBeanLD()
+        mFollowFragmentViewModel?.getUserFollowBeanLD(10, 0)
     }
 
     private var mFollowViewListAdapter: FollowViewListAdapter? = null
     override fun initView() {
         binding?.isLoad = true
         //初始化view
-        mFollowViewListAdapter = FollowViewListAdapter()
+        mFollowViewListAdapter = FollowViewListAdapter(binding?.rvFollowList?.layoutManager!!)
         binding?.rvFollowList?.adapter = mFollowViewListAdapter
         binding?.rvHotTopic?.adapter
         binding?.rvFollowDynamic?.adapter
@@ -47,22 +48,26 @@ class FollowFragment : BaseFragment() {
 
     override fun initEvent() {
         super.initEvent()
-//        //设置滑动时不加载图片
-//        binding?.rvFollowList?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-//                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-//                    activity?.let { Glide.with(it).resumeRequests() };//恢复Glide加载图片
-//                } else {
-//                    activity?.let { Glide.with(it).pauseRequests() };//禁止Glide加载图片
-//                }
-//            }
-//        })
+        binding?.rvFollowList?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+//                Log.i(TAG, "onScrolled: dx$dx dy$dy ")
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val pos = layoutManager.findLastCompletelyVisibleItemPosition()
+                val numItems = recyclerView.adapter?.itemCount
+                if (pos >= numItems!! - 1) {
+                    Log.i(TAG, "onScrolled: size$numItems 最后一个渲染出来了")
+                    //进行后续的请求
+                    mFollowFragmentViewModel?.getUserFollowBeanLD(10, numItems)
+                }
+            }
+        })
     }
 
     override fun observeViewModel() {
         super.observeViewModel()
         mFollowFragmentViewModel?.userFollowBeanLD?.observe(this) {
-            mFollowViewListAdapter?.setUserFollowBean(it!!)
+            mFollowViewListAdapter?.addUserFollowBean(it!!)
         }
         mFollowFragmentViewModel?.dataState?.observe(this) {
             it.forEach { map ->

@@ -65,7 +65,8 @@ class CircularImageView : View {
         val circleBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(circleBitmap)
         val paint = Paint()
-        val rect = Rect(0, 0, bitmap.width, bitmap.height)
+        //留出和view的pending
+        val rect = Rect(10, 10, bitmap.width - 10, bitmap.height - 10)
         val rectF = RectF(rect)
         //按长宽最短的设定圆心位置
         val roundRa = if (bitmap.width > bitmap.height) {
@@ -86,11 +87,11 @@ class CircularImageView : View {
             val p1 = Paint()
             p1.isAntiAlias = true
             p1.style = Paint.Style.STROKE
-            p1.strokeWidth = 40f
+            p1.strokeWidth = 5f
             p1.color = Color.parseColor(outlineColor)
             //需要去除strokeWidth的宽度
             val rectF1 =
-                RectF(5F, 5F, bitmap.width - 5F, bitmap.height - 5F)
+                RectF(3F, 3F, bitmap.width - 3F, bitmap.height - 3F)
             canvas.drawArc(rectF1, 0F, 360F, false, p1)
         }
         return circleBitmap
@@ -104,7 +105,7 @@ class CircularImageView : View {
         canvas?.drawBitmap(mBitmap!!, null, mRect, mPaint)
     }
 
-    fun setImage(imageUrl: String, sizeLimit: Int) {
+    fun setImage(imageUrl: String, sizeLimit: Int, stroke: Boolean) {
         if (imageUrl.contains("http")) {
             var url = imageUrl
             if (sizeLimit != 0) {
@@ -118,7 +119,7 @@ class CircularImageView : View {
                         resource: Bitmap,
                         transition: Transition<in Bitmap>?,
                     ) {
-                        mBitmap = getCircleBitmap(resource)
+                        mBitmap = getCircleBitmap(resource, stroke)
                         invalidate()
                     }
 
