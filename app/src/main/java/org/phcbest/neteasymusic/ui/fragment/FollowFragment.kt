@@ -41,6 +41,7 @@ class FollowFragment : BaseFragment() {
         mFollowFragmentViewModel?.getHotTopicBeanLD()
     }
 
+
     private var mFollowViewListAdapter: FollowViewListAdapter? = null
     private var mHotTopicAdapter: HotTopicAdapter? = null
     override fun initView() {

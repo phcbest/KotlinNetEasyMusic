@@ -148,25 +148,26 @@ class CustomBanner() {
 
         @SuppressLint("ClickableViewAccessibility")
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val p = position % bannerItemInfo?.size!!
-            val itemData = bannerItemInfo!![p]
-            Glide.with(holder.itemView).load(itemData.pic).centerCrop()
-                .into(holder.bannerImageView)
-            holder.bannerImageView.setOnClickListener { v ->
-                this.click?.let { it(itemData, p) }
-            }
-            //用户触摸时暂停定时器,因为viewpage底层将相关事件拦截了，不能用viewpage的setOnTouchListener
-            holder.bannerImageView.setOnTouchListener { _, event ->
-                Log.i(TAG, "onTouch: ${event!!.action}")
-                if (event.action == MotionEvent.ACTION_DOWN) {
-                    countDownTimer.cancel()
-                } else if (event.action == MotionEvent.ACTION_CANCEL) {
-                    countDownTimer.start()
+            if (bannerItemInfo != null) {
+                val p = position % bannerItemInfo?.size!!
+                val itemData = bannerItemInfo!![p]
+                Glide.with(holder.itemView).load(itemData.pic).centerCrop()
+                    .into(holder.bannerImageView)
+                holder.bannerImageView.setOnClickListener { v ->
+                    this.click?.let { it(itemData, p) }
                 }
-                //我们希望进行onClick的事件，所以返回false，没消费这个事件
-                false
+                //用户触摸时暂停定时器,因为viewpage底层将相关事件拦截了，不能用viewpage的setOnTouchListener
+                holder.bannerImageView.setOnTouchListener { _, event ->
+                    Log.i(TAG, "onTouch: ${event!!.action}")
+                    if (event.action == MotionEvent.ACTION_DOWN) {
+                        countDownTimer.cancel()
+                    } else if (event.action == MotionEvent.ACTION_CANCEL) {
+                        countDownTimer.start()
+                    }
+                    //我们希望进行onClick的事件，所以返回false，没消费这个事件
+                    false
+                }
             }
-
         }
 
         override fun getItemCount(): Int {

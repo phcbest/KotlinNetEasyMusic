@@ -61,6 +61,7 @@
 
                 </LinearLayout>
 
+                <!--对关注列表前五个进行获取每个人最近的5条动态进行初始显示-->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_follow_dynamic"
                     android:layout_width="match_parent"

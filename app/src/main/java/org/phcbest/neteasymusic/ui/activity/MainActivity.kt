@@ -6,11 +6,14 @@ import android.content.ServiceConnection
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewbinding.ViewBinding
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseActivity
 import org.phcbest.neteasymusic.bean.PlayListDetailBean
@@ -23,6 +26,7 @@ import org.phcbest.neteasymusic.ui.fragment.*
 import org.phcbest.neteasymusic.ui.widget.adapter.PlayListDialogAdapter
 import org.phcbest.neteasymusic.ui.widget.playBar.CustomPlayBar
 import org.phcbest.neteasymusic.utils.MMKVStorageUtils
+import java.util.*
 
 
 class MainActivity : BaseActivity() {
@@ -58,6 +62,17 @@ class MainActivity : BaseActivity() {
         mineFragment = MineFragment.newInstance()
         followFragment = FollowFragment.newInstance()
         cloudVillageFragment = CloudVillageFragment.newInstance()
+        //设置页面适配器
+        val viewPageAdapter = ViewPageAdapter(this,
+            discoverFragment!!,
+            radioStationFragment!!,
+            mineFragment!!,
+            followFragment!!,
+            cloudVillageFragment!!)
+
+        binding.vpMainContent.adapter = viewPageAdapter
+        binding.vpMainContent.offscreenPageLimit = 5 //设置预加载页面数量
+//        binding.vpMainContent.setPageTransformer(true, ZoomOutPageTransformer())
         //执行playbar初始化
         mCustomPlayBar = CustomPlayBar.newInstance().initView(binding.root)
         //初始化dialog
@@ -74,23 +89,32 @@ class MainActivity : BaseActivity() {
         binding.navMain.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menu_discover -> {
-                    switchFragment(discoverFragment!!)
+                    binding.vpMainContent.currentItem = 0
                 }
                 R.id.menu_radio_station -> {
-                    switchFragment(radioStationFragment!!)
+                    binding.vpMainContent.currentItem = 1
                 }
                 R.id.menu_mine -> {
-                    switchFragment(mineFragment!!)
+                    binding.vpMainContent.currentItem = 2
                 }
                 R.id.menu_follow -> {
-                    switchFragment(followFragment!!)
+                    binding.vpMainContent.currentItem = 3
                 }
                 R.id.menu_cloud_village -> {
-                    switchFragment(cloudVillageFragment!!)
+                    binding.vpMainContent.currentItem = 4
                 }
             }
             true
         }
+        //设置viewpage的滑动监听
+        binding.vpMainContent.registerOnPageChangeCallback(object :
+            androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                binding.navMain.selectedItemId = binding.navMain.menu.getItem(position).itemId
+            }
+        })
+
         //判断网络状态来 初始化主页位置,这里直接执行点击下发ui事件
         binding.navMain.findViewById<View>(R.id.menu_discover).performClick()
 
@@ -132,7 +156,7 @@ class MainActivity : BaseActivity() {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun observeViewModel() {
         super.observeViewModel()
-        mainActivityViewModel.playlistDetailLiveData.observe(this, {
+        mainActivityViewModel.playlistDetailLiveData.observe(this) {
             if (it != null) {
                 MMKVStorageUtils.newInstance().storagePlayList(it)
                 //设置dialog的歌单
@@ -143,14 +167,14 @@ class MainActivity : BaseActivity() {
             } else {
                 mainPlayListDialog.dialogMainPlaylistBinding.isDialogLoad = true
             }
-        })
+        }
 
     }
 
 
     fun setTheObserverAfterTheServiceIsBound() {
         //用户控制播放暂停的回调
-        mMusicPlayerService?.isPlayerLD?.observe(this, {
+        mMusicPlayerService?.isPlayerLD?.observe(this) {
             if (it) {
                 binding.mainPlayBar.btnPlayBarPlay.play()
                 binding.mainPlayBar.ivPlayBarCover.startTurn()
@@ -158,25 +182,25 @@ class MainActivity : BaseActivity() {
                 binding.mainPlayBar.btnPlayBarPlay.pause()
                 binding.mainPlayBar.ivPlayBarCover.stopTurn()
             }
-        })
+        }
 
         //加载好音乐后的回调
-        mMusicPlayerService?.currentSongEntityLD?.observe(this, {
+        mMusicPlayerService?.currentSongEntityLD?.observe(this) {
             binding.mainPlayBar.ivPlayBarCover.setBackAndFrontGround(-1, it.cover)
             binding.mainPlayBar.songName = it.name
             binding.mainPlayBar.songAuthor = it.author
-        })
+        }
 
         //进度接收
-        mMusicPlayerService?.playProgressLD?.observe(this, {
+        mMusicPlayerService?.playProgressLD?.observe(this) {
             Log.i(TAG, "setTheObserverAfterTheServiceIsBound: playProgress $it")
             binding.mainPlayBar.btnPlayBarPlay.updateProgress(it)
-        })
+        }
 
         //歌单的变动
-        mMusicPlayerService?.mPlaylist?.observe(this, {
+        mMusicPlayerService?.mPlaylist?.observe(this) {
             playListDialogAdapter.setPlayListDetailSync()
-        })
+        }
     }
 
 
@@ -212,21 +236,28 @@ class MainActivity : BaseActivity() {
     }
 
 
-    //切换fragment
-    private var currentFragment: Fragment? = null
-    private fun switchFragment(targetFragment: Fragment) {
-        currentFragment = currentFragment ?: targetFragment
-        val beginTransaction = supportFragmentManager.beginTransaction()
-        if (!targetFragment.isAdded) {
-            beginTransaction.hide(currentFragment!!)
-                .add(R.id.fragment_home, targetFragment)
-                .show(targetFragment)
-                .commit()
-        } else {
-            beginTransaction.hide(currentFragment!!).show(targetFragment).commit()
-        }
-        currentFragment = targetFragment
-    }
+//    //切换fragment
+//    private var currentFragment: Fragment? = null
+//    private fun switchFragment(targetFragment: Fragment) {
+//        currentFragment = currentFragment ?: targetFragment
+//        val beginTransaction = supportFragmentManager.beginTransaction()
+//        if (!targetFragment.isAdded) {
+//            beginTransaction.hide(currentFragment!!)
+//                .add(R.id.fragment_home, targetFragment)
+//                .show(targetFragment)
+//                .commit()
+//        } else {
+//            beginTransaction.hide(currentFragment!!).show(targetFragment).commit()
+//        }
+//        currentFragment = targetFragment
+//    }
 
+    //主页切换的适配器
+    private inner class ViewPageAdapter(fa: FragmentActivity, vararg var pageList: Fragment) :
+        FragmentStateAdapter(fa) {
+        override fun getItemCount(): Int = pageList.size
+
+        override fun createFragment(position: Int): Fragment = pageList[position]
+    }
 
 }

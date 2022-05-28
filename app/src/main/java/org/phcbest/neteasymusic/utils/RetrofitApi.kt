@@ -8,6 +8,10 @@ import org.phcbest.neteasymusic.bean.*
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
+import java.sql.Date
+import java.sql.Time
+import java.time.LocalDateTime
+import java.util.*
 
 
 interface RetrofitApi {
@@ -142,4 +146,15 @@ interface RetrofitApi {
         @Query("limit") limit: Int = 15,
         @Query("offset") offset: Int = 0,
     ): Observable<HotTopicBean>
+
+
+    /**
+     * 获得用户动态
+     */
+    @GET("/user/event")
+    fun getUserEvent(
+        @Query("uid") uid: Long,
+        @Query("limit") limit: Int = 20,
+        @Query("lasttime") lastTime: Long = Calendar.getInstance().timeInMillis,
+    ): Observable<UserEventBean>
 }
