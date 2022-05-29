@@ -25,7 +25,7 @@ class ViewPager2Container @JvmOverloads constructor(
     private var startX = 0
     private var startY = 0
 
-    //在完成的时候进行填充
+    //在完成的时候进行
     override fun onFinishInflate() {
         super.onFinishInflate()
         //遍历所有的子view
@@ -52,7 +52,7 @@ class ViewPager2Container @JvmOverloads constructor(
                 || (mViewPager2?.adapter != null
                 && mViewPager2?.adapter!!.itemCount <= 1))
         if (doNotNeedIntercept) {
-            //如果没有启用用户输入,或者viewPager2的item数量小于等于1,不拦截
+            //如果没有启用用户输入,或者viewPager2的item数量小于等于1,执行当前view拦截
             return super.onInterceptTouchEvent(ev)
         }
         when (ev.action) {
@@ -76,7 +76,7 @@ class ViewPager2Container @JvmOverloads constructor(
                     onHorizontalActionMove(endX, disX, disY)
                 }
             }
-            //结束event时,设置为不拦截
+            //结束event时,设置允许父view拦截
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> parent.requestDisallowInterceptTouchEvent(
                 false)
         }
@@ -87,12 +87,15 @@ class ViewPager2Container @JvmOverloads constructor(
         if (mViewPager2?.adapter == null) {
             return
         }
+        //x轴绝对值大于y轴绝对,有明显的x方向滑动意图
         if (disX > disY) {
-            val currentItem = mViewPager2?.currentItem
-            val itemCount = mViewPager2?.adapter!!.itemCount
+            val currentItem = mViewPager2?.currentItem //获得当前item的位置
+            val itemCount = mViewPager2?.adapter!!.itemCount //获得item的数量
             if (currentItem == 0 && endX - startX > 0) {
+                //如果是第一个item,并且向右滑动,设置允许父view拦截
                 parent.requestDisallowInterceptTouchEvent(false)
             } else {
+                //计算是否是最后一个item,如果是最后一个item,并且向左滑动,设置允许父view拦截
                 parent.requestDisallowInterceptTouchEvent(currentItem != itemCount - 1
                         || endX - startX >= 0)
             }
