@@ -34,7 +34,7 @@
 
             <include layout="@layout/custom_discover_toolbar" />
 
-            <ScrollView
+            <androidx.core.widget.NestedScrollView
                 setVisible="@{!isLoad}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -157,6 +157,7 @@
                                     android:textSize="12sp" />
                             </LinearLayout>
 
+
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/rv_simi_song"
                                 setVisible="@{haveSimiRecommend}"
@@ -177,7 +178,7 @@
 
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
-            </ScrollView>
+            </androidx.core.widget.NestedScrollView>
         </LinearLayout>
     </FrameLayout>
 
