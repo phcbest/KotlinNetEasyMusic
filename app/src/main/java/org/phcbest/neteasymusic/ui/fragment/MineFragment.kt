@@ -54,7 +54,7 @@ class MineFragment : BaseFragment() {
                 scrollX: Int,
                 scrollY: Int,
                 oldScrollX: Int,
-                oldScrollY: Int
+                oldScrollY: Int,
             ) {
 
             }
@@ -79,9 +79,7 @@ class MineFragment : BaseFragment() {
         binding?.rvMineStarList?.adapter = minePlayListStarAdapter
         binding?.isLoading = true
 
-        //todo 设置吸顶效果
         binding?.scrollMime?.setOnScrollChangeListener(onScrollChange)
-
 
     }
 

@@ -29,12 +29,13 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+                <include layout="@layout/custom_follow_toolbar" />
+
                 <!--fadingEdge设置边缘阴影-->
-                <androidx.recyclerview.widget.RecyclerView
+                <org.phcbest.neteasymusic.ui.widget.custom.RecyclerViewContainer
                     android:id="@+id/rv_follow_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:ellipsize="none"
                     android:orientation="horizontal"
                     android:requiresFadingEdge="horizontal"

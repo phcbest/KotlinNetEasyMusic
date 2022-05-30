@@ -100,6 +100,7 @@
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/mcd_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -158,7 +159,7 @@
                             </LinearLayout>
 
 
-                            <androidx.recyclerview.widget.RecyclerView
+                            <org.phcbest.neteasymusic.ui.widget.custom.RecyclerViewContainer
                                 android:id="@+id/rv_simi_song"
                                 setVisible="@{haveSimiRecommend}"
                                 android:layout_width="match_parent"

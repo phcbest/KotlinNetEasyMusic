@@ -34,10 +34,12 @@ class RecyclerViewContainer @JvmOverloads constructor(
                 parent.requestDisallowInterceptTouchEvent(false)
             }
             MotionEvent.ACTION_MOVE -> {
+                Log.d(TAG, "onInterceptTouchEvent: ACTION_MOVE")
 //                layoutManager
                 parent.requestDisallowInterceptTouchEvent(true)
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                Log.d(TAG, "onInterceptTouchEvent: ACTION_UP ACTION_CANCEL")
                 parent.requestDisallowInterceptTouchEvent(false)
             }
 

@@ -26,17 +26,18 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/shape_discover_search_bg"
                 android:gravity="center"
-                android:text="发现"
-                android:textSize="15sp" />
+                android:text="动态"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:padding="7dp"
-                android:src="@drawable/ic_mic" />
+                android:src="@drawable/ic_plus_red_circle" />
 
         </LinearLayout>
 

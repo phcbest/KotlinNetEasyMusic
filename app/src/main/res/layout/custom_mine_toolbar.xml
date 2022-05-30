@@ -10,7 +10,7 @@
         android:backgroundTint="@color/white"
         app:elevation="0dp">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -18,27 +18,18 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_gravity="center"
+                android:layout_gravity="center|start"
                 android:padding="7dp"
                 android:src="@drawable/ic_menu" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/shape_discover_search_bg"
-                android:gravity="center"
-                android:text="发现"
-                android:textSize="15sp" />
 
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_gravity="center"
+                android:layout_gravity="center|end"
                 android:padding="7dp"
-                android:src="@drawable/ic_mic" />
+                android:src="@drawable/ic_baseline_search_24" />
 
-        </LinearLayout>
+        </FrameLayout>
 
 
     </com.google.android.material.appbar.AppBarLayout>
