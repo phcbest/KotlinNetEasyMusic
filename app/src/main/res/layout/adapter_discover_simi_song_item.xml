@@ -18,6 +18,7 @@
 
         <androidx.constraintlayout.utils.widget.ImageFilterView
             android:id="@+id/iv_song_cover"
+            roundedCornersImageSizeLimit="@{150}"
             roundedCornersImageSrc="@{song.album.picUrl??``}"
             android:layout_width="50dp"
             android:layout_height="50dp"

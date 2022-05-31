@@ -8,6 +8,10 @@
         <variable
             name="isLoad"
             type="Boolean" />
+
+        <variable
+            name="contentIsLoad"
+            type="Boolean" />
     </data>
 
     <FrameLayout
@@ -65,9 +69,15 @@
                 <!--对关注列表前五个进行获取每个人最近的5条动态进行初始显示-->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_follow_dynamic"
+                    setVisible="@{!contentIsLoad}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" />
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                <include
+                    layout="@layout/view_isload"
+                    setVisible="@{contentIsLoad}" />
 
 
             </LinearLayout>

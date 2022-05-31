@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="event"
+            type="org.phcbest.neteasymusic.bean.UserEventBean.Event" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.phcbest.neteasymusic.ui.widget.custom.CircularImageView
+            android:id="@+id/iv_avatar"
+            circularImageSrc="@{event.user.avatarUrl}"
+            circularSizeLimit="@{100}"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="end"
+            app:constraint_referenced_ids="iv_avatar" />
+
+
+        <TextView
+            android:id="@+id/tv_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@{event.user.nickname??``}"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@id/barrier1"
+            app:layout_constraintTop_toTopOf="@+id/iv_avatar" />
+
+        <TextView
+            android:id="@+id/tv_dynamic_time"
+            setTextByTime="@{event.eventTime}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_nickname"
+            app:layout_constraintTop_toBottomOf="@+id/tv_nickname" />
+
+        <TextView
+            android:id="@+id/tv_dynamic_text_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:ellipsize="end"
+            android:maxHeight="100dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrier1"
+            app:layout_constraintTop_toBottomOf="@+id/tv_dynamic_time" />
+
+
+        <TextView
+            android:id="@+id/iv_forward_dynamic"
+            setTextWithImageImagePosition="@{0}"
+            setTextWithImageImageRes="@{@drawable/ic_forward}"
+            setTextWithImageImageText="@{event.info.CommentThread.shareCount+``}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_comment_dynamic"
+            app:layout_constraintEnd_toStartOf="@+id/tv_comment_dynamic"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_comment_dynamic" />
+
+        <TextView
+            android:id="@+id/tv_comment_dynamic"
+            setTextWithImageImagePosition="@{0}"
+            setTextWithImageImageRes="@{@drawable/ic_comment}"
+            setTextWithImageImageText="@{event.info.CommentThread.commentCount+``}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tv_like_dynamic"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/iv_forward_dynamic"
+            app:layout_constraintTop_toBottomOf="@+id/tv_dynamic_text_content" />
+
+        <TextView
+            android:id="@+id/tv_like_dynamic"
+            setTextWithImageImagePosition="@{0}"
+            setTextWithImageImageRes="@{@drawable/ic_like}"
+            setTextWithImageImageText="@{event.info.CommentThread.likedCount+``}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_comment_dynamic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tv_comment_dynamic"
+            app:layout_constraintTop_toTopOf="@+id/tv_comment_dynamic" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

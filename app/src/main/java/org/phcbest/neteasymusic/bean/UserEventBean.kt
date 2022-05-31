@@ -190,7 +190,7 @@ data class UserEventBean(
             ) {
                 data class LatestLikedUser(
                     @SerializedName("s")
-                    val s: Int, // 1366061199
+                    val s: Long, // 1366061199
                     @SerializedName("t")
                     val t: Long, // 1653534197787
                 )
@@ -397,7 +397,7 @@ data class UserEventBean(
                 ) {
                     data class LatestLikedUser(
                         @SerializedName("s")
-                        val s: Int, // 1366061199
+                        val s: Long, // 1366061199
                         @SerializedName("t")
                         val t: Long, // 1653534197787
                     )

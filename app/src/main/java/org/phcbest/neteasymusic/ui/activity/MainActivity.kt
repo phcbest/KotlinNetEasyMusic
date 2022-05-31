@@ -116,7 +116,7 @@ class MainActivity : BaseActivity() {
         })
 
         //判断网络状态来 初始化主页位置,这里直接执行点击下发ui事件
-        binding.navMain.findViewById<View>(R.id.menu_discover).performClick()
+        binding.navMain.findViewById<View>(R.id.menu_follow).performClick()
 
         //获得歌单
         mainActivityViewModel.setPlayListDetail(playListId)

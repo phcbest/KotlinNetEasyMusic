@@ -21,6 +21,8 @@ import org.phcbest.neteasymusic.ui.widget.custom.CircularImageView
 import org.phcbest.neteasymusic.utils.MMKVStorageUtils
 import org.phcbest.neteasymusic.utils.custom.CenterAlignImageSpan
 import org.phcbest.neteasymusic.utils.ndk_link.GaussianBlurUtils
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class CustomBindingAdapter {
@@ -47,14 +49,19 @@ class CustomBindingAdapter {
         }
 
         @JvmStatic
-        @BindingAdapter("roundedCornersImageSrc")
-        fun setRoundedCornersImageView(imageView: ImageView, imageSrc: String) {
+        @BindingAdapter("roundedCornersImageSrc",
+            "roundedCornersImageSizeLimit",
+            requireAll = false)
+        fun setRoundedCornersImageView(imageView: ImageView, imageSrc: String, sizeLimit: Int) {
+            var url = imageSrc
+            if (sizeLimit != 0) {
+                url = "$imageSrc?param=$sizeLimit" + "y$sizeLimit"
+            }
             if (imageSrc.contains("http")) {
                 Glide.with(imageView).load(imageSrc)
                     .error(R.drawable.sample_avatar)
                     .into(imageView)
             }
-
         }
 
         /**
@@ -187,6 +194,14 @@ class CustomBindingAdapter {
                 ssb.length,
                 Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
             textView.text = ssb
+        }
+
+
+        @JvmStatic
+        @BindingAdapter("setTextByTime")
+        fun setTextByTime(textView: TextView, time: Long) {
+            val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA)
+            textView.text = simpleDateFormat.format(time)
         }
 
     }

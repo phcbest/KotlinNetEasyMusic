@@ -14,6 +14,7 @@ import org.phcbest.neteasymusic.base.BaseFragment
 import org.phcbest.neteasymusic.base.PAGE_STATE
 import org.phcbest.neteasymusic.databinding.FragmentFollowBinding
 import org.phcbest.neteasymusic.ui.fragment.viewmodel.FollowFragmentViewModel
+import org.phcbest.neteasymusic.ui.widget.adapter.FollowUserDynamicAdapter
 import org.phcbest.neteasymusic.ui.widget.adapter.FollowViewListAdapter
 import org.phcbest.neteasymusic.ui.widget.adapter.HotTopicAdapter
 
@@ -36,12 +37,14 @@ class FollowFragment : BaseFragment() {
     override fun initPresenter() {
         //获得用户关注列表
         mFollowFragmentViewModel?.getUserFollowBeanLD(10, 0)
+        //获得用户热门话题
         mFollowFragmentViewModel?.getHotTopicBeanLD()
     }
 
 
     private var mFollowViewListAdapter: FollowViewListAdapter? = null
     private var mHotTopicAdapter: HotTopicAdapter? = null
+    private var followUserDynamicAdapter: FollowUserDynamicAdapter? = null
     override fun initView() {
         binding?.isLoad = true
         //初始化view
@@ -56,7 +59,9 @@ class FollowFragment : BaseFragment() {
         binding?.rvHotTopic?.layoutManager = staggeredGridLayoutManager
         binding?.rvHotTopic?.adapter = mHotTopicAdapter
 
-        binding?.rvFollowDynamic?.adapter
+
+        followUserDynamicAdapter = FollowUserDynamicAdapter()
+        binding?.rvFollowDynamic?.adapter = followUserDynamicAdapter
     }
 
     override fun initEvent() {
@@ -75,6 +80,13 @@ class FollowFragment : BaseFragment() {
                 }
             }
         })
+        //用户点击动态item
+        mFollowViewListAdapter?.mOnItemClickListener = { position, follow ->
+            Log.i(TAG, "onItemClick: $follow")
+            //设置暂时状态加载
+            binding?.contentIsLoad = true
+            mFollowFragmentViewModel?.getUserEventBeanLd(follow.userId)
+        }
     }
 
     override fun observeViewModel() {
@@ -84,6 +96,10 @@ class FollowFragment : BaseFragment() {
         }
         mFollowFragmentViewModel?.hotTopicBeanLD?.observe(this) {
             mHotTopicAdapter?.setHotTopicBean(it)
+        }
+        mFollowFragmentViewModel?.userEventBeanLD?.observe(this) {
+            binding?.contentIsLoad = false
+            followUserDynamicAdapter?.setUserEventBean(it)
         }
 
         mFollowFragmentViewModel?.dataState?.observe(this) {
