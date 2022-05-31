@@ -15,7 +15,10 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.google.gson.Gson
 import org.phcbest.neteasymusic.R
+import org.phcbest.neteasymusic.bean.UserEventBean
+import org.phcbest.neteasymusic.bean.UserEventContentBean
 import org.phcbest.neteasymusic.bean.UserPlaylistBean
 import org.phcbest.neteasymusic.ui.widget.custom.CircularImageView
 import org.phcbest.neteasymusic.utils.MMKVStorageUtils
@@ -197,11 +200,25 @@ class CustomBindingAdapter {
         }
 
 
+        //将时间戳转换为时间显示
         @JvmStatic
         @BindingAdapter("setTextByTime")
         fun setTextByTime(textView: TextView, time: Long) {
             val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA)
             textView.text = simpleDateFormat.format(time)
+        }
+
+        @JvmStatic
+        @BindingAdapter("setUserEventContent")
+        fun setUserEventContent(textView: TextView, event: UserEventBean.Event) {
+            try {
+                Gson().fromJson(event.json, UserEventContentBean::class.java)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }.let {
+                textView.text = it?.msg
+            }
         }
 
     }
