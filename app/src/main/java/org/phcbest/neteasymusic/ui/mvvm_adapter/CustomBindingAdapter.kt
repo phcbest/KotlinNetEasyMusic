@@ -208,18 +208,5 @@ class CustomBindingAdapter {
             textView.text = simpleDateFormat.format(time)
         }
 
-        @JvmStatic
-        @BindingAdapter("setUserEventContent")
-        fun setUserEventContent(textView: TextView, event: UserEventBean.Event) {
-            try {
-                Gson().fromJson(event.json, UserEventContentBean::class.java)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                null
-            }.let {
-                textView.text = it?.msg
-            }
-        }
-
     }
 }

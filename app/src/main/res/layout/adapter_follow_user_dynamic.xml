@@ -7,6 +7,10 @@
         <variable
             name="event"
             type="org.phcbest.neteasymusic.bean.UserEventBean.Event" />
+
+        <variable
+            name="eventContent"
+            type="org.phcbest.neteasymusic.bean.UserEventContentBean" />
     </data>
 
 
@@ -55,7 +59,6 @@
 
         <TextView
             android:id="@+id/tv_dynamic_text_content"
-            setUserEventContent="@{event}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -63,9 +66,22 @@
             android:layout_marginEnd="10dp"
             android:ellipsize="end"
             android:maxHeight="100dp"
+            android:text="@{eventContent.msg??``}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/barrier1"
             app:layout_constraintTop_toBottomOf="@+id/tv_dynamic_time" />
+
+        <FrameLayout
+            android:id="@+id/fl_dynamic_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrier1"
+            app:layout_constraintTop_toBottomOf="@id/tv_dynamic_text_content" />
 
 
         <TextView
@@ -95,7 +111,7 @@
             app:layout_constraintEnd_toStartOf="@+id/tv_like_dynamic"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/iv_forward_dynamic"
-            app:layout_constraintTop_toBottomOf="@+id/tv_dynamic_text_content" />
+            app:layout_constraintTop_toBottomOf="@+id/fl_dynamic_content" />
 
         <TextView
             android:id="@+id/tv_like_dynamic"
