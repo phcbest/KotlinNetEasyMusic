@@ -78,17 +78,17 @@ class PlayListDetailActivity : BaseActivity() {
 
     override fun observeViewModel() {
         super.observeViewModel()
-        playListDetailViewModel.playListDetail.observe(this,
-            { t ->
-                Log.i(TAG, "onChanged: 数据变化触发")
-                if (t == null) {
-                    finish()
-                } else {
-                    binding.playlist = t.playlist
-                    playListDetailAdapter.setSongTracks(t.playlist.tracks)
-                    binding.isLoad = false
-                }
-            })
+        playListDetailViewModel.playListDetail.observe(this
+        ) { t ->
+            Log.i(TAG, "onChanged: 数据变化触发")
+            if (t == null) {
+                finish()
+            } else {
+                binding.playlist = t.playlist
+                playListDetailAdapter.setSongTracks(t.playlist.tracks)
+                binding.isLoad = false
+            }
+        }
     }
 
     override fun getViewBinding(): ViewBinding {

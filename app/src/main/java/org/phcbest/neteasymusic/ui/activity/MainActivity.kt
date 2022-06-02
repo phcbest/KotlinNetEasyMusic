@@ -27,6 +27,7 @@ import org.phcbest.neteasymusic.ui.widget.adapter.PlayListDialogAdapter
 import org.phcbest.neteasymusic.ui.widget.playBar.CustomPlayBar
 import org.phcbest.neteasymusic.utils.MMKVStorageUtils
 import java.util.*
+import kotlin.math.log
 
 
 class MainActivity : BaseActivity() {
@@ -200,6 +201,11 @@ class MainActivity : BaseActivity() {
         //歌单的变动
         mMusicPlayerService?.mPlaylist?.observe(this) {
             playListDialogAdapter.setPlayListDetailSync()
+        }
+
+        //设置播放栏的点击事件
+        mCustomPlayBar?.setPlayBarClick {
+            startActivity(Intent(this, PlayDetailActivity::class.java))
         }
     }
 

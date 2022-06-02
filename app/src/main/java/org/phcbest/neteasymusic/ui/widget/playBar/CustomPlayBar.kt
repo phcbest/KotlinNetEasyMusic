@@ -25,7 +25,15 @@ class CustomPlayBar {
     var viewHolder: ViewHolder? = null
     fun initView(view: View): CustomPlayBar {
         viewHolder = ViewHolder(view)
+        view.setOnClickListener {
+            playBarClick()
+        }
         return this
+    }
+
+    private var playBarClick: () -> Unit = {}
+    fun setPlayBarClick(click: () -> Unit) {
+        playBarClick = click
     }
 
     fun setUIPause() {
