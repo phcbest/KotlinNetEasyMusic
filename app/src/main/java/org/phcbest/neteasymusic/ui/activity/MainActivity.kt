@@ -6,7 +6,6 @@ import android.content.ServiceConnection
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
@@ -16,7 +15,6 @@ import androidx.viewbinding.ViewBinding
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseActivity
-import org.phcbest.neteasymusic.bean.PlayListDetailBean
 import org.phcbest.neteasymusic.bean.SongEntity
 import org.phcbest.neteasymusic.databinding.ActivityMainBinding
 import org.phcbest.neteasymusic.service.MusicPlayerService
@@ -26,8 +24,6 @@ import org.phcbest.neteasymusic.ui.fragment.*
 import org.phcbest.neteasymusic.ui.widget.adapter.PlayListDialogAdapter
 import org.phcbest.neteasymusic.ui.widget.playBar.CustomPlayBar
 import org.phcbest.neteasymusic.utils.MMKVStorageUtils
-import java.util.*
-import kotlin.math.log
 
 
 class MainActivity : BaseActivity() {
@@ -117,7 +113,7 @@ class MainActivity : BaseActivity() {
         })
 
         //判断网络状态来 初始化主页位置,这里直接执行点击下发ui事件
-        binding.navMain.findViewById<View>(R.id.menu_follow).performClick()
+        binding.navMain.findViewById<View>(R.id.menu_discover).performClick()
 
         //获得歌单
         mainActivityViewModel.setPlayListDetail(playListId)
