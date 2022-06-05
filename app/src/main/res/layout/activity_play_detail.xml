@@ -70,7 +70,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/guideline1">
 
-                <include layout="@layout/custom_record_view" />
+                <include
+                    android:id="@+id/cl_cd"
+                    layout="@layout/custom_record_view" />
             </FrameLayout>
 
             <androidx.constraintlayout.widget.Guideline
@@ -188,6 +190,7 @@
                     android:src="@drawable/ic_play_detail_previous" />
 
                 <ImageView
+                    android:id="@+id/iv_play_detail_play"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/ic_play_detail_play" />
