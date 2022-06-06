@@ -36,7 +36,6 @@ class PlayDiscHelper {
                 needleAnimator?.let {
                     it.duration = 1000
                     it.repeatCount = 0
-                    //todo 需要让动画结束后保持最后一帧的位置
                     it.repeatMode = ObjectAnimator.REVERSE
                 }
             }
@@ -46,13 +45,35 @@ class PlayDiscHelper {
         }
     }
 
+
+    /**
+     * 枚举指针状态
+     */
+    enum class NEEDLE_STATE {
+        OVERLAY, LEAVE
+    }
+
+    /**
+     * 设置指针初始位置
+     * @param place @see NEEDLE_STATE 枚举
+     */
+    fun setInitNeedlePlace(place: NEEDLE_STATE) {
+        if (place == NEEDLE_STATE.LEAVE) {
+            needleView?.rotation = -40f
+        } else if (place == NEEDLE_STATE.OVERLAY) {
+            needleView?.rotation = 0F
+        } else {
+            throw IllegalArgumentException("place is not a valid value")
+        }
+    }
+
     /**
      * 播放的ui表现
      */
     fun play() {
         discView?.objectAnimator?.resume()
-        //将指针放在播放位
-        needleAnimator?.start()
+        //将指针移开播放位
+        needleAnimator?.reverse()
     }
 
     /**
@@ -60,7 +81,7 @@ class PlayDiscHelper {
      */
     fun stop() {
         discView?.objectAnimator?.pause()
-        //将指针移开播放位
+        //将指针放在播放位
         needleAnimator?.start()
     }
 
