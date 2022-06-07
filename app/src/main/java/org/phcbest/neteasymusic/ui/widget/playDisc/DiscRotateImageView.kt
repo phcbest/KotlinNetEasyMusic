@@ -90,7 +90,7 @@ class DiscRotateImageView @JvmOverloads constructor(
                 }
 
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    frontBitmap = resource
+                    frontBitmap = CustomUtils.getInstance().getCircleBitmap(resource)
                     invalidate()
                 }
             })

@@ -41,7 +41,7 @@
                     android:gravity="center"
                     android:text="测试文字使用测试文字"
                     android:textColor="@color/white"
-                    android:textSize="15sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_share"
@@ -190,7 +190,7 @@
                     android:src="@drawable/ic_play_detail_previous" />
 
                 <ImageView
-                    android:id="@+id/iv_play_detail_play"
+                    android:id="@+id/iv_play_btn"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/ic_play_detail_play" />

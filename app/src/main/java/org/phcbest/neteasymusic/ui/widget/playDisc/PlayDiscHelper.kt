@@ -68,6 +68,13 @@ class PlayDiscHelper {
     }
 
     /**
+     * 设置cd的部分信息
+     */
+    fun setDiscInfo(imageUrl: String) {
+        discView?.setFrontBitmap(imageUrl)
+    }
+
+    /**
      * 播放的ui表现
      */
     fun play() {
