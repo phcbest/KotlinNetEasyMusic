@@ -52,8 +52,8 @@ class MusicPlayerService : Service() {
             //获得当前播放的进度
             if (this@MusicPlayerService::mMediaPlayer.isInitialized) {
 
-                Log.i(TAG,
-                    "handleMessage: 歌曲长度${mMediaPlayer.duration}  当前位置${mMediaPlayer.currentPosition}")
+//                Log.i(TAG,
+//                    "handleMessage: 歌曲长度${mMediaPlayer.duration}  当前位置${mMediaPlayer.currentPosition}")
                 //将进度推出
                 if (mMediaPlayer.duration <= 0 || mMediaPlayer.duration <= 0) {
                     playProgressLD.postValue(0f)
@@ -183,7 +183,7 @@ class MusicPlayerService : Service() {
     /**
      * 切换歌曲,按照index
      */
-    fun switchSong(index: Int) {
+    fun switchSongByPosition(index: Int) {
         if (index in mPlaylist.value!!.indices) {
             mCurrentSongIndex = index
             aSyncLoadSong()

@@ -130,7 +130,7 @@ class MainActivity : BaseActivity() {
         playListDialogAdapter.setOnclick { songEntity: SongEntity, i: Int ->
             Log.i(TAG, "initEvent: $songEntity")
             //进行音乐播放
-            mMusicPlayerService?.switchSong(index = i)
+            mMusicPlayerService?.switchSongByPosition(index = i)
         }
         //播放栏按钮的事件
         mCustomPlayBar?.viewHolder?.mPlayBtn?.setOnClickListener {

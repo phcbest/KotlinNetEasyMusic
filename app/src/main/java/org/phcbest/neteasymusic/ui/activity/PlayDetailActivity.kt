@@ -1,5 +1,6 @@
 package org.phcbest.neteasymusic.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
@@ -13,6 +14,7 @@ import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
 import androidx.viewbinding.ViewBinding
+import com.google.android.material.slider.Slider
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseActivity
 import org.phcbest.neteasymusic.databinding.ActivityPlayDetailBinding
@@ -53,6 +55,19 @@ class PlayDetailActivity : BaseActivity() {
                 mMusicPlayerServiceLD.value?.playControl(2)
             }
         }
+        //上一首和下一首的事件
+        binding?.ivPlayPrevious?.setOnClickListener {
+            mMusicPlayerServiceLD.value?.switchSongNOP(false)
+        }
+        binding?.ivPlayNext?.setOnClickListener {
+            mMusicPlayerServiceLD.value?.switchSongNOP(true)
+        }
+        //设置进度条
+        binding?.srSongProgress?.addOnChangeListener(object : Slider.OnChangeListener {
+            @SuppressLint("RestrictedApi")
+            override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
+            }
+        })
     }
 
     override fun observeViewModel() {
@@ -90,13 +105,17 @@ class PlayDetailActivity : BaseActivity() {
                 binding?.tvSongName?.text = ssb
             }
 
-            //设置播放状态的回调
+            //设置播放状态的观察者
             it.isPlayerLD.observe(this) { isPlayer ->
                 if (isPlayer!!) {
                     playDiscHelper?.play()
                 } else {
                     playDiscHelper?.stop()
                 }
+            }
+            //设置进度推出器的观察者
+            it.playProgressLD.observe(this) { progress ->
+                Log.i(TAG, "observeViewModel: 当前进度$progress")
             }
         }
     }
