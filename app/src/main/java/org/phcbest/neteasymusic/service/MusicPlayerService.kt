@@ -8,16 +8,10 @@ import android.os.*
 
 
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
-import com.tencent.mmkv.MMKV
-import kotlinx.coroutines.sync.Mutex
-import org.phcbest.neteasymusic.bean.PlayListDetailBean
 import org.phcbest.neteasymusic.bean.SongEntity
 import org.phcbest.neteasymusic.presenter.PresenterManager
 import org.phcbest.neteasymusic.utils.MMKVStorageUtils
-import java.io.Serializable
-import java.util.*
 
 private const val TAG = "MusicPlayService"
 
@@ -41,7 +35,9 @@ class MusicPlayerService : Service() {
         initMediaPlayerEvent()
     }
 
-    var playProgressLD: MutableLiveData<Float> = MutableLiveData(0f)
+    data class SongProgress(val currentProgress: Int, val fullProgress: Int)
+
+    var playProgressLD: MutableLiveData<SongProgress> = MutableLiveData()
 
     /**
      *  控制发送进度给外部
@@ -56,9 +52,11 @@ class MusicPlayerService : Service() {
 //                    "handleMessage: 歌曲长度${mMediaPlayer.duration}  当前位置${mMediaPlayer.currentPosition}")
                 //将进度推出
                 if (mMediaPlayer.duration <= 0 || mMediaPlayer.duration <= 0) {
-                    playProgressLD.postValue(0f)
+                    playProgressLD.postValue(null)
                 } else {
-                    playProgressLD.postValue(100F * mMediaPlayer.currentPosition / mMediaPlayer.duration)
+                    //100F * mMediaPlayer.currentPosition / mMediaPlayer.duration
+                    playProgressLD.postValue(SongProgress(mMediaPlayer.currentPosition,
+                        mMediaPlayer.duration))
                 }
                 sendEmptyMessageDelayed(0, 1000)
             }

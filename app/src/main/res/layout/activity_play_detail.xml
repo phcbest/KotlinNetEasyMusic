@@ -12,6 +12,7 @@
         <!--        <include layout="@layout/view_isload" />-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_bg_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/blurred_bg">
@@ -59,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.07" />
+                app:layout_constraintGuide_percent="0.09" />
 
             <FrameLayout
                 android:id="@+id/cl_cd_container"
@@ -139,11 +140,12 @@
 
                 <TextView
                     android:id="@+id/tv_current_progress"
-                    android:layout_width="wrap_content"
+                    android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:text="00:00"
+                    android:gravity="center"
+                    android:text="99:99"
                     android:textColor="#8Bffffff"
                     android:textSize="10sp" />
 
@@ -156,10 +158,11 @@
 
                 <TextView
                     android:id="@+id/tv_full_progress"
-                    android:layout_width="wrap_content"
+                    android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
+                    android:gravity="center"
                     android:text="00:00"
                     android:textColor="#8Bffffff"
                     android:textSize="10sp" />

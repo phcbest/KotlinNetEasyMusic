@@ -5,6 +5,7 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.os.IBinder
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -21,6 +22,8 @@ import org.phcbest.neteasymusic.databinding.ActivityPlayDetailBinding
 import org.phcbest.neteasymusic.service.MusicPlayerService
 import org.phcbest.neteasymusic.ui.widget.playDisc.PlayDiscHelper
 import org.phcbest.neteasymusic.utils.ui.StatusBarUtil
+import java.text.SimpleDateFormat
+import java.util.*
 
 class PlayDetailActivity : BaseActivity() {
 
@@ -40,6 +43,9 @@ class PlayDetailActivity : BaseActivity() {
         binding?.llTop?.setPadding(0, StatusBarUtil.getStatusBarHeight(this), 0, 0)
         //初始化cd view帮助器
         playDiscHelper = PlayDiscHelper().setView(binding?.clCd?.rootView!!)
+        //设置Slider从*到*
+        binding?.srSongProgress?.valueFrom = 0.0F
+        binding?.srSongProgress?.valueTo = 300.0F
     }
 
     override fun initEvent() {
@@ -62,14 +68,16 @@ class PlayDetailActivity : BaseActivity() {
         binding?.ivPlayNext?.setOnClickListener {
             mMusicPlayerServiceLD.value?.switchSongNOP(true)
         }
-        //设置进度条
+        //设置进度条改变事件
         binding?.srSongProgress?.addOnChangeListener(object : Slider.OnChangeListener {
             @SuppressLint("RestrictedApi")
             override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
+                Log.i(TAG, "onValueChange: 进度改变")
             }
         })
     }
 
+    private val sdf = SimpleDateFormat("mm:ss", Locale.CHINA)
     override fun observeViewModel() {
         super.observeViewModel()
         //服务绑定的回调
@@ -85,6 +93,9 @@ class PlayDetailActivity : BaseActivity() {
             //设置歌曲变动的观察者回调
             it.currentSongEntityLD.observe(this) { songEntity ->
                 Log.i(TAG, "observeViewModel: $songEntity")
+                //设置模糊背景
+                
+                binding?.clBgLayout?.background = BitmapDrawable()
                 //设置歌曲封面
                 playDiscHelper?.setDiscInfo(songEntity?.cover!!)
                 //设置歌曲名字
@@ -115,7 +126,18 @@ class PlayDetailActivity : BaseActivity() {
             }
             //设置进度推出器的观察者
             it.playProgressLD.observe(this) { progress ->
-                Log.i(TAG, "observeViewModel: 当前进度$progress")
+                if (progress == null) return@observe
+                val fullProgressText = sdf.format(progress.fullProgress)
+                //设置全部进度
+                if (binding?.tvFullProgress?.text != fullProgressText) {
+                    binding?.tvFullProgress?.text = fullProgressText
+                }
+                //设置当前进度
+                binding?.tvCurrentProgress?.text = sdf.format(progress.currentProgress)
+                //设置进度条
+                binding?.srSongProgress?.value =
+                    (300F * (progress.currentProgress.toFloat() / progress.fullProgress.toFloat()))
+
             }
         }
     }
