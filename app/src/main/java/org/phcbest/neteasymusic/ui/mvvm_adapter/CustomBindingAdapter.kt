@@ -1,7 +1,6 @@
 package org.phcbest.neteasymusic.ui.mvvm_adapter
 
-import android.graphics.Bitmap
-import android.graphics.Color
+import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.text.Spannable
@@ -102,8 +101,8 @@ class CustomBindingAdapter {
          * 设置 模糊背景
          */
         @JvmStatic
-        @BindingAdapter("setBlurBackground")
-        fun setBlurBackground(view: View, url: String) {
+        @BindingAdapter("setBlurBackground", "setBlurBackgroundRadius", requireAll = false)
+        fun setBlurBackground(view: View, url: String, radius: Int = 200) {
             url.let {
                 Glide.with(view).asBitmap().load(it).error(R.drawable.sample_avatar)
 //                    .override(view.width, view.height)
@@ -114,8 +113,12 @@ class CustomBindingAdapter {
                             transition: Transition<in Bitmap>?,
                         ) {
                             val gaussBlurBmp = GaussianBlurUtils.newInstance()
-                                .getGaussBlurZoomBmp(resource, 200, view.width, view.height)
-                            view.background = BitmapDrawable(view.resources, gaussBlurBmp)
+                                .getGaussBlurZoomBmp(resource, radius, view.width, view.height)
+                            val bitmapDrawable = BitmapDrawable(view.resources, gaussBlurBmp)
+                            //对bitmap做灰色处理
+                            bitmapDrawable.colorFilter =
+                                PorterDuffColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY)
+                            view.background = bitmapDrawable
                         }
 
                         override fun onLoadCleared(placeholder: Drawable?) {

@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="songEntity"
+            type="org.phcbest.neteasymusic.bean.SongEntity" />
+    </data>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,6 +20,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_bg_layout"
+            setBlurBackground="@{songEntity.cover??``}"
+            setBlurBackgroundRadius="@{500}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/blurred_bg">

@@ -15,6 +15,8 @@ import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
 import androidx.viewbinding.ViewBinding
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.Target
 import com.google.android.material.slider.Slider
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseActivity
@@ -94,8 +96,7 @@ class PlayDetailActivity : BaseActivity() {
             it.currentSongEntityLD.observe(this) { songEntity ->
                 Log.i(TAG, "observeViewModel: $songEntity")
                 //设置模糊背景
-                
-                binding?.clBgLayout?.background = BitmapDrawable()
+                binding?.songEntity = songEntity
                 //设置歌曲封面
                 playDiscHelper?.setDiscInfo(songEntity?.cover!!)
                 //设置歌曲名字
