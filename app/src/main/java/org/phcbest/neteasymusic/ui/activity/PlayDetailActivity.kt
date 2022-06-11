@@ -5,7 +5,6 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.os.IBinder
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -15,8 +14,6 @@ import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
 import androidx.viewbinding.ViewBinding
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.Target
 import com.google.android.material.slider.Slider
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseActivity
@@ -71,15 +68,28 @@ class PlayDetailActivity : BaseActivity() {
             mMusicPlayerServiceLD.value?.switchSongNOP(true)
         }
         //设置进度条改变事件
-        binding?.srSongProgress?.addOnChangeListener(object : Slider.OnChangeListener {
+        binding?.srSongProgress?.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
             @SuppressLint("RestrictedApi")
-            override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
-                Log.i(TAG, "onValueChange: 进度改变")
+            override fun onStartTrackingTouch(slider: Slider) {
+                enableProgress = false
+                Log.i(TAG, "onStartTrackingTouch: ")
+            }
+
+            @SuppressLint("RestrictedApi")
+            override fun onStopTrackingTouch(slider: Slider) {
+//                Log.i(TAG, "当前进度: ${slider.value} 全部进度: ${slider.valueFrom}")
+                //切换歌曲进度
+                //计算歌曲进度
+                val progress = slider.value / 300F
+                Log.i(TAG, "onStopTrackingTouch: $progress")
+                mMusicPlayerServiceLD.value?.seekTo(progress)
+                enableProgress = true
             }
         })
     }
 
     private val sdf = SimpleDateFormat("mm:ss", Locale.CHINA)
+    private var enableProgress = true
     override fun observeViewModel() {
         super.observeViewModel()
         //服务绑定的回调
@@ -127,7 +137,7 @@ class PlayDetailActivity : BaseActivity() {
             }
             //设置进度推出器的观察者
             it.playProgressLD.observe(this) { progress ->
-                if (progress == null) return@observe
+                if (progress == null || !enableProgress) return@observe
                 val fullProgressText = sdf.format(progress.fullProgress)
                 //设置全部进度
                 if (binding?.tvFullProgress?.text != fullProgressText) {

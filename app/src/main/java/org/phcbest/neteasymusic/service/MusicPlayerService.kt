@@ -35,6 +35,15 @@ class MusicPlayerService : Service() {
         initMediaPlayerEvent()
     }
 
+    //改变播放位置
+    fun seekTo(position: Float) {
+        if (!this::mMediaPlayer.isInitialized) return
+        //计算播放位置
+        val duration = mMediaPlayer.duration
+        val newPosition = (position * duration).toInt()
+        mMediaPlayer.seekTo(newPosition)
+    }
+
     data class SongProgress(val currentProgress: Int, val fullProgress: Int)
 
     var playProgressLD: MutableLiveData<SongProgress> = MutableLiveData()
