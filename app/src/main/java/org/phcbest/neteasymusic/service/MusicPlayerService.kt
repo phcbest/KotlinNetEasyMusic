@@ -77,6 +77,7 @@ class MusicPlayerService : Service() {
     var currentSongEntityLD: MutableLiveData<SongEntity> = MutableLiveData()
 
     private fun initMediaPlayerEvent() {
+        //播放加载完成的回调
         mMediaPlayer.setOnPreparedListener {
             //取消消息
             mProgressHandler.removeMessages(0)

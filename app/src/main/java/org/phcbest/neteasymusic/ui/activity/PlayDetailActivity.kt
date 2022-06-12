@@ -60,7 +60,7 @@ class PlayDetailActivity : BaseActivity() {
                 mMusicPlayerServiceLD.value?.playControl(2)
             }
         }
-        //上一首和下一首的事件
+        //上一首和下一首的事件 ,执行完动画之后再执行切换
         binding?.ivPlayPrevious?.setOnClickListener {
             mMusicPlayerServiceLD.value?.switchSongNOP(false)
         }

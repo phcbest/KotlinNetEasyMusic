@@ -92,5 +92,19 @@ class PlayDiscHelper {
         needleAnimator?.start()
     }
 
+    /**
+     * 执行切换Needle的动画
+     */
+    fun switchNeedle(animDoneEvent: () -> Unit) {
+        //获得needle位置
+        val rotation = needleView?.rotation ?: 0F
+        if (rotation == 0F) {
+            //执行needle移开后归位的动画
+            needleAnimator?.setFloatValues(0F, -40F)
+        } else {
+            //执行needle归位
+        }
+    }
+
 
 }
