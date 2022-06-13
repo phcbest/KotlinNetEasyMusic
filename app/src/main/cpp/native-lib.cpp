@@ -48,8 +48,10 @@ Java_org_phcbest_neteasymusic_utils_ndk_1link_GaussianBlurUtils_getGaussBlurBmpJ
 
     //开始高斯模糊
     if (infoIn.format == ANDROID_BITMAP_FORMAT_RGBA_8888) {
+        LOG_D("使用RGBA_8888");
         pixels = blur_ARGB_8888((int *) pixels, w, h, r);
     } else if (infoIn.format == ANDROID_BITMAP_FORMAT_RGB_565) {
+        LOG_D("使用RGB_565");
         pixels = blur_RGB_565((short *) pixels, w, h, r);
     }
 

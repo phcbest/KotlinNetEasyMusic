@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import android.view.Window
+import android.view.WindowManager
 import android.widget.ImageView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.ViewModelProviders
@@ -15,7 +17,6 @@ import org.phcbest.neteasymusic.ui.activity.viewmodel.SplashActivityViewModel
 import org.phcbest.neteasymusic.utils.MMKVStorageUtils
 import org.phcbest.neteasymusic.utils.ToastUtils
 
-private const val TAG = "StartActivity"
 
 class SplashActivity : BaseActivity() {
     private var binding: ActivityStartBinding? = null
@@ -23,6 +24,10 @@ class SplashActivity : BaseActivity() {
     private var splashActivityViewModel: SplashActivityViewModel? = null
 
     var mIvStartImg: ImageView? = null
+
+    companion object {
+        private const val TAG = "StartActivity"
+    }
 
 
     override fun initPresenter() {
@@ -42,14 +47,14 @@ class SplashActivity : BaseActivity() {
 
     override fun observeViewModel() {
         super.observeViewModel()
-        splashActivityViewModel?.loginStatus?.observe(this, {
+        splashActivityViewModel?.loginStatus?.observe(this) {
             if (it) {
                 handlerStartActivity.sendEmptyMessageDelayed(0, 500)
             } else {
                 ToastUtils.SEND_SMG("登录过期需要登录")
                 handlerStartActivity.sendEmptyMessageDelayed(0, 500)
             }
-        })
+        }
     }
 
 
@@ -73,10 +78,10 @@ class SplashActivity : BaseActivity() {
     }
 
     override fun initView() {
-        splashActivityViewModel = ViewModelProviders.of(this)[SplashActivityViewModel::class.java]
+        splashActivityViewModel =
+            ViewModelProviders.of(this)[SplashActivityViewModel::class.java]
         mIvStartImg = binding?.ivStartImg
     }
-
 
     override fun initEvent() {
         super.initEvent()

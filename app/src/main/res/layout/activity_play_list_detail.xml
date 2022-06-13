@@ -33,6 +33,7 @@
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/app_bar_playlist_detail"
                 setBlurBackground="@{playlist.coverImgUrl??``}"
+                setBlurBackgroundRadius="@{200}"
                 android:layout_width="match_parent"
                 android:layout_height="220dp"
                 app:elevation="0dp">

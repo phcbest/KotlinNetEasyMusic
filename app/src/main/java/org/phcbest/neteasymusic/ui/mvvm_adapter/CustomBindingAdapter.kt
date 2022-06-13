@@ -7,6 +7,7 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.*
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -54,7 +55,11 @@ class CustomBindingAdapter {
         @BindingAdapter("roundedCornersImageSrc",
             "roundedCornersImageSizeLimit",
             requireAll = false)
-        fun setRoundedCornersImageView(imageView: ImageView, imageSrc: String, sizeLimit: Int) {
+        fun setRoundedCornersImageView(
+            imageView: ImageView,
+            imageSrc: String,
+            sizeLimit: Int = 150,
+        ) {
             var url = imageSrc
             if (sizeLimit != 0) {
                 url = "$imageSrc?param=$sizeLimit" + "y$sizeLimit"
@@ -102,7 +107,8 @@ class CustomBindingAdapter {
          */
         @JvmStatic
         @BindingAdapter("setBlurBackground", "setBlurBackgroundRadius", requireAll = false)
-        fun setBlurBackground(view: View, url: String, radius: Int = 200) {
+        fun setBlurBackground(view: View, url: String, radius: Int = 500) {
+            Log.i(TAG, "setBlurBackground: 模糊图片url为 $url")
             url.let {
                 Glide.with(view).asBitmap().load(it).error(R.drawable.sample_avatar)
 //                    .override(view.width, view.height)
