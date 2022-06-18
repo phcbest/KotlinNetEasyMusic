@@ -1,14 +1,20 @@
 package org.phcbest.neteasymusic.service
 
+import android.app.Notification
 import android.app.Service
 import android.content.Intent
 import android.media.AudioManager
 import android.media.MediaPlayer
+import android.media.session.MediaSession
+import android.nfc.Tag
 import android.os.*
+import android.support.v4.media.session.MediaSessionCompat
 
 
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
+import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.bean.SongEntity
 import org.phcbest.neteasymusic.presenter.PresenterManager
 import org.phcbest.neteasymusic.utils.MMKVStorageUtils
@@ -25,6 +31,7 @@ class MusicPlayerService : Service() {
     private var mCurrentSongIndex: Int = 0
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate() {
         super.onCreate()
         //初始化播放器

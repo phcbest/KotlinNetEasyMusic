@@ -19,6 +19,13 @@
             android:name=".service.MusicPlayerService"
             android:enabled="true"
             android:exported="true" />
+
+        <service
+            android:name=".service.MusicPlayerMediaSession"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
         <meta-data
             android:name="com.google.android.gms.car.application"
             android:resource="@xml/automotive_app_desc" />
