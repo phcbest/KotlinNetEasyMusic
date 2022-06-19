@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.service.media.MediaBrowserService
 import android.util.Log
+import org.phcbest.neteasymusic.utils.MMKVStorageUtils
 import java.io.IOException
 
 class MusicPlayerMediaSession : MediaBrowserService() {
@@ -154,8 +155,23 @@ class MusicPlayerMediaSession : MediaBrowserService() {
         Log.i(TAG, "======================onLoadChildren======================")
         //将此消息从当前线程中分离出来，并允许稍后发生sendResult调用
         result.detach()
+        //创建媒体项目列表
+        val mediaItems = mutableListOf<MediaBrowser.MediaItem>()
+        MMKVStorageUtils.newInstance().getPlayList().let { list ->
+            list?.forEach { item ->
+                val mediaMetadata = MediaMetadata.Builder()
+                    .putString(MediaMetadata.METADATA_KEY_TITLE, item.name)
+                    .putString(MediaMetadata.METADATA_KEY_AUTHOR, item.author)
+                    .putString(MediaMetadata.METADATA_KEY_MEDIA_ID, item.songId)
+                    .putString(MediaMetadata.METADATA_KEY_MEDIA_URI, item.songId)
+                    .build()
+                mediaItems.add(MediaBrowser.MediaItem(mediaMetadata.description,
+                    MediaBrowser.MediaItem.FLAG_PLAYABLE))
+            }
+        }
 
-        //获得播放数据
+        //发送结果
+        result.sendResult(mediaItems)
     }
 
 }
