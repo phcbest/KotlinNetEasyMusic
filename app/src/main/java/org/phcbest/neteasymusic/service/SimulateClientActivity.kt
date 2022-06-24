@@ -2,6 +2,7 @@ package org.phcbest.neteasymusic.service
 
 import android.content.ComponentName
 import android.media.browse.MediaBrowser
+import android.media.session.MediaController
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ class SimulateClientActivity : AppCompatActivity() {
     }
 
     private var mBrowser: MediaBrowser? = null
+    private var mController: MediaController? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +33,9 @@ class SimulateClientActivity : AppCompatActivity() {
             if (!mBrowser?.isConnected!!) return
             //运行连接会正常返回值,不允许连接会返回null
             val mediaId = mBrowser?.root!!
+            //注册回调
+            mController = MediaController(this@SimulateClientActivity, mBrowser!!.sessionToken)
+            mController?.registerCallback(controllerCallback)
             //browser通过订阅的方式向Service请求数据,发起订阅需要mediaId参数
             mBrowser?.unsubscribe(mediaId)
             mBrowser?.subscribe(mediaId, browserSubscriptionCallback)
@@ -40,6 +45,11 @@ class SimulateClientActivity : AppCompatActivity() {
             super.onConnectionFailed()
             Log.i(TAG, "onConnectionFailed: 连接失败")
         }
+    }
+
+    //播放状态改变的回调
+    private val controllerCallback = object : MediaController.Callback() {
+
     }
 
     /**
