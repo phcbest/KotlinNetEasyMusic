@@ -25,6 +25,51 @@ class MiniRetrofit {
         return this.baseURl ?: ""
     }
 
+    companion object {
+        /**
+         * retrofit的构建类
+         */
+        class Builder {
+            private var baseUrl: String? = null
+
+            public fun baseUrl(baseUrl: String): Builder {
+                this.baseUrl = baseUrl
+                return this
+            }
+
+            public fun build(): MiniRetrofit {
+                //只需要判null,因为存在baseurl为空的情况
+                if (baseUrl == null) {
+                    throw IllegalArgumentException("baseurl required")
+                }
+                return MiniRetrofit(baseUrl!!)
+            }
+        }
+    }
+
+    /**
+     * 构建接口实例
+     * @param method 接口的接口方法
+     * @param args 方法参数内容
+     */
+    private fun loadServiceMethod(method: Method, args: Array<Any>): ServiceMethod {
+        var result = servicesMethodCache[method]
+        if (result != null) {
+            return result
+        }
+        //锁住servicesMethodCache
+        synchronized(servicesMethodCache) {
+            result = servicesMethodCache[method]
+            if (result == null) {
+                //使用ServiceMethod内置的构造器来创建一个新的method
+
+                //将创建出来的新的method添加到数组中
+            }
+        }
+        return result!!
+    }
+
+
     /**
      * 构建接口实例
      */
