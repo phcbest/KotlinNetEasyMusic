@@ -1,6 +1,7 @@
 package org.phcbest.mini_retrofit
 
 import org.omg.CORBA.Object
+import org.phcbest.mini_retrofit.annotation.Field
 import org.phcbest.mini_retrofit.annotation.GET
 import java.lang.reflect.Method
 
@@ -9,7 +10,30 @@ import java.lang.reflect.Method
  */
 class ServiceMethod {
 
+    private var mBuilder: Builder? = null
+
+    constructor(builder: Builder) {
+        this.mBuilder = builder
+    }
+
+    /**
+     * 获取网络请求的类型
+     */
+    fun getMethodName(): String {
+        return mBuilder?.methodName!!
+    }
+
+    /**
+     * 进行url参数拼接
+     */
+    fun getBaseUrl() {
+
+    }
+
     companion object {
+        /**
+         * 解析注解
+         */
         class Builder {
             var miniRetrofit: MiniRetrofit? = null
             var method: Method? = null
@@ -24,7 +48,7 @@ class ServiceMethod {
             private var parameterMap: MutableMap<String, Object> = mutableMapOf()
             private var args: Array<Any>? = null
 
-            private var methodName: String? = null
+            var methodName: String? = null
             private var relativeUrl: String? = null
 
 
@@ -48,12 +72,23 @@ class ServiceMethod {
                     parseParameter(index, parameterAnnotations);
                 }
 
-//                return ServiceMethod(this)
-                TODO()
+                return ServiceMethod(this)
             }
 
+            /**
+             * 解析方法参数注解
+             * @param index 方法参数值的index
+             * @param parameterAnnotations 方法参数注解数组
+             */
             private fun parseParameter(index: Int, parameterAnnotations: Array<Annotation>) {
-                TODO("Not yet implemented")
+                val value: Any? = args?.get(index)
+                //遍历参数注解
+                for (annotations in parameterAnnotations) {
+                    //判断注解类型
+                    if (annotations is Field) {
+                        parameterMap[annotations.value] = value as Object
+                    }
+                }
             }
 
             /**
