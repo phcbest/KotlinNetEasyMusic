@@ -76,16 +76,20 @@ class MiniRetrofit {
     fun <T> create(sercice: Class<T>): T {
         //动态代理
         return Proxy.newProxyInstance(sercice.classLoader, arrayOf<Class<*>>(sercice),
+            //动态代理的实际处理
             object : InvocationHandler {
-                override fun invoke(proxy: Any?, method: Method?, args: Array<out Any>?): Any {
+                override fun invoke(proxy: Any?, method: Method?, args: Array<Any>?): Any {
                     //1 验证是否接口
                     require(sercice.isInterface) {
                         throw IllegalArgumentException("API declarations must be interfaces.")
                     }
                     //2 进行构建接口实例
-
-                    TODO()
+                    val serviceMethod = loadServiceMethod(method!!, args!!)
                     //3 调用http框架进行处理
+                    val yepHttpCall = YepHttpCall(serviceMethod)
+
+                    //该回调函数的返回
+                    return yepHttpCall
                 }
             }) as T
 

@@ -26,8 +26,36 @@ class ServiceMethod {
     /**
      * 进行url参数拼接
      */
-    fun getBaseUrl() {
+    fun getBaseUrl(): String {
+        if (mBuilder?.methodName == "GET") {
+            val sb = StringBuffer()
+            sb.append(mBuilder?.miniRetrofit?.getBaseUrl())
+                .append(mBuilder?.relativeUrl)
+            val parameterMap = getParameter()
 
+            if (parameterMap != null) {
+                val keySet = parameterMap.keys
+                //添加url的?带参符
+                if (keySet.isNotEmpty()) {
+                    sb.append("?")
+                }
+                //添加参数
+                for (key in keySet) {
+                    sb.append(key)
+                        .append("=")
+                        .append(parameterMap[key])
+                        .append("&")
+                }
+                //删除末尾的&号
+                sb.deleteCharAt(sb.length - 1)
+            }
+            return sb.toString()
+        }
+        return mBuilder?.miniRetrofit!!.getBaseUrl()
+    }
+
+    private fun getParameter(): Map<String, Any>? {
+        return mBuilder?.parameterMap
     }
 
     companion object {
@@ -45,11 +73,11 @@ class ServiceMethod {
             var parameterAnnotationsArray: Array<Array<Annotation>>? = null
 
             //参数键值对
-            private var parameterMap: MutableMap<String, Object> = mutableMapOf()
+            var parameterMap: MutableMap<String, Object> = mutableMapOf()
             private var args: Array<Any>? = null
 
             var methodName: String? = null
-            private var relativeUrl: String? = null
+            var relativeUrl: String? = null
 
 
             constructor(miniRetrofit: MiniRetrofit, method: Method, args: Array<Any>) {
