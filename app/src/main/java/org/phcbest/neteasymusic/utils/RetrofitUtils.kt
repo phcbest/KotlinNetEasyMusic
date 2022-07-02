@@ -50,8 +50,8 @@ class LogIntercepted : Interceptor {
         var request = chain.request()
         Log.i(
             TAG,
-            format.format(Date()) + " Requeste " + "\nmethod:" + request.method() + "\nurl:"
-                    + request.url() + "\nbody:" + request.body()
+            format.format(Date()) + " Requeste " + "\nmethod:" + request.method + "\nurl:"
+                    + request.url + "\nbody:" + request.body
         )
         //添加cookie
         val newBuilder = request.newBuilder()

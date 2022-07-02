@@ -9,5 +9,8 @@ java {
 }
 
 dependencies {
-//implementation files('libs/okhttp-4.9.0.jar')
+//    implementation files('libs/okhttp-4.9.0.jar')
+    // https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
+    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.9.0'
+
 }
