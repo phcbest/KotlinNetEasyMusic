@@ -8,12 +8,19 @@ import com.google.gson.Gson
 import com.tencent.mmkv.MMKV
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
+import okhttp3.Response
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.phcbest.mini_retrofit.CallBack
+import org.phcbest.mini_retrofit.MiniRetrofit
+import org.phcbest.mini_retrofit.YepHttpCall
+import org.phcbest.mini_retrofit.annotation.Field
+import org.phcbest.mini_retrofit.annotation.GET
 import org.phcbest.neteasymusic.utils.MMKVStorageUtils
 import org.phcbest.neteasymusic.utils.RetrofitUtils
 import org.phcbest.neteasymusic.utils.ndk_link.GaussianBlurUtils
+import java.lang.Exception
 
 
 /**
@@ -103,6 +110,27 @@ class ExampleInstrumentedTest {
         } else {
             valueInt
         }
+    }
+
+    @Test
+    fun testMiniRetrofit() {
+        val miniRetrofit = MiniRetrofit.Builder().baseUrl("http://192.168.1.108:3000").build()
+        val appService = miniRetrofit.create(AppService::class.java)
+        appService.doNetWork("6452").enqueue(object : CallBack {
+            override fun failure(e: Exception) {
+                Log.i(TAG, "failure: 失败")
+            }
+
+            override fun response(response: Response) {
+                Log.i(TAG, "response: 成功${response.body()?.string()}")
+            }
+
+        })
+    }
+
+    interface AppService {
+        @GET("/artist/songs")
+        fun doNetWork(@Field("id") id: String): YepHttpCall
     }
 
 }

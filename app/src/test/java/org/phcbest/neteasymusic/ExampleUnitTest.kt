@@ -1,8 +1,16 @@
 package org.phcbest.neteasymusic
 
+import android.util.Log
+import okhttp3.Response
 import org.junit.Test
 
 import org.junit.Assert.*
+import org.phcbest.mini_retrofit.CallBack
+import org.phcbest.mini_retrofit.MiniRetrofit
+import org.phcbest.mini_retrofit.YepHttpCall
+import org.phcbest.mini_retrofit.annotation.Field
+import org.phcbest.mini_retrofit.annotation.GET
+import java.lang.Exception
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -11,6 +19,7 @@ import org.junit.Assert.*
  */
 
 private const val TAG = "ExampleUnitTest"
+
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
