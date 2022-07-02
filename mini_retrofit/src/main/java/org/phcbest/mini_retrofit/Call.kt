@@ -1,6 +1,5 @@
 package org.phcbest.mini_retrofit
 
-import okhttp3.Callback
 import java.io.IOException
 
 /**
