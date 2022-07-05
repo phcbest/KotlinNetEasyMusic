@@ -13,6 +13,7 @@ class BaseApplication : Application() {
         }
 
         init {
+            //加载c++库
             System.loadLibrary("native-lib")
         }
 
@@ -22,7 +23,7 @@ class BaseApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         appContext = baseContext
-        //设置mmkv
+        //初始化mmkv
         val rootDir = MMKV.initialize(this)
         Log.i(TAG, "mmkv root: $rootDir")
     }

@@ -16,15 +16,14 @@
         android:theme="@style/Theme.NetEasyMusic"
         android:usesCleartextTraffic="true">
         <service
-            android:name=".service.MusicPlayerService"
+            android:name=".service.meida.MusicPlayerService"
             android:enabled="true"
             android:exported="true" />
 
         <service
-            android:name=".service.MusicPlayerMediaSession"
+            android:name=".service.media_session.MusicPlayerMediaSession"
             android:enabled="true"
-            android:exported="true" >
-        </service>
+            android:exported="true" />
 
         <meta-data
             android:name="com.google.android.gms.car.application"

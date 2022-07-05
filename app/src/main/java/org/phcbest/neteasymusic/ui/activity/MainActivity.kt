@@ -17,7 +17,7 @@ import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseActivity
 import org.phcbest.neteasymusic.bean.SongEntity
 import org.phcbest.neteasymusic.databinding.ActivityMainBinding
-import org.phcbest.neteasymusic.service.MusicPlayerService
+import org.phcbest.neteasymusic.service.meida.MusicPlayerService
 import org.phcbest.neteasymusic.ui.activity.viewmodel.MainActivityViewModel
 import org.phcbest.neteasymusic.ui.dialog.DialogBox
 import org.phcbest.neteasymusic.ui.fragment.*

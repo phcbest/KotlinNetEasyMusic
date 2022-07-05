@@ -1,4 +1,4 @@
-package org.phcbest.neteasymusic.service
+package org.phcbest.neteasymusic.service.meida
 
 import android.app.Notification
 import android.app.Service
@@ -17,6 +17,7 @@ import androidx.lifecycle.MutableLiveData
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.bean.SongEntity
 import org.phcbest.neteasymusic.presenter.PresenterManager
+import org.phcbest.neteasymusic.remote_view.notify.PlayServiceNotify
 import org.phcbest.neteasymusic.utils.MMKVStorageUtils
 
 private const val TAG = "MusicPlayService"
@@ -40,6 +41,8 @@ class MusicPlayerService : Service() {
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         //初始化mediaPlayer的事件
         initMediaPlayerEvent()
+        //初始化通知
+        PlayServiceNotify.getInstance().showNotify()
     }
 
     //改变播放位置

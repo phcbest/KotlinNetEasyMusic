@@ -18,7 +18,7 @@ import com.google.android.material.slider.Slider
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseActivity
 import org.phcbest.neteasymusic.databinding.ActivityPlayDetailBinding
-import org.phcbest.neteasymusic.service.MusicPlayerService
+import org.phcbest.neteasymusic.service.meida.MusicPlayerService
 import org.phcbest.neteasymusic.ui.widget.playDisc.PlayDiscHelper
 import org.phcbest.neteasymusic.utils.ui.StatusBarUtil
 import java.text.SimpleDateFormat

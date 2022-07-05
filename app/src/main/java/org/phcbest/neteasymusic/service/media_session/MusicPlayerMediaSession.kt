@@ -1,4 +1,4 @@
-package org.phcbest.neteasymusic.service
+package org.phcbest.neteasymusic.service.media_session
 
 import android.media.MediaMetadata
 import android.media.MediaPlayer
