@@ -192,7 +192,7 @@ class MainActivity : BaseActivity() {
         mMusicPlayerService?.playProgressLD?.observe(this) {
             Log.i(TAG, "setTheObserverAfterTheServiceIsBound: playProgress $it")
             //计算出角度
-            binding.mainPlayBar.btnPlayBarPlay.updateProgress(100F * it.currentProgress / it.fullProgress)
+            binding.mainPlayBar.btnPlayBarPlay.updateProgress(100F * it!!.currentProgress / it.fullProgress)
         }
 
         //歌单的变动

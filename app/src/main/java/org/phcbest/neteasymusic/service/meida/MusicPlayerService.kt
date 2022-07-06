@@ -1,20 +1,15 @@
 package org.phcbest.neteasymusic.service.meida
 
-import android.app.Notification
 import android.app.Service
 import android.content.Intent
 import android.media.AudioManager
 import android.media.MediaPlayer
-import android.media.session.MediaSession
-import android.nfc.Tag
 import android.os.*
-import android.support.v4.media.session.MediaSessionCompat
 
 
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
-import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.bean.SongEntity
 import org.phcbest.neteasymusic.presenter.PresenterManager
 import org.phcbest.neteasymusic.remote_view.notify.PlayServiceNotify
@@ -31,6 +26,7 @@ class MusicPlayerService : Service() {
     private lateinit var mMediaPlayer: MediaPlayer
     private var mCurrentSongIndex: Int = 0
 
+    private var mPlayServiceNotify: PlayServiceNotify? = null
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate() {
@@ -42,7 +38,8 @@ class MusicPlayerService : Service() {
         //初始化mediaPlayer的事件
         initMediaPlayerEvent()
         //初始化通知
-        PlayServiceNotify.getInstance().showNotify()
+        mPlayServiceNotify = PlayServiceNotify.getInstance()
+        mPlayServiceNotify?.showNotify()
     }
 
     //改变播放位置
@@ -56,7 +53,7 @@ class MusicPlayerService : Service() {
 
     data class SongProgress(val currentProgress: Int, val fullProgress: Int)
 
-    var playProgressLD: MutableLiveData<SongProgress> = MutableLiveData()
+    var playProgressLD: MutableLiveData<SongProgress?> = MutableLiveData()
 
     /**
      *  控制发送进度给外部
@@ -87,10 +84,14 @@ class MusicPlayerService : Service() {
     var currentSongEntityLD: MutableLiveData<SongEntity> = MutableLiveData()
 
     private fun initMediaPlayerEvent() {
-        //播放加载完成的回调
+        //播放预加载完成的回调
         mMediaPlayer.setOnPreparedListener {
             //取消消息
             mProgressHandler.removeMessages(0)
+            //设置播放的状态栏样式
+            mPlayServiceNotify?.setViewInfo("hello",
+                "world",
+                "https://avatars.githubusercontent.com/u/8266075?v=4")
             //准备加载,进行播放
             playControl(2)
             currentSongEntityLD.postValue(mPlaylist.value?.get(mCurrentSongIndex))

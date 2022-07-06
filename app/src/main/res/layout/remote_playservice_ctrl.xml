@@ -96,7 +96,7 @@
     <!--    图片-->
 
     <ImageView
-        android:id="@+id/imageFilterView"
+        android:id="@+id/iv_song_cover"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_margin="10dp"
