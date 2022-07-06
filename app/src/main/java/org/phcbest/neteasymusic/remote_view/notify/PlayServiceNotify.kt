@@ -6,6 +6,7 @@ import android.os.Build
 import android.widget.RemoteViews
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
+import okhttp3.internal.notify
 import okhttp3.internal.notifyAll
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseApplication
@@ -27,9 +28,10 @@ class PlayServiceNotify {
 
     private var notification: Notification? = null
     private var manager: NotificationManager? = null
+    private var remoteViews: RemoteViews? = null
 
     init {
-        val remoteViews =
+        remoteViews =
             RemoteViews(BaseApplication.appContext?.packageName, R.layout.remote_playservice_ctrl)
         manager =
             BaseApplication.appContext?.getSystemService(AppCompatActivity.NOTIFICATION_SERVICE) as NotificationManager
@@ -37,7 +39,7 @@ class PlayServiceNotify {
         //创建notificationChannel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationChannel =
-                NotificationChannel("PlayServiceCtrl", "云上音乐", NotificationManager.IMPORTANCE_HIGH)
+                NotificationChannel("PlayServiceCtrl", "云上音乐", NotificationManager.IMPORTANCE_LOW)
             manager?.createNotificationChannel(notificationChannel)
         }
 
@@ -50,15 +52,25 @@ class PlayServiceNotify {
             NotificationCompat.Builder(BaseApplication.appContext!!)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setTicker("云音乐")
-                .setContentIntent(pendingIntent)
+//                .setContentIntent(pendingIntent)
                 .setContent(remoteViews)
                 .setOngoing(true)
                 .setChannelId("PlayServiceCtrl")
-                .setPriority(if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) NotificationManager.IMPORTANCE_HIGH else Notification.PRIORITY_MAX)
+//                .setPriority(if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) NotificationManager.IMPORTANCE_HIGH else Notification.PRIORITY_MAX)
                 .build()
     }
 
     fun showNotify() {
         manager?.notify(1, notification)
     }
+
+    fun cancelNotify() {
+        manager?.cancel(1)
+    }
+
+    fun setRemoteViewData() {
+//        remoteViews?.
+    }
+
+
 }

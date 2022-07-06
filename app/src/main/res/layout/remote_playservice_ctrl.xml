@@ -19,9 +19,10 @@
     <!--        android:orientation="vertical"-->
     <!--        app:layout_constraintGuide_percent="0.7" />-->
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_margin="10dp"
         android:layout_weight="1"
         android:orientation="vertical">
         <!--    歌曲名字-->
@@ -29,12 +30,7 @@
             android:id="@+id/tv_song_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:lines="1"
             android:text="歌曲名字"
             android:textColor="@color/black"
@@ -44,12 +40,9 @@
         <TextView
             android:id="@+id/tv_author"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_song_name"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
             android:lines="1"
             android:text="作者名字" />
 
@@ -57,12 +50,6 @@
             android:id="@+id/ll_ctrl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_author"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -74,9 +61,8 @@
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_play_detail_previous"
-                    app:tint="@color/black" />
+                    android:layout_gravity="center|end"
+                    android:src="@drawable/ic_play_detail_previous_black" />
             </FrameLayout>
 
             <FrameLayout
@@ -88,8 +74,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_play_detail_play"
-                    app:tint="@color/black" />
+                    android:src="@drawable/ic_play_detail_play_black" />
             </FrameLayout>
 
             <FrameLayout
@@ -100,21 +85,21 @@
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_play_detail_next"
-                    app:tint="@color/black" />
+                    android:layout_gravity="center|start"
+                    android:src="@drawable/ic_play_detail_next_black" />
             </FrameLayout>
 
 
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 
     <!--    图片-->
+
     <ImageView
         android:id="@+id/imageFilterView"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_margin="5dp"
+        android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="@id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline1"
