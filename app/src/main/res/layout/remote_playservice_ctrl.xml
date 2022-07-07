@@ -34,7 +34,7 @@
             android:lines="1"
             android:text="歌曲名字"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
         <!--    作者名字-->
         <TextView
@@ -59,6 +59,7 @@
                 android:layout_weight="1">
 
                 <ImageView
+                    android:id="@+id/iv_previous_btn"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_gravity="center|end"
@@ -71,8 +72,9 @@
                 android:layout_weight="1">
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:id="@+id/iv_play_btn"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_play_detail_play_black" />
             </FrameLayout>
@@ -83,6 +85,7 @@
                 android:layout_weight="1">
 
                 <ImageView
+                    android:id="@+id/iv_next_btn"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_gravity="center|start"

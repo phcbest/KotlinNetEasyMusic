@@ -86,15 +86,16 @@ class MusicPlayerService : Service() {
     private fun initMediaPlayerEvent() {
         //播放预加载完成的回调
         mMediaPlayer.setOnPreparedListener {
+            val songEntity = mPlaylist.value?.get(mCurrentSongIndex)
             //取消消息
             mProgressHandler.removeMessages(0)
             //设置播放的状态栏样式
-            mPlayServiceNotify?.setViewInfo("hello",
-                "world",
-                "https://avatars.githubusercontent.com/u/8266075?v=4")
+            mPlayServiceNotify?.setViewInfo(songEntity?.name!!,
+                songEntity.author,
+                songEntity.cover)
             //准备加载,进行播放
             playControl(2)
-            currentSongEntityLD.postValue(mPlaylist.value?.get(mCurrentSongIndex))
+            currentSongEntityLD.postValue(songEntity!!)
         }
         mMediaPlayer.setOnCompletionListener {
             //播放完成回调,切换下一首
@@ -139,6 +140,10 @@ class MusicPlayerService : Service() {
             }
             else -> Log.i(TAG, "playControl: 控制代码$controlCode 没有符合的")
         }
+        //设置状态栏的播放状态
+        mPlayServiceNotify?.switchPlayButton(!mMediaPlayer.isPlaying)
+
+        //状态推出
         isPlayerLD.postValue(mMediaPlayer.isPlaying)
         //设置进度推出  声音渐弱和渐强
         if (mMediaPlayer.isPlaying) {
