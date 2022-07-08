@@ -12,6 +12,7 @@ import android.util.Log
 import android.widget.RemoteViews
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC
 import androidx.core.graphics.rotationMatrix
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
@@ -106,6 +107,7 @@ class PlayServiceNotify(
         notification =
             NotificationCompat.Builder(BaseApplication.appContext!!, "音乐")
                 .setSmallIcon(R.mipmap.ic_launcher)
+                .setVisibility(VISIBILITY_PUBLIC)
                 .setTicker("云音乐")
 //                .setContentIntent(pendingIntent)
                 .setContent(remoteViews)
