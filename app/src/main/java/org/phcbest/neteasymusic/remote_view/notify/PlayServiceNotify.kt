@@ -22,17 +22,27 @@ import com.bumptech.glide.request.transition.Transition
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.base.BaseApplication
 import org.phcbest.neteasymusic.ui.activity.MainActivity
+import kotlin.math.round
+import kotlin.random.Random
 
-class PlayServiceNotify {
+class PlayServiceNotify(
+    private var doPlayOrPause: () -> Unit,
+    private var doPrevious: () -> Unit,
+    private var doNext: () -> Unit,
+) {
     /**
      * 使用单例模式构建
      */
     companion object {
         private const val TAG = "PlayServiceNotify"
         private var playServiceNotify: PlayServiceNotify? = null
-        fun getInstance(): PlayServiceNotify {
+        fun getInstance(
+            doPlayOrPause: () -> Unit,
+            doPrevious: () -> Unit,
+            doNext: () -> Unit,
+        ): PlayServiceNotify {
             if (playServiceNotify == null) {
-                playServiceNotify = PlayServiceNotify()
+                playServiceNotify = PlayServiceNotify(doPlayOrPause, doPrevious, doNext)
             }
             return playServiceNotify!!
         }
@@ -48,12 +58,15 @@ class PlayServiceNotify {
             when (val stringExtra = intent?.getStringExtra("type")) {
                 "play_btn" -> {
                     Log.i(TAG, "onReceive: 播放按钮")
+                    doPlayOrPause()
                 }
                 "previous_btn" -> {
                     Log.i(TAG, "onReceive: 上一首按钮")
+                    doPrevious()
                 }
                 "next_btn" -> {
                     Log.i(TAG, "onReceive: 下一首按钮")
+                    doNext()
                 }
                 else -> {
                     Log.i(TAG, "onReceive: 触发,但是type不匹配，type为${stringExtra}")
@@ -87,15 +100,18 @@ class PlayServiceNotify {
         remoteViews?.setOnClickPendingIntent(R.id.iv_next_btn,
             buildPendingIntent(3, "next_btn"))
 
+        //设置初始图片预防加载错误
+        remoteViews?.setImageViewResource(R.id.iv_song_cover, R.drawable.cd_bg)
+
         notification =
-            NotificationCompat.Builder(BaseApplication.appContext!!)
+            NotificationCompat.Builder(BaseApplication.appContext!!, "音乐")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setTicker("云音乐")
 //                .setContentIntent(pendingIntent)
                 .setContent(remoteViews)
                 .setOngoing(true)
                 .setChannelId("PlayServiceCtrl")
-//                .setPriority(if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) NotificationManager.IMPORTANCE_HIGH else Notification.PRIORITY_MAX)
+//                .setPriority(if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) NotificationManager.IMPORTANCE_LOW else Notification.PRIORITY_LOW)
                 .build()
     }
 
@@ -111,7 +127,7 @@ class PlayServiceNotify {
         return PendingIntent.getBroadcast(BaseApplication.appContext,
             requestCode,
             intent,
-            PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     fun showNotify() {
@@ -122,24 +138,34 @@ class PlayServiceNotify {
         manager?.cancel(1)
     }
 
+
     fun setViewInfo(songName: String, author: String, coverUrl: String) {
         remoteViews?.setTextViewText(R.id.tv_song_name, songName)
         remoteViews?.setTextViewText(R.id.tv_author, author)
-
-        //网络请求获得bitmap
-        Glide.with(BaseApplication.appContext!!).asBitmap().load(coverUrl)
-            .apply(RequestOptions.bitmapTransform(RoundedCorners(50)))
+        var url = "$coverUrl?param=150y150"
+        Log.i(TAG, "setViewInfo: $url")
+        //网络请求获得bitmap,图片加载需要是同步的
+//        val futureTarget = Glide.with(BaseApplication.appContext!!).asBitmap().load(coverUrl)
+//            .apply(RequestOptions.bitmapTransform(RoundedCorners(50))).submit()
+//        remoteViews?.setImageViewBitmap(R.id.iv_song_cover, futureTarget.get())
+//        manager?.notify(1, notification)
+//        注意图片不能太大,不然通知加载不出来不显示
+        Glide.with(BaseApplication.appContext!!).asBitmap().load(url)
+            .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
             .into(object : CustomTarget<Bitmap>() {
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                     Log.i(TAG, "onResourceReady: 加载通知图片成功")
                     remoteViews?.setImageViewBitmap(R.id.iv_song_cover, resource)
+//                    remoteViews?.setImageViewResource(R.id.iv_song_cover,
+//                        R.drawable.cd_bg)
                     manager?.notify(1, notification)
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {
                     remoteViews?.setImageViewResource(R.id.iv_song_cover, R.drawable.cd_bg)
-                    manager?.notify(1, notification)
                     Log.i(TAG, "onLoadCleared: 取消加载通知栏图片")
+                    manager?.notify(1, notification)
+
                 }
             })
     }

@@ -38,7 +38,12 @@ class MusicPlayerService : Service() {
         //初始化mediaPlayer的事件
         initMediaPlayerEvent()
         //初始化通知
-        mPlayServiceNotify = PlayServiceNotify.getInstance()
+        mPlayServiceNotify = PlayServiceNotify.getInstance(
+            doPlayOrPause = {
+                if (isPlayerLD.value!!) playControl(1) else playControl(2)
+            },
+            doPrevious = { switchSongNOP(false) },
+            doNext = { switchSongNOP(true) })
         mPlayServiceNotify?.showNotify()
     }
 
