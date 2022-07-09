@@ -32,7 +32,9 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include layout="@layout/custom_discover_toolbar" />
+            <include
+                android:id="@+id/inc_toolbar"
+                layout="@layout/custom_discover_toolbar" />
 
             <androidx.core.widget.NestedScrollView
                 setVisible="@{!isLoad}"

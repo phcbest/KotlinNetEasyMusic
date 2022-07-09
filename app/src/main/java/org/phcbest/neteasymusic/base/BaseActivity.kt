@@ -10,6 +10,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.R
+import org.phcbest.neteasymusic.utils.ToastUtils
 
 
 abstract class BaseActivity : AppCompatActivity() {

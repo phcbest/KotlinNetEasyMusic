@@ -101,6 +101,10 @@ class DiscoverFragment : BaseFragment() {
 
     override fun initEvent() {
         super.initEvent()
+        //导航栏按钮的点击事件
+        binding?.incToolbar?.ivNavMenu?.setOnClickListener {
+            (activity as MainActivity).showLeftNavigation()
+        }
         //设置推荐的点击刷新
         binding!!.llSimiReflash.setOnClickListener {
             discoverFragmentViewModel.setSimiSongLiveDataByRecordRecent(100)

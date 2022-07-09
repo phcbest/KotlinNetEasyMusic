@@ -8,6 +8,8 @@ import android.os.IBinder
 import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
@@ -24,6 +26,7 @@ import org.phcbest.neteasymusic.ui.fragment.*
 import org.phcbest.neteasymusic.ui.widget.adapter.PlayListDialogAdapter
 import org.phcbest.neteasymusic.ui.widget.playBar.CustomPlayBar
 import org.phcbest.neteasymusic.utils.MMKVStorageUtils
+import org.phcbest.neteasymusic.utils.ToastUtils
 
 
 class MainActivity : BaseActivity() {
@@ -59,6 +62,8 @@ class MainActivity : BaseActivity() {
         mineFragment = MineFragment.newInstance()
         followFragment = FollowFragment.newInstance()
         cloudVillageFragment = CloudVillageFragment.newInstance()
+        //设置侧边栏不允许滑动打开
+        binding.dlLayout.setDrawerLockMode(LOCK_MODE_LOCKED_CLOSED)
         //设置页面适配器
         val viewPageAdapter = ViewPageAdapter(this,
             discoverFragment!!,
@@ -240,6 +245,14 @@ class MainActivity : BaseActivity() {
         return binding
     }
 
+    /**
+     * 打开侧边栏的操作
+     */
+    fun showLeftNavigation() {
+        if (binding.dlLayout.isDrawerOpen(GravityCompat.START)) return
+        binding.dlLayout.openDrawer(GravityCompat.START)
+    }
+
 
 //    //切换fragment
 //    private var currentFragment: Fragment? = null
@@ -263,6 +276,20 @@ class MainActivity : BaseActivity() {
         override fun getItemCount(): Int = pageList.size
 
         override fun createFragment(position: Int): Fragment = pageList[position]
+    }
+
+    //上次点击返回按钮的时间
+    private var lastBackPressTime = -1L
+
+    //重写返回按钮事件
+    override fun onBackPressed() {
+        val currentTime = System.currentTimeMillis()
+        if (lastBackPressTime == -1L || currentTime - lastBackPressTime >= 2000) {
+            ToastUtils.SEND_SMG("再次点击确认退出")
+            lastBackPressTime = currentTime
+        } else {
+            finish()
+        }
     }
 
 }
