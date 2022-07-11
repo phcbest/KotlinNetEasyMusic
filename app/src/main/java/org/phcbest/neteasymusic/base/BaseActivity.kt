@@ -5,17 +5,20 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.Window
+import android.view.View.*
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import org.phcbest.neteasymusic.R
-import org.phcbest.neteasymusic.utils.ToastUtils
 
 
 abstract class BaseActivity : AppCompatActivity() {
 
-    protected var isTransparentStatusBar: Boolean = false
+    //设置状态栏目是否透明
+    protected var isSemiTransparentStatusBar: Boolean = false
+
+    //设置状态栏
+    protected var isSemiTransparentStatusBarBlackTint: Boolean = false
     private var vb: ViewBinding? = null
 
 
@@ -71,10 +74,15 @@ abstract class BaseActivity : AppCompatActivity() {
     //设置状态栏颜色
     @TargetApi(Build.VERSION_CODES.KITKAT)
     open fun setStatusBar(color: Int) {
-        if (isTransparentStatusBar) {
+        if (isSemiTransparentStatusBar) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
+            if (isSemiTransparentStatusBarBlackTint) {
+                window.decorView.systemUiVisibility = (SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        or SYSTEM_UI_FLAG_LAYOUT_STABLE or SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
+            } else {
+                window.decorView.systemUiVisibility = (SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        or SYSTEM_UI_FLAG_LAYOUT_STABLE)
+            }
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.statusBarColor = Color.TRANSPARENT
         } else {
@@ -85,7 +93,7 @@ abstract class BaseActivity : AppCompatActivity() {
             //设置状态栏颜色
             window.statusBarColor = color
             //状态栏白底黑字的实现方法
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            window.decorView.systemUiVisibility = SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             //去掉系统状态栏下的windowContentOverlay
             findViewById<View>(android.R.id.content).foreground = null
         }

@@ -35,6 +35,7 @@ class MainActivity : BaseActivity() {
         private const val TAG = "MainActivity"
     }
 
+
     private lateinit var binding: ActivityMainBinding
 
     private var discoverFragment: Fragment? = null
@@ -54,6 +55,9 @@ class MainActivity : BaseActivity() {
 
 
     override fun initView() {
+        //状态栏设置透明
+        isSemiTransparentStatusBar = true
+        isSemiTransparentStatusBarBlackTint = true
         //设置导航栏tint效果为null
         binding.navMain.itemIconTintList = null
         //初始化fragment

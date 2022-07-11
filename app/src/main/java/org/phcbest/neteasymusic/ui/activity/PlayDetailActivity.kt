@@ -37,7 +37,7 @@ class PlayDetailActivity : BaseActivity() {
 
     override fun initView() {
         //设置透明状态栏
-        isTransparentStatusBar = true
+        isSemiTransparentStatusBar = true
         //设置状态栏沉浸
         binding?.llTop?.setPadding(0, StatusBarUtil.getStatusBarHeight(this), 0, 0)
         //初始化cd view帮助器

@@ -1,7 +1,6 @@
 package org.phcbest.neteasymusic.ui.activity
 
 import android.graphics.Color
-import android.provider.CalendarContract
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.databinding.DataBindingUtil
@@ -38,7 +37,7 @@ class PlayListDetailActivity : BaseActivity() {
 
     override fun initView() {
         binding.isLoad = true
-        isTransparentStatusBar = true
+        isSemiTransparentStatusBar = true
         //app_bar_playlist_detail需要设置背景和padding
         val statusBarHeight = StatusBarUtil.getStatusBarHeight(this)
         binding.appBarPlaylistDetail.setPadding(0,
