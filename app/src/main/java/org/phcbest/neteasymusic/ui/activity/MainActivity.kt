@@ -27,6 +27,7 @@ import org.phcbest.neteasymusic.ui.widget.adapter.PlayListDialogAdapter
 import org.phcbest.neteasymusic.ui.widget.playBar.CustomPlayBar
 import org.phcbest.neteasymusic.utils.MMKVStorageUtils
 import org.phcbest.neteasymusic.utils.ToastUtils
+import org.phcbest.neteasymusic.utils.ui.StatusBarUtil
 
 
 class MainActivity : BaseActivity() {
@@ -58,8 +59,14 @@ class MainActivity : BaseActivity() {
         //状态栏设置透明
         isSemiTransparentStatusBar = true
         isSemiTransparentStatusBarBlackTint = true
-        //设置导航栏tint效果为null
+        //设置底部导航tint效果为null
         binding.navMain.itemIconTintList = null
+//        //设置侧滑菜单的适配器
+//        binding.incNavHome.rvCenter?.adapter
+//        binding.incNavHome.rvMusicService?.adapter
+//        binding.incNavHome.rvMusicService?.adapter
+//        binding.incNavHome.rvMusicService?.adapter
+
         //初始化fragment
         discoverFragment = DiscoverFragment.newInstance()
         radioStationFragment = RadioStationFragment.newInstance()
@@ -68,6 +75,8 @@ class MainActivity : BaseActivity() {
         cloudVillageFragment = CloudVillageFragment.newInstance()
         //设置侧边栏不允许滑动打开
         binding.dlLayout.setDrawerLockMode(LOCK_MODE_LOCKED_CLOSED)
+        //设置侧边栏留出状态栏高度
+        binding.incNavHome.llNavList.setPadding(0, StatusBarUtil.getStatusBarHeight(this), 0, 0)
         //设置页面适配器
         val viewPageAdapter = ViewPageAdapter(this,
             discoverFragment!!,

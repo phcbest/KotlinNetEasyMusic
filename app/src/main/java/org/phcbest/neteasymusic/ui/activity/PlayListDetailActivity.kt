@@ -58,12 +58,19 @@ class PlayListDetailActivity : BaseActivity() {
                     binding.toolbarPlaylistDetail.title = playlist?.name
                     binding.toolbarPlaylistDetail.setTitleTextColor(Color.BLACK)
                     binding.toolbarPlaylistDetail.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
+                    //设置状态栏字体颜色为黑色
+                    isSemiTransparentStatusBarBlackTint = true
+                    setStatusBar(0xffffff)
+
                 }
                 verticalOffset == 0 -> {
                     // 展开
                     binding.toolbarPlaylistDetail.title = "歌单"
                     binding.toolbarPlaylistDetail.setTitleTextColor(Color.WHITE)
                     binding.toolbarPlaylistDetail.setNavigationIcon(R.drawable.ic_baseline_arrow_back_white_24)
+                    //设置状态栏字体颜色为白色
+                    isSemiTransparentStatusBarBlackTint = false
+                    setStatusBar(0xffffff)
                 }
                 else -> {
                     // 中间某个地方

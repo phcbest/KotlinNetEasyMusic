@@ -52,7 +52,7 @@
             android:fitsSystemWindows="true">
 
             <include
-                android:id="@+id/nav_home"
+                android:id="@+id/inc_nav_home"
                 layout="@layout/navigation_home" />
 
         </com.google.android.material.navigation.NavigationView>
