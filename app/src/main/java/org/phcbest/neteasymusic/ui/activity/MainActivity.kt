@@ -25,6 +25,7 @@ import org.phcbest.neteasymusic.ui.dialog.DialogBox
 import org.phcbest.neteasymusic.ui.fragment.*
 import org.phcbest.neteasymusic.ui.widget.adapter.PlayListDialogAdapter
 import org.phcbest.neteasymusic.ui.widget.playBar.CustomPlayBar
+import org.phcbest.neteasymusic.ui.widget.slideMenu.SlideMenuUtils
 import org.phcbest.neteasymusic.utils.MMKVStorageUtils
 import org.phcbest.neteasymusic.utils.ToastUtils
 import org.phcbest.neteasymusic.utils.ui.StatusBarUtil
@@ -62,10 +63,7 @@ class MainActivity : BaseActivity() {
         //设置底部导航tint效果为null
         binding.navMain.itemIconTintList = null
 //        //设置侧滑菜单的适配器
-//        binding.incNavHome.rvCenter?.adapter
-//        binding.incNavHome.rvMusicService?.adapter
-//        binding.incNavHome.rvMusicService?.adapter
-//        binding.incNavHome.rvMusicService?.adapter
+        SlideMenuUtils.getInstance().doSlideMenuAdapter(binding)
 
         //初始化fragment
         discoverFragment = DiscoverFragment.newInstance()

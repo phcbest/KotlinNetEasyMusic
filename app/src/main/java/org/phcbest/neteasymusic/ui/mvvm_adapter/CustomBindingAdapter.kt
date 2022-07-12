@@ -217,5 +217,11 @@ class CustomBindingAdapter {
             textView.text = simpleDateFormat.format(time)
         }
 
+
+        @JvmStatic
+        @BindingAdapter("setImageFromSrc")
+        fun setImageFromSrc(imageView: ImageView, src: Int) {
+            imageView.setImageResource(src)
+        }
     }
 }
