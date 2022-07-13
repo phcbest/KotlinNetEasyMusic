@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--未加载的进度区域-->
+    <item android:id="@+id/progress_unloaded">
+        <shape>
+            <!--进度条圆角-->
+            <corners android:radius="15dp" />
+            <!--进度颜色-->
+            <solid android:color="#262626" />
+        </shape>
+    </item>
+    <!--加载完的进度颜色-->
+    <item android:id="@+id/progress_loaded">
+        <clip>
+            <shape>
+                <!--进度条圆角-->
+                <corners android:radius="15dp" />
+                <!--进度颜色-->
+                <solid android:color="#E5E5E5" />
+            </shape>
+        </clip>
+    </item>
+
+</layer-list>

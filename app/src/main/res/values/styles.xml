@@ -9,4 +9,9 @@
         <item name="android:textSize">30sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="update_progress_horizontal" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/layer_list_progress_style</item>
+    </style>
 </resources>
