@@ -12,7 +12,7 @@ class MainActivityViewModel : ViewModel() {
 
     var playlistDetailLiveData: MutableLiveData<PlayListDetailBean?> = MutableLiveData()
 
-    private val loginBean = MMKVStorageUtils.newInstance().getLoginBean()
+    private val loginBean = MMKVStorageUtils.getInstance().getLoginBean()
 
 
     fun setPlayListDetail(playlistId: String) {

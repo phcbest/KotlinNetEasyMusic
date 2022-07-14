@@ -175,7 +175,7 @@ class MusicPlayerService : Service() {
 //                }
 //            ))
 //        }
-        MMKVStorageUtils.newInstance().getPlayList().let {
+        MMKVStorageUtils.getInstance().getPlayList().let {
             this.mPlaylist.postValue(it as MutableList<SongEntity>?)
         }
     }
@@ -185,7 +185,7 @@ class MusicPlayerService : Service() {
         //歌曲列表不包含当前歌曲,添加到当前播放的歌曲后面
         mPlaylist.value!!.add(mCurrentSongIndex + 1, songEntity)
         //存储当前歌单到mmkv
-        MMKVStorageUtils.newInstance().storagePlayList(mPlaylist.value!!)
+        MMKVStorageUtils.getInstance().storagePlayList(mPlaylist.value!!)
         this.mPlaylist.postValue(mPlaylist.value)
         //加载歌曲
         if (playWhenAppend) {

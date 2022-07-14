@@ -157,7 +157,7 @@ class MusicPlayerMediaSession : MediaBrowserService() {
         result.detach()
         //创建媒体项目列表
         val mediaItems = mutableListOf<MediaBrowser.MediaItem>()
-        MMKVStorageUtils.newInstance().getPlayList().let { list ->
+        MMKVStorageUtils.getInstance().getPlayList().let { list ->
             list?.forEach { item ->
                 val mediaMetadata = MediaMetadata.Builder()
                     .putString(MediaMetadata.METADATA_KEY_TITLE, item.name)

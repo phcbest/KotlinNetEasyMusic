@@ -47,8 +47,8 @@ class LoginActivity : BaseActivity() {
                 val body = result.body()!!
                 if (body.code == 200) {
 //                    Log.i(TAG, "doLogin: ${result.headers()}")
-                    MMKVStorageUtils.newInstance().storageCookie(result)
-                    MMKVStorageUtils.newInstance().storageLoginBean(body)
+                    MMKVStorageUtils.getInstance().storageCookie(result)
+                    MMKVStorageUtils.getInstance().storageLoginBean(body)
                     ToastUtils.SEND_SMG("登录成功")
                     startActivity(Intent(baseContext, MainActivity::class.java))
                 } else {

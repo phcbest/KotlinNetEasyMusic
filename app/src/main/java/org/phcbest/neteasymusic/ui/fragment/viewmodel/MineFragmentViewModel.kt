@@ -12,7 +12,7 @@ import org.phcbest.neteasymusic.utils.MMKVStorageUtils
 
 class MineFragmentViewModel() : ViewModel() {
 
-    private val loginBean = MMKVStorageUtils.newInstance().getLoginBean()
+    private val loginBean = MMKVStorageUtils.getInstance().getLoginBean()
 
     private var userDetailBean: MutableLiveData<UserDetailBean> = MutableLiveData()
     private var userPlaylistBean: MutableLiveData<UserPlaylistBean> = MutableLiveData()

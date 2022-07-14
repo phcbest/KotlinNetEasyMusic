@@ -55,7 +55,7 @@ class LogIntercepted : Interceptor {
         )
         //添加cookie
         val newBuilder = request.newBuilder()
-        MMKVStorageUtils.newInstance().getCookie()
+        MMKVStorageUtils.getInstance().getCookie()
             .let {
                 if (!it.contains(MMKVStorageUtils.SP_NULL)) {
                     Log.i(TAG, "intercept: cookie:$it")

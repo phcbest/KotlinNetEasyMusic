@@ -20,7 +20,7 @@ class MMKVStorageUtils {
 
         private const val TAG = "MMKVStorageUtils"
         private var instance = MMKVStorageUtils()
-        fun newInstance(): MMKVStorageUtils {
+        fun getInstance(): MMKVStorageUtils {
             return instance
         }
     }

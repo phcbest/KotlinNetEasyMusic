@@ -31,7 +31,7 @@ class MineFragment : BaseFragment() {
     var minePlayListStarAdapter: MinePlayListAdapter? = null
     var minePlayListCreateAdapter: MinePlayListAdapter? = null
 
-    var uid = MMKVStorageUtils.newInstance().getLoginBean()?.profile?.userId
+    var uid = MMKVStorageUtils.getInstance().getLoginBean()?.profile?.userId
 
     companion object {
         @JvmStatic

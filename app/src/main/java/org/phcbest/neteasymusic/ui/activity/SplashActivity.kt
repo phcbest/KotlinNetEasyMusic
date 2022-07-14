@@ -4,8 +4,6 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
-import android.view.Window
-import android.view.WindowManager
 import android.widget.ImageView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.ViewModelProviders
@@ -33,9 +31,9 @@ class SplashActivity : BaseActivity() {
     override fun initPresenter() {
 
         //判断登录状态
-        if (MMKVStorageUtils.newInstance()
+        if (MMKVStorageUtils.getInstance()
                 .getCookie().contains(MMKVStorageUtils.SP_NULL) ||
-            MMKVStorageUtils.newInstance()
+            MMKVStorageUtils.getInstance()
                 .getLoginBean() == null
         ) {
             handlerStartActivity.sendEmptyMessageDelayed(1, 500)

@@ -15,10 +15,7 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import com.google.gson.Gson
 import org.phcbest.neteasymusic.R
-import org.phcbest.neteasymusic.bean.UserEventBean
-import org.phcbest.neteasymusic.bean.UserEventContentBean
 import org.phcbest.neteasymusic.bean.UserPlaylistBean
 import org.phcbest.neteasymusic.ui.widget.custom.CircularImageView
 import org.phcbest.neteasymusic.utils.MMKVStorageUtils
@@ -32,7 +29,7 @@ class CustomBindingAdapter {
 
     companion object {
         private const val TAG = "CustomBindingAdapter"
-        var uid = MMKVStorageUtils.newInstance().getLoginBean()?.profile?.userId
+        var uid = MMKVStorageUtils.getInstance().getLoginBean()?.profile?.userId
 
         @JvmStatic
         @BindingAdapter("circularImageSrc",

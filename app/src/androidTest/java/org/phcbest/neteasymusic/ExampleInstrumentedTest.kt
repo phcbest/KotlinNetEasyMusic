@@ -43,7 +43,7 @@ class ExampleInstrumentedTest {
     @Test
     fun TestSp() {
         println("TestSp")
-        println("TestSp: ${Gson().toJson(MMKVStorageUtils.newInstance().getCookie())}")
+        println("TestSp: ${Gson().toJson(MMKVStorageUtils.getInstance().getCookie())}")
     }
 
     @Test

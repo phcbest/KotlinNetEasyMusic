@@ -63,7 +63,10 @@ class MainActivity : BaseActivity() {
         //设置底部导航tint效果为null
         binding.navMain.itemIconTintList = null
 //        //设置侧滑菜单的适配器
-        SlideMenuUtils.getInstance().doSlideMenuAdapter(binding)
+        SlideMenuUtils.getInstance().let {
+            it.doSlideMenuAdapter(binding)
+            it.setAccountInfo(binding)
+        }
 
         //初始化fragment
         discoverFragment = DiscoverFragment.newInstance()
@@ -171,7 +174,7 @@ class MainActivity : BaseActivity() {
         super.observeViewModel()
         mainActivityViewModel.playlistDetailLiveData.observe(this) {
             if (it != null) {
-                MMKVStorageUtils.newInstance().storagePlayList(it)
+                MMKVStorageUtils.getInstance().storagePlayList(it)
                 //设置dialog的歌单
                 playListDialogAdapter.setPlayListDetailSync()
                 mainPlayListDialog.dialogMainPlaylistBinding.isDialogLoad = false

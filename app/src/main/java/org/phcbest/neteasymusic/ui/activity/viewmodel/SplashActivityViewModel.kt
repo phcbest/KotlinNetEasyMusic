@@ -32,7 +32,7 @@ class SplashActivityViewModel : ViewModel() {
             if (it.body() == null || it.body()!!["code"] != 200) {
                 this.loginStatus.postValue(false)
             } else if (it.body()!!["code"] == 200) {
-                MMKVStorageUtils.newInstance().updateCookieNMTID(it)
+                MMKVStorageUtils.getInstance().updateCookieNMTID(it)
                 this.loginStatus.postValue(true)
             }
         }, {})

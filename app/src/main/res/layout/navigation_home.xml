@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="userDetailBean"
+            type="org.phcbest.neteasymusic.bean.UserDetailBean" />
     </data>
 
     <LinearLayout
@@ -21,6 +24,8 @@
             android:padding="10dp">
 
             <org.phcbest.neteasymusic.ui.widget.custom.CircularImageView
+                circularImageSrc="@{userDetailBean.profile.avatarUrl??``}"
+                circularSizeLimit="@{120}"
                 android:layout_width="30dp"
                 android:layout_height="30dp" />
 
@@ -30,7 +35,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:text="用户名有七个字"
+                android:text="@{userDetailBean.Profile.nickname??`永续用户`}"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 

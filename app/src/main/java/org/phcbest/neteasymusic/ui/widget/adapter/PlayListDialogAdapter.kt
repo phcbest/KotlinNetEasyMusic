@@ -43,7 +43,7 @@ class PlayListDialogAdapter : RecyclerView.Adapter<PlayListDialogAdapter.ViewHol
     }
 
     fun setPlayListDetailSync() {
-        MMKVStorageUtils.newInstance().getPlayList().let {
+        MMKVStorageUtils.getInstance().getPlayList().let {
             this.songEntities = it
             notifyDataSetChanged()
         }

@@ -36,7 +36,7 @@ class FollowFragmentViewModel : ViewModel() {
 
     fun getUserFollowBeanLD(limit: Int, offset: Int) {
         RetrofitUtils.newInstance()
-            .getUserFollows(MMKVStorageUtils.newInstance().getLoginBean()!!.profile.userId,
+            .getUserFollows(MMKVStorageUtils.getInstance().getLoginBean()!!.profile.userId,
                 limit,
                 offset)
             .observeOn(AndroidSchedulers.mainThread())
