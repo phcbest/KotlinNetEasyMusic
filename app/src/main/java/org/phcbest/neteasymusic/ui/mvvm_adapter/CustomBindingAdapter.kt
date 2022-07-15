@@ -10,6 +10,7 @@ import android.text.style.*
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
@@ -219,6 +220,23 @@ class CustomBindingAdapter {
         @BindingAdapter("setImageFromSrc")
         fun setImageFromSrc(imageView: ImageView, src: Int) {
             imageView.setImageResource(src)
+        }
+
+        @JvmStatic
+        @BindingAdapter("setVipGrowthphintProgress")
+        fun setVipGrowthphintProgress(progressBar: ProgressBar, progress: Int) {
+            //按照阶梯设置MAX
+            when (progress) {
+                in 0..1 -> progressBar.max = 1
+                in 2..450 -> progressBar.max = 450
+                in 451..1350 -> progressBar.max = 1350
+                in 1351..3150 -> progressBar.max = 3150
+                in 3151..4950 -> progressBar.max = 4950
+                in 4951..9450 -> progressBar.max = 9450
+                in 9451..21600 -> progressBar.max = 21600
+            }
+            //设置进度
+            progressBar.progress = progress
         }
     }
 }

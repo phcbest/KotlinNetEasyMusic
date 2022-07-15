@@ -38,7 +38,7 @@ class SlideMenuUtils {
             //通过UserId 请求用户账号信息
             RetrofitUtils.newInstance().getUserDetail(loginBean?.account?.id.toString())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io()).subscribe({ it ->
+                .subscribeOn(Schedulers.io()).subscribe({
                     //件用户信息设置进UI
 //                    val nickname = it.profile.nickname
 //                    val avatarUrl = it.profile.avatarUrl
@@ -47,5 +47,12 @@ class SlideMenuUtils {
                     it.printStackTrace()
                 })
         }
+        //获得vip等级
+        RetrofitUtils.newInstance().getVipGrowthpoint().observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io()).subscribe({
+                binding.incNavHome.vipGrowthpoint = it
+            }, {
+                it.printStackTrace()
+            })
     }
 }

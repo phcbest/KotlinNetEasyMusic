@@ -102,6 +102,12 @@ interface RetrofitApi {
     fun getUserDetail(@Query("uid") uid: String): Observable<UserDetailBean>
 
     /**
+     * 获得黑胶会员等级
+     */
+    @GET("/vip/growthpoint")
+    fun getVipGrowthpoint(): Observable<VipGrowthpointBean>
+
+    /**
      * 获得用户歌单
      */
     @GET("/user/playlist")
