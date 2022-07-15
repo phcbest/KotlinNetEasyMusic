@@ -13,7 +13,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="云村" />
+            android:text="服务器暂未提供相关接口" />
 
 
     </LinearLayout>
