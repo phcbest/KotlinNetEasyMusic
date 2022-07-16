@@ -12,6 +12,12 @@
 - 学习模块化Android开发
 - 完成Service和状态栏的原生控制器联动
 
+**2022-07-16 19:27:22 里程碑** 完成了侧滑导航栏的实现
+*后续目标:*
+- 慢慢实现电台功能
+- 使用mmap实现一个类MMKV框架
+- 首页功能的丰富化
+
 ## License
 
 [MIT License](https://github.com/phcbest/KotlinNetEasyMusic/blob/master/LICENSE)
