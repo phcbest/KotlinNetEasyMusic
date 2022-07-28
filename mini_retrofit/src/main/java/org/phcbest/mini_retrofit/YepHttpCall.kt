@@ -7,6 +7,10 @@ import okhttp3.Response
 import java.io.IOException
 
 
+/**
+ * 执行http请求的类
+ * 实现Call中的接口
+ */
 class YepHttpCall(private var mServiceMethod: ServiceMethod) : Call {
 
     companion object {

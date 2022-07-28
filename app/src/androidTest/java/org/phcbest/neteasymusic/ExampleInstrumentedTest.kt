@@ -114,7 +114,7 @@ class ExampleInstrumentedTest {
 
     @Test
     fun testMiniRetrofit() {
-        val miniRetrofit = MiniRetrofit.Builder().baseUrl("http://192.168.1.108:3000").build()
+        val miniRetrofit = MiniRetrofit.Builder().baseUrl("http://192.168.1.105:3000").build()
         val appService = miniRetrofit.create(AppService::class.java)
         appService.doNetWork("6452").enqueue(object : CallBack {
             override fun failure(e: Exception) {

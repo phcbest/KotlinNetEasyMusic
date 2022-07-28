@@ -134,8 +134,5 @@ class ServiceMethod {
                 this.relativeUrl = value
             }
         }
-
-
     }
-
 }
