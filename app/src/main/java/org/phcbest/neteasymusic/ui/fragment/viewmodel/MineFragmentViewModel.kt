@@ -50,7 +50,6 @@ class MineFragmentViewModel() : ViewModel() {
                 it.printStackTrace()
                 this.userPlaylistBean.postValue(null)
             })
-
     }
 
     /**

@@ -1,14 +1,11 @@
 package org.phcbest.neteasymusic.ui.activity
 
-import android.content.ClipData
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import okhttp3.*
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import org.phcbest.neteasymusic.R
 import org.phcbest.neteasymusic.databinding.ActivityTestNetBinding
 import org.phcbest.neteasymusic.utils.MMKVStorageUtils
@@ -17,6 +14,7 @@ import org.phcbest.neteasymusic.utils.ToastUtils
 import java.io.IOException
 
 class TestNetActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val inflate = DataBindingUtil.inflate<ActivityTestNetBinding>(LayoutInflater.from(this),

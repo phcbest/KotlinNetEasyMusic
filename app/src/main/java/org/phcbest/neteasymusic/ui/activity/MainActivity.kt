@@ -52,9 +52,6 @@ class MainActivity : BaseActivity() {
 
     private lateinit var playListDialogAdapter: PlayListDialogAdapter
 
-    //歌单id
-    private val playListId = "413126379"
-
 
     override fun initView() {
         //状态栏设置透明
@@ -134,8 +131,12 @@ class MainActivity : BaseActivity() {
         //判断网络状态来 初始化主页位置,这里直接执行点击下发ui事件
         binding.navMain.findViewById<View>(R.id.menu_discover).performClick()
 
-        //获得歌单
-        mainActivityViewModel.setPlayListDetail(playListId)
+        //获得用户喜欢歌单的id
+        mainActivityViewModel.setFavoritePlaylistId()
+
+
+        //获得歌单,似乎逻辑重复了，改用mvvm后不是必须的
+//        mainActivityViewModel.setPlayListDetail(playListId)
 
         //设置播放栏的点击按钮事件
         binding.mainPlayBar.btnPlayBarList.setOnClickListener {
@@ -164,7 +165,11 @@ class MainActivity : BaseActivity() {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun initPresenter() {
         //获取一次播放列表
-        mainActivityViewModel.setPlayListDetail(playListId)
+        mainActivityViewModel.favoritePlayListID.observe(this) {
+            if (it != -1L) {
+                mainActivityViewModel.setPlayListDetail(it.toString())
+            }
+        }
         //绑定services
         doBindServices()
     }

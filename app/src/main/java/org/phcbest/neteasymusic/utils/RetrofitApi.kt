@@ -108,7 +108,7 @@ interface RetrofitApi {
     fun getVipGrowthpoint(): Observable<VipGrowthpointBean>
 
     /**
-     * 获得用户歌单
+     * 获得用户所有的歌单
      */
     @GET("/user/playlist")
     fun getUserPlaylist(@Query("uid") uid: String): Observable<UserPlaylistBean>
