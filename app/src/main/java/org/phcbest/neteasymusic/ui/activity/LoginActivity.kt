@@ -5,6 +5,7 @@ import android.view.View
 import android.view.animation.AlphaAnimation
 import androidx.core.view.isVisible
 import androidx.viewbinding.ViewBinding
+import com.google.zxing.qrcode.QRCodeWriter
 import org.phcbest.neteasymusic.base.BaseActivity
 import org.phcbest.neteasymusic.databinding.ActivityLoginBinding
 import org.phcbest.neteasymusic.presenter.PresenterManager
@@ -26,6 +27,14 @@ class LoginActivity : BaseActivity() {
     }
 
     override fun initView() {
+        //实例化二维码写入器
+        val qrCodeWriter = QRCodeWriter()
+        //扫码登录
+        binding?.tvScanQrcodeLogin?.setOnClickListener {
+            //获得key
+        }
+
+        //验证码输入完成触发
         binding?.etVerifyCode?.setInputCompleteListener(object :
             VerifyCodeView.InputCompleteListener {
             override fun inputComplete() {

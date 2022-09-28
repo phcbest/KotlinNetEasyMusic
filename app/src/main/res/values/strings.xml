@@ -11,6 +11,7 @@
     <string name="src_mine_x_songs">%d首</string>
     <string name="str_star_playlist">收藏歌单(%d个)</string>
     <string name="str_create_playlist">创建歌单(%d个)</string>
+    <string name="text_recommended_qrcode_scan_login"><u>如果验证码登录出现问题，推荐使用扫码登录</u></string>
 
 
 </resources>
