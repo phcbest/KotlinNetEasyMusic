@@ -23,6 +23,9 @@ class DialogBox {
         val dialogMainPlaylistBinding: DialogMainPlaylistBinding,
     )
 
+    /**
+     * 初始化main页面的歌单dialog
+     */
     fun initMainPlayListDialog(context: Context): MainPlayListResult {
         val dialog = Dialog(context, R.style.DialogTheme)
         val dialogMainPlaylistBinding = DataBindingUtil.inflate(

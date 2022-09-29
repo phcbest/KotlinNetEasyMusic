@@ -14,4 +14,5 @@
         <item name="android:indeterminateOnly">false</item>
         <item name="android:progressDrawable">@drawable/layer_list_progress_style</item>
     </style>
+
 </resources>

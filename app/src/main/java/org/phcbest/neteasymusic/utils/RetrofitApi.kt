@@ -165,4 +165,27 @@ interface RetrofitApi {
     ): Observable<UserEventBean>
 
 
+    /**
+     * 获得二维码登录的key
+     */
+    @GET("/login/qr/key")
+    fun getLoginQrKey(): Observable<LoginQrBean.LoginQrKeyBean>
+
+
+    /**
+     * 获得二维码的字符串
+     */
+    @GET("/login/qr/create")
+    fun getLoginQrCreate(
+        @Query("key") key: String,
+    ): Observable<LoginQrBean.LoginQrCreateBean>
+
+    /**
+     * 二维码检测扫码状态接口，轮询可获得扫描二维码的状态
+     */
+    @GET("/login/qr/check")
+    fun getLoginQrCheck(
+        @Query("key") key: String,
+    ): Observable<LoginQrBean.LoginQrCheckBean>
+
 }
