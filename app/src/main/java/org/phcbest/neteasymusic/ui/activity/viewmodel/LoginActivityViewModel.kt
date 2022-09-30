@@ -1,5 +1,6 @@
 package org.phcbest.neteasymusic.ui.activity.viewmodel
 
+import android.os.CountDownTimer
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,9 +26,13 @@ class LoginActivityViewModel() : ViewModel() {
         mutableMapOf(Pair(EncodeHintType.CHARACTER_SET, "utf-8"))
     private var qrCodeHeight: Int = 300
     private var qrCodeWidth: Int = 300
+    private var qrCreateKey: String? = null
 
     //二维码位矩阵
     var qrCodeLiveData: MutableLiveData<BitMatrix?> = MutableLiveData()
+
+    //二维码轮询
+    var qrLoginCheckLiveData: MutableLiveData<LoginQrBean.LoginQrCheckBean?> = MutableLiveData()
 
 
     //获得二维码
@@ -36,6 +41,7 @@ class LoginActivityViewModel() : ViewModel() {
         RetrofitUtils.newInstance().getLoginQrKey().subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext {
+                qrCreateKey = it.data.unikey
                 Log.i(TAG, "getLoginQrKey: $it")
             }.doOnError {
                 Log.e(TAG, "getLoginQrKey: 请求qrcodeKey出错")
@@ -63,6 +69,50 @@ class LoginActivityViewModel() : ViewModel() {
                 qrCodeLiveData.postValue(null)
                 //进行报错
                 it.printStackTrace()
+            })
+    }
+
+    private var ctdQrState = object : CountDownTimer(Long.MAX_VALUE, 1000) {
+        override fun onTick(millisUntilFinished: Long) {
+            Log.i(TAG, "onTick: 执行扫码登录结果轮询")
+            checkQrLoginStatus()
+        }
+
+        override fun onFinish() {
+            Log.i(TAG, "onFinish: 停止扫码登录结果轮询")
+        }
+    }
+
+    /**
+     * 开始轮询检查二维码的登录结果
+     */
+    fun doLoopCheckQrLoginStatus() {
+        ctdQrState.start()
+    }
+
+    /**
+     * 停止轮询检查二维码登录结果
+     */
+    fun stopLoopCheckQrLoginStatus() {
+        ctdQrState.cancel()
+    }
+
+
+    /**
+     * 调用检查二维码状态的接口
+     */
+    private fun checkQrLoginStatus() {
+        RetrofitUtils.newInstance().getLoginQrCheck(qrCreateKey!!).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                //检查到登录结果后自动停止轮询
+                if (it.code == 803) {
+                    stopLoopCheckQrLoginStatus()
+                }
+                qrLoginCheckLiveData.postValue(it)
+            }, {
+                it.printStackTrace()
+                qrLoginCheckLiveData.postValue(null)
             })
     }
 

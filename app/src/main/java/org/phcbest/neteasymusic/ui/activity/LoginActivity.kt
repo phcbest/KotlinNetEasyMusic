@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -129,6 +130,21 @@ class LoginActivity : BaseActivity() {
                 showQrDialog(qrBitmap)
             }
         }
+        loginActivityViewModel.qrLoginCheckLiveData.observe(this) {
+            if (it == null) {
+                return@observe
+            }
+//            Log.i(TAG, "observeViewModel: $it")
+            if (it.code == 803) {
+                //保存Cookie并且进入主页
+//                MMKVStorageUtils.getInstance().storageCookie(it.cookie)
+//                MMKVStorageUtils.getInstance().storageLoginBean(body)
+                ToastUtils.SEND_SMG("登录成功")
+                startActivity(Intent(baseContext, MainActivity::class.java))
+            } else {
+                ToastUtils.SEND_SMG(it.message)
+            }
+        }
     }
 
     /**
@@ -141,8 +157,12 @@ class LoginActivity : BaseActivity() {
         dialogLoginQrBinding.ivQrCode.setImageBitmap(qrBitmap)
         dialog.setContentView(dialogLoginQrBinding.root)
         dialog.window?.setGravity(Gravity.CENTER)
+        dialog.setOnCancelListener {
+            loginActivityViewModel.stopLoopCheckQrLoginStatus()
+        }
         dialog.show()
         //开始轮询登录状态
+        loginActivityViewModel.doLoopCheckQrLoginStatus()
     }
 
     override fun getViewBinding(): ViewBinding {
