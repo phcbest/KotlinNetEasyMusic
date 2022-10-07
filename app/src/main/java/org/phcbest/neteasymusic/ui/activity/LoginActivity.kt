@@ -137,7 +137,7 @@ class LoginActivity : BaseActivity() {
 //            Log.i(TAG, "observeViewModel: $it")
             if (it.code == 803) {
                 //保存Cookie并且进入主页
-//                MMKVStorageUtils.getInstance().storageCookie(it.cookie)
+                MMKVStorageUtils.getInstance().storageCookieFromQrLogin(it.cookie)
 //                MMKVStorageUtils.getInstance().storageLoginBean(body)
                 ToastUtils.SEND_SMG("登录成功")
                 startActivity(Intent(baseContext, MainActivity::class.java))

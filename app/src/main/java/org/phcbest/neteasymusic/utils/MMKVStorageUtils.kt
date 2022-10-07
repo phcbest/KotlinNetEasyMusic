@@ -31,6 +31,17 @@ class MMKVStorageUtils {
     private val logigMMKV = MMKV.mmkvWithID("login")
     private val playlistMMKV = MMKV.mmkvWithID("playlist")
 
+
+    /**
+     * 扫码登录的Cookie存储
+     */
+    fun storageCookieFromQrLogin(cookie: String) {
+
+    }
+
+    /**
+     * 验证码登录的cookie存储
+     */
     fun storageCookie(info: Response<LoginBean>) {
         val setCookieHandler = info.raw().headers("Set-Cookie")
         for (cookie in setCookieHandler) {
